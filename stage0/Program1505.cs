@@ -7,13 +7,12 @@ namespace Targil0
         static void Main(string[]args)
         {
             welcome1505();
-            Welcome0734();
+            welcome0734();
             Console.ReadKey();
             Console.WriteLine("hgfds");
-            Console.WriteLine("htgfd");
 
         }
-        static partial void Welcome0734();
+        static partial void welcome0734();
         private static void welcome1505()
         {
             Console.Write("enter your name: ");
