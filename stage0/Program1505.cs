@@ -2,13 +2,14 @@
 
 namespace Targil0
 {
-    partial class program
+    partial class Program
     {
         static void Main(string[]args)
         {
             welcome1505();
             welcome0734();
             Console.ReadKey();
+            Console.WriteLine("hgfds");
 
         }
         static partial void welcome0734();
