@@ -6,7 +6,12 @@ namespace Dal
     {
         void Add(Order NewOrder)
         {
-            DataSource.orders.Add(NewOrder);
+            DataSource.orders.Add(Order NewOrder);
+        }
+
+        void Update()
+        {
+
         }
     }
 }
