@@ -8,6 +8,7 @@ namespace Dal
         {
             DalOrder dalorder = new DalOrder();
 
+
             //הודעה למשתמש לבחור על איזה אובייקט הוא רוצה לבצע פעולה
             int action = Console.Read();
             switch (action)
@@ -32,11 +33,11 @@ namespace Dal
             {
                 Order order = new Order();
                 //תקבל מהמשתמש את כל הפרטים של המזמין חוץ מID שאת זה נקבל מdatasource
-                // order.name =
-                //   order.adress =
-                // order.gmail =
+                order.name =
+                   order.adress =
+                / order.gmail =
                 //order.phone =
-
+                DalOrder.add(order);
             }
         }
     
