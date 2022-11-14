@@ -13,6 +13,9 @@
        Order ID: {OrderId}
        Customer Name: {CustomerName}
        Customer Adress: {CustomerAdress}
-       Customer Email: {CustomerEmail}";
+       Customer Email: {CustomerEmail}
+       Order Date: {OrderDate}
+       Ship Date: {ShipDate}
+       Delivery Date: {DeliveryDate}";
     }
 }
