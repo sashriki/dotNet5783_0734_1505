@@ -4,8 +4,9 @@ namespace Dal;
 public class DalOrder
 {
     //create
-    int AddOrder(Order NewOrder)
+    public int AddOrder(Order NewOrder)
     {
+
         DataSource.orders.Add(NewOrder);
         return NewOrder.OrderId;
     }
@@ -21,7 +22,7 @@ public class DalOrder
     //      orderReturnArr.Insert(i, DataSource.orders[i]);
 
     //Request By Id
-    public Order GetOrderId(int idOrder)
+    public Order GetOrderById(int idOrder)
     {
         for (int i = 0; i < DataSource.orders.Count(); i++)
             if (DataSource.orders[i].OrderId == idOrder)
@@ -31,7 +32,7 @@ public class DalOrder
     }
 
     //update
-    void UpdateOrder(Order UpdatedOrder)
+    public void UpdateOrder(Order UpdatedOrder)
     {
         for (int i = 0; i < DataSource.orders.Count(); i++)
             if (DataSource.orders[i].OrderId == UpdatedOrder.OrderId)
@@ -43,7 +44,7 @@ public class DalOrder
     }
 
     //delete
-    void DeleteOrder(int removeById)
+    public void DeleteOrder(int removeById)
     {
         for (int i = 0; i < DataSource.orders.Count(); i++)
             if (DataSource.orders[i].OrderId == removeById)

@@ -3,10 +3,10 @@ using DO;
 
 namespace Dal;
 
-internal class DalProduct
+public class DalProduct
 {
     //create
-    int AddProduct(Product NewProduct)
+    public int AddProduct(Product NewProduct)
     {
         DataSource.products.Add(NewProduct);
         return NewProduct.ProductId;
@@ -33,7 +33,7 @@ internal class DalProduct
     }
 
     //update
-    void UpdateProduct(Product UpdatedProduct)
+    public void UpdateProduct(Product UpdatedProduct)
     {
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.products[i].ProductId == UpdatedProduct.ProductId)
@@ -45,7 +45,7 @@ internal class DalProduct
     }
 
     //delete
-    void DeleteProduct(int removeById)
+    public void DeleteProduct(int removeById)
     {
         for (int i = 0; i < DataSource.products.Count(); i++)
             if (DataSource.products[i].ProductId == removeById)

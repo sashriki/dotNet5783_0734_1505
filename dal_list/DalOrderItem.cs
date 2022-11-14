@@ -1,12 +1,14 @@
 ﻿using DO;
+using System.Runtime.CompilerServices;
 
 namespace Dal;
 
-public struct DalOrderItem
+public class DalOrderItem
 {
     //create
-    int AddOrderItem(OrderItem NewOrderItem)
+    public int AddOrderItem(OrderItem NewOrderItem)
     {
+        NewOrderItem.OrderItemId = DataSource.Config.orderItemIndex++;
         DataSource.orderItems.Add(NewOrderItem);
         return NewOrderItem.OrderItemId;
     }
@@ -20,18 +22,30 @@ public struct DalOrderItem
         return orderItemReturnList;
     }
 
-    //Request By Id
-    public OrderItem GetOrderItemId(int idOrderItem)
+    //Request By Id of product and order
+    public OrderItem GetbyIdOfProductAndOrder(int idOrder, int idProduct)
+    {
+        for (int i = 0; i < DataSource.orderItems.Count(); i++)
+            if (DataSource.orderItems[i].OrderId == idOrder&& DataSource.orderItems[i].ProductId== idProduct)
+                return DataSource.orderItems[i];
+
+        throw new Exception($"order item:\n order id: {idOrder} and\n product id: { idProduct }\n  is not found in order items.\n");
+                        
+    }
+
+    //Request By ID of order item
+    public OrderItem GetByOrderItemId(int idOrderItem)
     {
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderItemId == idOrderItem)
                 return DataSource.orderItems[i];
 
-        throw new Exception($"order items id {idOrderItem} is not found in order items.");
+        throw new Exception($"order item number: {idOrderItem} is not found in order items.\n");
     }
 
+
     //update
-    void UpdateOrderItem(OrderItem UpdatedOrderItem)
+    public void UpdateOrderItem(OrderItem UpdatedOrderItem)
     {
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderItemId == UpdatedOrderItem.OrderItemId)
@@ -43,7 +57,7 @@ public struct DalOrderItem
     }
 
     //delete
-    void DeleteOrderItem(int removeById)
+     public void DeleteOrderItem(int removeById)
     {
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderItemId == removeById)
