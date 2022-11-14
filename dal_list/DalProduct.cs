@@ -1,5 +1,6 @@
 ﻿
 using DO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Dal;
 
@@ -8,6 +9,7 @@ public class DalProduct
     //create
     public int AddProduct(Product NewProduct)
     {
+        NewProduct.ProductId = DataSource.Config.productIndex;
         DataSource.products.Add(NewProduct);
         return NewProduct.ProductId;
     }
@@ -18,41 +20,37 @@ public class DalProduct
     {
         List<Product> ProductReturnList = new List<Product>();
         for (int i = 0; i < DataSource.products.Count(); i++)   //warning??
-            ProductReturnList[i] = DataSource.products[i];
+            ProductReturnList.Add(DataSource.products[i]);
         return ProductReturnList;
     }
 
     //Request By Id
     public Product GetProductsId(int idProduct)
     {
-        for (int i = 0; i < DataSource.products.Count(); i++)
-            if (DataSource.products[i].ProductId == idProduct)
-                return DataSource.products[i];
-
-        throw new Exception($"product id {idProduct} is not found in products");
+        int x = DataSource.products.FindIndex(x => x.ProductId == idProduct);
+        if (x == -1)
+            throw new Exception($"product id {idProduct} is not found in products");
+        else
+            return DataSource.products[x];
     }
 
     //update
     public void UpdateProduct(Product UpdatedProduct)
     {
-        for (int i = 0; i < DataSource.orderItems.Count(); i++)
-            if (DataSource.products[i].ProductId == UpdatedProduct.ProductId)
-            {
-                DataSource.products[i] = UpdatedProduct;
-                return;
-            }
-        throw new Exception($"product id {UpdatedProduct.ProductId} is not found in product.");
+        int x = DataSource.products.FindIndex(x => x.ProductId == UpdatedProduct.ProductId);
+        if (x == -1)
+            throw new Exception($"product id {UpdatedProduct.ProductId} is not found in product.");
+        else
+            DataSource.products.Insert(x + 1, UpdatedProduct);
     }
 
     //delete
     public void DeleteProduct(int removeById)
     {
-        for (int i = 0; i < DataSource.products.Count(); i++)
-            if (DataSource.products[i].ProductId == removeById)
-            {
-                DataSource.products.Remove(DataSource.products[i]);
-                return;
-            }
-        throw new Exception($"product id {removeById} is not found in product.");
+        int x = DataSource.products.FindIndex(x => x.ProductId == removeById);
+        if (x == -1)
+            throw new Exception($"product id {removeById} is not found in product.");
+        else
+            DataSource.products.RemoveAt(x);
     }
 }

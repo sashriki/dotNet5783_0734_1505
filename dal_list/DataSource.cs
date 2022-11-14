@@ -44,7 +44,7 @@ internal static class DataSource
             newProduct.ProductId = Config.productIndex++;
             newProduct.ProductName = "product" + i;
             newProduct.ProductCategory = (Category)(random.Next(0, 5)); ;
-            newProduct.ProductPrice = random.Next(500) + random.NextDouble();
+            newProduct.ProductPrice = Math.Round(random.Next(500) + random.NextDouble(),2);
             if (random.Next(0, 100) > 5)
             {
                 newProduct.AmmountInStock = random.Next(20, 100);
@@ -58,7 +58,7 @@ internal static class DataSource
     }
     private static void InitOrder()
     {
-        for (int i = 0; i < 0.2 * InitialNumOfOrders; i++)
+        for (int i = 0; i < InitialNumOfOrders; i++)
         {
             Order newOrder = new Order();
             newOrder.CustomerName = "Costumer " + i;
@@ -74,16 +74,20 @@ internal static class DataSource
                 else
                     newOrder.DeliveryDate= DateTime.MinValue;
             }
+
             else
             {
                 newOrder.ShipDate = DateTime.MinValue;
+                newOrder.DeliveryDate = DateTime.MinValue;
             }
             orders.Add(newOrder);   
         }
     }
     private static void InitOrderItem()
     {
-        for (int i = 0; i < 0.2 * InitialNumOfOrders; i++)
+        for (
+            
+            int i = 0; i < InitialNumOfOrders; i++)
         {
             OrderItem newOrderItem = new OrderItem();
             newOrderItem.OrderItemId = Config.orderItemIndex++;
