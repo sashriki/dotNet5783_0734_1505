@@ -8,12 +8,15 @@ namespace DO
 {
     public struct Product
     {
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public int AmmountInStock { get; set; }
-        public double ProductPrice { get; set; }
-        public Category ProductCategory { get; set; }
-
+        public int ProductId { get; set; } //Product ID number
+        public string ProductName { get; set; } //Product Name
+        public int AmmountInStock { get; set; } //Quantity in stock of the product
+        public double ProductPrice { get; set; } //product price
+        public Category ProductCategory { get; set; }  //Product category
+        /// <summary>
+        /// Function for printing product details
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => $@"
          Product ID: {ProductId} - {ProductName}
          category: {ProductCategory}

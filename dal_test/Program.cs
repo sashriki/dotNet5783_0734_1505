@@ -1,16 +1,18 @@
 ﻿using DO;
+using DalApi;
 
 namespace Dal
 {
     public class Program
     {
-        private static DalProduct product = new DalProduct();
-        private static DalOrderItem dalOrderItem = new DalOrderItem();
-        private static DalOrder order = new DalOrder(); 
-
+        //private static DalProduct product = new DalProduct();
+        //private static DalOrderItem dalOrderItem = new DalOrderItem();
+        //private static DalOrder order = new DalOrder();
+        private static IDal order = new DalList(); //??????????
+        private static IDal product = new DalList();
+        private static IDal orderItem = new DalList();
         public static void Main()
         {
-            
             while (true)
             {
                 Console.WriteLine(
@@ -21,26 +23,25 @@ namespace Dal
                 int choice = Console.Read();
                 switch (choice)
                 {
-                    case '1':
+                    case '1'://to perform operations for a product
                         OptionsProduct();
                         break;
-                    case '2':
+                    case '2'://to perform actions for an order
                         OptionsOrder();
                         break;
-                    case '3':
+                    case '3'://To perform actions for items on the order
                         OptionsOrderItem();
                         break;
-                    case '0':
+                    case '0'://to end the program
                         Console.WriteLine("bye bye");
                         return;
-                    default:
+                    default://for incorrect input
                         Console.WriteLine("You pressed a wrong key, try again\n");
                         break;
                 }
             }
             return;
         }  //main menu
-
 
         public static void OptionsOrderItem() //Secondary menu - order item.
         {
@@ -57,22 +58,22 @@ namespace Dal
             {
                 switch (action)
                 {
-                    case "a":
+                    case "a"://To add an ordered item to the list
                         OrderItemFunctions.Add();
                         break;
-                    case "b":
+                    case "b"://To print an item in an order according to an ID card
                         OrderItemFunctions.DisplayById();
                         break;
-                    case "c":
+                    case "c"://To print all items in orders
                         OrderItemFunctions.DisplayAll();
                         break;
-                    case "d":
+                    case "d"://To update an item in the order
                         OrderItemFunctions.Update();
                         break;
-                    case "e":
+                    case "e"://To delete an item in the order
                         OrderItemFunctions.Delete();
                         break;
-                    case "f":
+                    case "f"://to finish
                         return;
                     default:
                         Console.WriteLine("You pressed a wrong key, try again\n");
@@ -85,9 +86,8 @@ namespace Dal
         public static class OrderItemFunctions   //functions - order item
         {
             public static void Add()
-            {
+            {//To add an ordered item to the list
                 OrderItem newOrderItem = new OrderItem();
-
                 Console.WriteLine("enter an order number");
                 newOrderItem.OrderId = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a product number");
@@ -97,25 +97,22 @@ namespace Dal
                 newOrderItem.Price = product.GetProductsId(newOrderItem.ProductId).ProductPrice * newOrderItem.Amount;
                 dalOrderItem.AddOrderItem(newOrderItem);
             }
-
             public static void DisplayById()
-            {
+            {//To print an item in an order according to an ID card
                 Console.WriteLine("enter an order number\n");
                 int IdOrder = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a procuct number\n");
                 int IdProduct = int.Parse(Console.ReadLine());
                 Console.WriteLine(dalOrderItem.GetbyIdOfProductAndOrder(IdOrder, IdProduct)); //print only the ID
             }
-
             public static void DisplayAll()
-            {
+            {//To print all items in orders
                 List<OrderItem> ordItm = dalOrderItem.GetOrderItem();
                 for (int i = 0; i < ordItm.Count; i++)
                     Console.WriteLine(ordItm[i]);
             }
-
             public static void Update()
-            {
+            {//To update an item in the order
                 Console.WriteLine("enter a order item number");
                 int IdOrderItem = int.Parse(Console.ReadLine());
                 OrderItem ItemToUpdate = dalOrderItem.GetByOrderItemId(IdOrderItem);
@@ -128,9 +125,8 @@ namespace Dal
                 ItemToUpdate.Price = product.GetProductsId(ItemToUpdate.ProductId).ProductPrice * ItemToUpdate.Amount;
                 dalOrderItem.UpdateOrderItem(ItemToUpdate);
             }
-
             public static void Delete()
-            {
+            {//To delete an item in the order
                 Console.WriteLine("enter a order item number");
                 int IdOrderItem = int.Parse(Console.ReadLine());
                 dalOrderItem.DeleteOrderItem(IdOrderItem);
@@ -152,22 +148,22 @@ namespace Dal
             {
                 switch (action)
                 {
-                    case "a":
+                    case "a"://To add an order to the list
                         OrderFunctions.Add();
                         break;
-                    case "b":
+                    case "b"://To print an order by order ID number
                         OrderFunctions.DisplayById();
                         break;
-                    case "c":
+                    case "c"://To print all orders in the list
                         OrderFunctions.DisplayAll();
                         break;
-                    case "d":
+                    case "d"://To update an order
                         OrderFunctions.Update();
                         break;
-                    case "e":
+                    case "e"://To delete an order
                         OrderFunctions.Delete();
                         break;
-                    case "f":
+                    case "f"://to finish
                         return; 
                     default:
                         Console.WriteLine("You pressed a wrong key, try again\n");
@@ -180,7 +176,7 @@ namespace Dal
         public static class OrderFunctions   //functions - order
         {
             public static void Add()
-            {
+            {//To add an order to the list
                 Order NewOrder = new Order();
                 Console.WriteLine("enter customer name\n");
                 NewOrder.CustomerName = Console.ReadLine();
@@ -195,22 +191,21 @@ namespace Dal
             }
 
             public static void DisplayById()
-            {
+            {//To print an order by order ID number
                 Console.WriteLine("enter an order number\n");
                 int IdOrder = int.Parse(Console.ReadLine());
                 Console.WriteLine(order.GetOrderById(IdOrder));
             }
             public static void DisplayAll()
-            {
+            {//To print all orders in the list
                 List<Order> ord = order.GetOrders();
                 for (int i = 0; i < ord.Count; i++)
                     Console.WriteLine(ord[i]);
             }
 
             public static void Update()
-            {
+            {//To update an order
                 Order OrderToUpdate = new Order();
-
                 Console.WriteLine("enter an order number");
                 OrderToUpdate.OrderId = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a customer name\n");
@@ -223,7 +218,7 @@ namespace Dal
             }
 
             public static void Delete()
-            {
+            {//To delete an order
                 Console.WriteLine("enter a order number\n");
                 int IdOrder = int.Parse(Console.ReadLine());
                 order.DeleteOrder(IdOrder);
@@ -245,22 +240,22 @@ namespace Dal
             {
                 switch (action)
                 {
-                    case "a":
+                    case "a"://To add a product to the list
                         ProductFunctions.Add();
                         break;
-                    case "b":
+                    case "b"://To print a product by product ID number
                         ProductFunctions.DisplayById();
                         break;
-                    case "c":
+                    case "c"://To print all products
                         ProductFunctions.DisplayAll();
                         break;
-                    case "d":
+                    case "d"://for product update
                         ProductFunctions.Update();
                         break;
-                    case "e":
+                    case "e"://To delete a product
                         ProductFunctions.Delete();
                         break;
-                    case "f":
+                    case "f"://to finish
                         return;
                     default:
                         Console.WriteLine("You pressed a wrong key, try again\n");
@@ -274,9 +269,8 @@ namespace Dal
         public static class ProductFunctions   //functions - product
         {
             public static void Add()
-            {
+            {//To add a product to the list
                 Product NewProduct = new Product();
-                
                 Console.WriteLine("enter a product name\n");
                 NewProduct.ProductName =  Console.ReadLine();
                 Console.WriteLine("Enter the amount of products in stock\n");
@@ -288,19 +282,19 @@ namespace Dal
                 product.AddProduct(NewProduct);
             }
             public static void DisplayById()
-            {
+            {//To print a product by product ID number
                 Console.WriteLine("enter a product number\n");
                 int IdProduct = int.Parse(Console.ReadLine());
                 Console.WriteLine(product.GetProductsId(IdProduct));
             }
             public static void DisplayAll()
-            {
+            {//To print all products
                 List<Product> prd = product.GetProducts();
                 for (int i = 0; i < prd.Count; i++)
                     Console.WriteLine(prd[i]);
             }
             public static void Update()
-            {
+            {//for product update
                 Product NewProduct = new Product();
                 Console.WriteLine("enter a product name\n");
                 NewProduct.ProductName = Console.ReadLine();
@@ -315,7 +309,7 @@ namespace Dal
                 product.UpdateProduct(NewProduct);
             }
             public static void Delete()
-            {
+            {//To delete a product
                 Console.WriteLine("enter a product number\n");
                 int IdProduct = int.Parse(Console.ReadLine());
                 product.DeleteProduct(IdProduct);

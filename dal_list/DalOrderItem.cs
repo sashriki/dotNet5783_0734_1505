@@ -1,20 +1,29 @@
 ﻿using DO;
 using System.Runtime.CompilerServices;
+using DalApi;
+
 
 namespace Dal;
 
-public class DalOrderItem
+internal class DalOrderItem: Iorderitem
 {
-    //create
-    public int AddOrderItem(OrderItem NewOrderItem)
+    /// <summary>
+    /// Adding an ordered item to the list
+    /// </summary>
+    /// <param name="NewOrderItem"></param>
+    /// <returns></returns>
+    public int Add(OrderItem NewOrderItem)
     {
         NewOrderItem.OrderItemId = DataSource.Config.orderItemIndex++;
         DataSource.orderItems.Add(NewOrderItem);
         return NewOrderItem.OrderItemId;
     }
 
-    //request all
-    public List<OrderItem> GetOrderItem()
+    /// <summary>
+    /// Returning the list of items in the order
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<OrderItem> GetAll()
     {
         List<OrderItem> orderItemReturnList = new List<OrderItem>();
         for (int i = 0; i < DataSource.orderItems.Count(); i++)   //warning??
@@ -22,7 +31,13 @@ public class DalOrderItem
         return orderItemReturnList;
     }
 
-    //Request By Id of product and order
+    /// <summary>
+    /// Returning an item in an order by product ID number and order ID number
+    /// </summary>
+    /// <param name="idOrder"></param>
+    /// <param name="idProduct"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     public OrderItem GetbyIdOfProductAndOrder(int idOrder, int idProduct)
     {
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
@@ -32,8 +47,13 @@ public class DalOrderItem
         throw new Exception($"order item:\n order id: {idOrder} and\n product id: { idProduct }\n  is not found in order items.\n");                   
     }
 
-    //Request By ID of order item
-    public OrderItem GetByOrderItemId(int idOrderItem)
+    /// <summary>
+    /// Returning an item in an order according to the ID number of an item in the order
+    /// </summary>
+    /// <param name="idOrderItem"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public OrderItem GetById(int idOrderItem)
     {
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderItemId == idOrderItem)
@@ -42,9 +62,12 @@ public class DalOrderItem
         throw new Exception($"order item number: {idOrderItem} is not found in order items.\n");
     }
 
-
-    //update
-    public void UpdateOrderItem(OrderItem UpdatedOrderItem)
+    /// <summary>
+    /// Update an item in the order
+    /// </summary>
+    /// <param name="UpdatedOrderItem"></param>
+    /// <exception cref="Exception"></exception>
+    public void Update(OrderItem UpdatedOrderItem)
     {
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderItemId == UpdatedOrderItem.OrderItemId)
@@ -55,8 +78,12 @@ public class DalOrderItem
         throw new Exception($"order items id {UpdatedOrderItem.OrderItemId} is not found in order items.");
     }
 
-    //delete
-     public void DeleteOrderItem(int removeById)
+    /// <summary>
+    /// Deleting an item in the order
+    /// </summary>
+    /// <param name="removeById"></param>
+    /// <exception cref="Exception"></exception>
+    public void Delete(int removeById)
     {
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderItemId == removeById)

@@ -1,47 +1,68 @@
 ﻿using DO;
 namespace Dal;
+using DalApi;
 
-public class DalOrder
+
+internal class DalOrder : Iorder
 {
-    //create
-    public int AddOrder(Order NewOrder)
+    /// <summary>
+    /// Creating a new order and adding it to the list of orders
+    /// </summary>
+    /// <param name="NewOrder"></param>
+    /// <returns></returns>
+    public int Add(Order NewOrder)
     {
         NewOrder.OrderId = DataSource.Config.orderIndex;
         DataSource.orders.Add(NewOrder);
         return NewOrder.OrderId;
     }
 
-    //Request all
-    public List<Order> GetOrders()
+    /// <summary>
+    /// Returning the order list
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<Order> GetAll()
     {
         List<Order> orderReturnList = new List<Order>();
         for (int i = 0; i < DataSource.orders.Count(); i++) //warning??
             orderReturnList.Add(DataSource.orders[i]);
         return orderReturnList;
     }
-    //      orderReturnArr.Insert(i, DataSource.orders[i]);
 
-    //Request By Id
-    public Order GetOrderById(int idOrder)
+    /// <summary>
+    /// Returning an order from the order list
+    /// </summary>
+    /// <param name="idOrder"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public Order GetById(int idOrder)
     {
         int x = DataSource.orders.FindIndex(x => x.OrderId  == idOrder);
         if (x == -1)
-            throw new Exception($"order id {idOrder} is not found in orders");
+            throw new Notfound();
         else
             return DataSource.orders[x];
     }
 
-    //update
-    public void UpdateOrder(Order UpdatedOrder)
+    /// <summary>
+    /// Updating an order in the order list
+    /// </summary>
+    /// <param name="UpdatedOrder"></param>
+    /// <exception cref="Exception"></exception>
+    public void Update(Order UpdatedOrder)
     {
         int x = DataSource.orders.FindIndex(x => x.OrderId == UpdatedOrder.OrderId);
         if (x == -1)
-            throw new Exception($"Order id {UpdatedOrder} is not found in orders");
+            throw new Notfound();
         DataSource.orders[x] = UpdatedOrder;
     }
 
-    //delete
-    public void DeleteOrder(int removeById)
+    /// <summary>
+    /// Deleting an order from the order list
+    /// </summary>
+    /// <param name="removeById"></param>
+    /// <exception cref="Exception"></exception>
+    public void Delete(int removeById)
     {
         for (int i = 0; i < DataSource.orders.Count(); i++)
         {
@@ -51,6 +72,6 @@ public class DalOrder
                 return;
             }
         }
-        throw new Exception($"order id {removeById} is not found in items.");
+        throw new Notfound();
     }
 }
