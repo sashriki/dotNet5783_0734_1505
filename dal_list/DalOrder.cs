@@ -14,7 +14,7 @@ internal class DalOrder : Iorder
     {
         NewOrder.OrderId = DataSource.Config.orderIndex;
         DataSource.orders.Add(NewOrder);
-        return NewOrder.OrderId;
+        return NewOrder.OrderId;   
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ internal class DalOrder : Iorder
     {
         int x = DataSource.orders.FindIndex(x => x.OrderId  == idOrder);
         if (x == -1)
-            throw new Notfound();
+            throw new NotfoundException($"Order ID: {idOrder} is not found in order items.\n");
         else
             return DataSource.orders[x];
     }
@@ -53,7 +53,7 @@ internal class DalOrder : Iorder
     {
         int x = DataSource.orders.FindIndex(x => x.OrderId == UpdatedOrder.OrderId);
         if (x == -1)
-            throw new Notfound();
+            throw new NotfoundException($"Order ID: {UpdatedOrder.OrderId} is not found in order items.\n");
         DataSource.orders[x] = UpdatedOrder;
     }
 
@@ -72,6 +72,6 @@ internal class DalOrder : Iorder
                 return;
             }
         }
-        throw new Notfound();
+        throw new NotfoundException($"Order ID: {removeById} is not found in order items.\n");
     }
 }
