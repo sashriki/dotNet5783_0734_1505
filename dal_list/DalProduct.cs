@@ -1,22 +1,28 @@
-﻿
+﻿using DalApi;
 using DO;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Dal;
 
-public class DalProduct
+internal class DalProduct :IProduct 
 {
-    //create
-    public int AddProduct(Product NewProduct)
+    /// <summary>
+    /// Adding a product
+    /// </summary>
+    /// <param name="NewProduct"></param>
+    /// <returns></returns>
+    public int Add(Product NewProduct)
     {
         NewProduct.ProductId = DataSource.Config.productIndex;
         DataSource.products.Add(NewProduct);
         return NewProduct.ProductId;
     }
 
-
-    //request all
-    public List<Product> GetProducts()
+    /// <summary>
+    /// Returning the list of products
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<Product> GetAll()
     {
         List<Product> ProductReturnList = new List<Product>();
         for (int i = 0; i < DataSource.products.Count(); i++)   //warning??
@@ -24,8 +30,13 @@ public class DalProduct
         return ProductReturnList;
     }
 
-    //Request By Id
-    public Product GetProductsId(int idProduct)
+    /// <summary>
+    /// Product return by product ID number
+    /// </summary>
+    /// <param name="idProduct"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public Product GetById(int idProduct)
     {
         int x = DataSource.products.FindIndex(x => x.ProductId == idProduct);
         if (x == -1)
@@ -34,8 +45,12 @@ public class DalProduct
             return DataSource.products[x];
     }
 
-    //update
-    public void UpdateProduct(Product UpdatedProduct)
+    /// <summary>
+    /// Product update
+    /// </summary>
+    /// <param name="UpdatedProduct"></param>
+    /// <exception cref="Exception"></exception>
+    public void Update(Product UpdatedProduct)
     {
         int x = DataSource.products.FindIndex(x => x.ProductId == UpdatedProduct.ProductId);
         if (x == -1)
@@ -44,8 +59,12 @@ public class DalProduct
             DataSource.products.Insert(x + 1, UpdatedProduct);
     }
 
-    //delete
-    public void DeleteProduct(int removeById)
+    /// <summary>
+    /// Product deletion
+    /// </summary>
+    /// <param name="removeById"></param>
+    /// <exception cref="Exception"></exception>
+    public void Delete(int removeById)
     {
         int x = DataSource.products.FindIndex(x => x.ProductId == removeById);
         if (x == -1)

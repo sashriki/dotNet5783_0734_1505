@@ -1,7 +1,7 @@
 ﻿using DO;
 namespace Dal;
 
-internal static class DataSource
+internal static class DataSource 
 {
     //lists
     static public List<Product> products = new List<Product>();
@@ -36,13 +36,16 @@ internal static class DataSource
         InitOrder();
         InitOrderItem();
     }
+    /// <summary>
+    /// Product list initialization
+    /// </summary>
     private static void InitProduct()
     {
-        for (int i = 0; i < InitialNumOfproducts; i++)
-        {
-            Product newProduct = new Product();
-            newProduct.ProductId = Config.productIndex++;
-            newProduct.ProductName = "product" + i;
+        for (int i = 0; i < InitialNumOfproducts/*200*/; i++)
+        {//The loop will create new products and add to the list
+            Product newProduct = new Product(); //Creating an object
+            newProduct.ProductId = Config.productIndex++; //ID number by running number
+            newProduct.ProductName = "product" + i; 
             newProduct.ProductCategory = (Category)(random.Next(0, 5)); ;
             newProduct.ProductPrice = Math.Round(random.Next(500) + random.NextDouble(),2);
             if (random.Next(0, 100) > 5)
@@ -58,6 +61,8 @@ internal static class DataSource
     }
     private static void InitOrder()
     {
+        for (int i = 0; i < InitialNumOfOrders; i++)
+    {//Initialization for orders
         for (int i = 0; i < InitialNumOfOrders; i++)
         {
             Order newOrder = new Order();
@@ -85,9 +90,7 @@ internal static class DataSource
     }
     private static void InitOrderItem()
     {
-        for (
-            
-            int i = 0; i < InitialNumOfOrders; i++)
+        for (int i = 0; i < 0.2 * InitialNumOfOrders; i++)
         {
             OrderItem newOrderItem = new OrderItem();
             newOrderItem.OrderItemId = Config.orderItemIndex++;
