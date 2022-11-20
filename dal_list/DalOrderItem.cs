@@ -18,7 +18,7 @@ public class DalOrderItem
     {
         List<OrderItem> orderItemReturnList = new List<OrderItem>();
         for (int i = 0; i < DataSource.orderItems.Count(); i++)   //warning??
-            orderItemReturnList[i] = DataSource.orderItems[i];
+            orderItemReturnList.Add( DataSource.orderItems[i]);
         return orderItemReturnList;
     }
 
@@ -29,8 +29,7 @@ public class DalOrderItem
             if (DataSource.orderItems[i].OrderId == idOrder&& DataSource.orderItems[i].ProductId== idProduct)
                 return DataSource.orderItems[i];
 
-        throw new Exception($"order item:\n order id: {idOrder} and\n product id: { idProduct }\n  is not found in order items.\n");
-                        
+        throw new Exception($"order item:\n order id: {idOrder} and\n product id: { idProduct }\n  is not found in order items.\n");                   
     }
 
     //Request By ID of order item
