@@ -1,11 +1,15 @@
 ﻿using DO;
 using DalApi;
+using System.Linq.Expressions;
 
 namespace Dal
 {
     public class Program
     {
-        private static IDal order = new DalList(); //??????????
+        //private static DalProduct product = new DalProduct();
+        //private static DalOrderItem dalOrderItem = new DalOrderItem();
+        //private static DalOrder order = new DalOrder();
+        private static IDal Object = new DalList(); //??????????
         public static void Main()
         {
             
@@ -36,7 +40,9 @@ namespace Dal
                         Console.WriteLine("You pressed a wrong key, try again\n");
                         break;
                 }
+
             }
+    
             return;
         }  //main menu
 
@@ -90,8 +96,8 @@ namespace Dal
                 newOrderItem.ProductId = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter an ammount number");
                 newOrderItem.Amount = int.Parse(Console.ReadLine());
-                newOrderItem.Price = product.GetProductsId(newOrderItem.ProductId).ProductPrice * newOrderItem.Amount;
-                dalOrderItem.AddOrderItem(newOrderItem);
+                newOrderItem.Price = Object.IProduct.GetById(newOrderItem.ProductId).ProductPrice * newOrderItem.Amount;
+                Object.Iorderitem.Add(newOrderItem);
             }
 
             public static void DisplayById()
@@ -100,36 +106,36 @@ namespace Dal
                 int IdOrder = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a procuct number\n");
                 int IdProduct = int.Parse(Console.ReadLine());
-                Console.WriteLine(dalOrderItem.GetbyIdOfProductAndOrder(IdOrder, IdProduct)); //print only the ID
+                Console.WriteLine(Object.Iorderitem.GetbyIdOfProductAndOrder(IdOrder, IdProduct)); //print only the ID
             }
-
-            public static void DisplayAll()
-            {//To print all items in orders
-                List<OrderItem> ordItm = dalOrderItem.GetOrderItem();
-                for (int i = 0; i < ordItm.Count; i++)
-                    Console.WriteLine(ordItm[i]);
+            public static void DisplayAll() /////???????????????????????????????????????????????????????
+            {//To print all items in orders 
+                //List<OrderItem> ordItm = Object.Iorderitem.GetAll();
+                IEnumerable<OrderItem> ordItm = Object.Iorderitem.GetAll();
+                for (int i = 0; i < ordItm.Count(); i++)
+                    Console.WriteLine(ordItm.);
             }
 
             public static void Update()
             {//To update an item in the order
                 Console.WriteLine("enter a order item number");
                 int IdOrderItem = int.Parse(Console.ReadLine());
-                OrderItem ItemToUpdate = dalOrderItem.GetByOrderItemId(IdOrderItem);
+                OrderItem ItemToUpdate = Object.Iorderitem.GetById(IdOrderItem);
                 Console.WriteLine("Enter a product number you want to update\n");
                 ItemToUpdate.ProductId = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter an order number you want to update\n");
                 ItemToUpdate.OrderId = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter the ammount of  the product you want to update\n");
                 ItemToUpdate.Amount = int.Parse(Console.ReadLine());
-                ItemToUpdate.Price = product.GetProductsId(ItemToUpdate.ProductId).ProductPrice * ItemToUpdate.Amount;
-                dalOrderItem.UpdateOrderItem(ItemToUpdate);
+                ItemToUpdate.Price = Object.IProduct.GetById(ItemToUpdate.ProductId).ProductPrice * ItemToUpdate.Amount;
+                Object.Iorderitem.Update(ItemToUpdate);
             }
 
             public static void Delete()
             {//To delete an item in the order
                 Console.WriteLine("enter a order item number");
                 int IdOrderItem = int.Parse(Console.ReadLine());
-                dalOrderItem.DeleteOrderItem(IdOrderItem);
+                Object.Iorderitem.Delete(IdOrderItem);
             }
         }
 
