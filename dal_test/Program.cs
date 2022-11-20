@@ -6,9 +6,6 @@ namespace Dal
 {
     public class Program
     {
-        //private static DalProduct product = new DalProduct();
-        //private static DalOrderItem dalOrderItem = new DalOrderItem();
-        //private static DalOrder order = new DalOrder();
         private static IDal Object = new DalList(); //??????????
         public static void Main()
         {
