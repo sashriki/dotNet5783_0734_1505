@@ -14,7 +14,7 @@ internal class DalOrder : Iorder
     {
         NewOrder.OrderId = DataSource.Config.orderIndex;
         DataSource.orders.Add(NewOrder);
-        return NewOrder.OrderId;
+        return NewOrder.OrderId;   
     }
 
     /// <summary>
@@ -39,26 +39,22 @@ internal class DalOrder : Iorder
     {
         int x = DataSource.orders.FindIndex(x => x.OrderId  == idOrder);
         if (x == -1)
-            throw new Exception($"order id {idOrder} is not found in orders");
-        else
-            return DataSource.orders[x];
-        int x = DataSource.orders.FindIndex(x => x.OrderId  == idOrder);
-        if (x == -1)
-            throw new Notfound();
+            throw new NotfoundException($"Order ID: {idOrder} is not found in order items.\n");
         else
             return DataSource.orders[x];
     }
 
-    //update
-    public void UpdateOrder(Order UpdatedOrder)
+    /// <summary>
+    /// Updating an order in the order list
+    /// </summary>
+    /// <param name="UpdatedOrder"></param>
+    /// <exception cref="Exception"></exception>
+    public void Update(Order UpdatedOrder)
     {
-        for (int i = 0; i < DataSource.orders.Count(); i++)
-            if (DataSource.orders[i].OrderId == UpdatedOrder.OrderId)
-            {
-                DataSource.orders[i] = UpdatedOrder;
-                return;
-            }
-        throw new Exception($"Order id {UpdatedOrder} is not found in orders");
+        int x = DataSource.orders.FindIndex(x => x.OrderId == UpdatedOrder.OrderId);
+        if (x == -1)
+            throw new NotfoundException($"Order ID: {UpdatedOrder.OrderId} is not found in order items.\n");
+        DataSource.orders[x] = UpdatedOrder;
     }
 
     /// <summary>
@@ -75,6 +71,7 @@ internal class DalOrder : Iorder
                 DataSource.orders.Remove(DataSource.orders[i]);
                 return;
             }
-        throw new Exception($"order id {removeById} is not found in items.");
+        }
+        throw new NotfoundException($"Order ID: {removeById} is not found in order items.\n");
     }
 }

@@ -40,7 +40,7 @@ internal class DalProduct :IProduct
     {
         int x = DataSource.products.FindIndex(x => x.ProductId == idProduct);
         if (x == -1)
-            throw new Exception($"product id {idProduct} is not found in products");
+            throw new NotfoundException($"Product ID: {idProduct} is not found in order items.\n");
         else
             return DataSource.products[x];
     }
@@ -54,7 +54,7 @@ internal class DalProduct :IProduct
     {
         int x = DataSource.products.FindIndex(x => x.ProductId == UpdatedProduct.ProductId);
         if (x == -1)
-            throw new Exception($"product id {UpdatedProduct.ProductId} is not found in product.");
+            throw new NotfoundException($"Product ID: {UpdatedProduct.ProductId} is not found in order items.\n");
         else
             DataSource.products.Insert(x + 1, UpdatedProduct);
     }
@@ -68,7 +68,7 @@ internal class DalProduct :IProduct
     {
         int x = DataSource.products.FindIndex(x => x.ProductId == removeById);
         if (x == -1)
-            throw new Exception($"product id {removeById} is not found in product.");
+            throw new NotfoundException($"Product ID: {removeById} is not found in order items.\n");
         else
             DataSource.products.RemoveAt(x);
     }

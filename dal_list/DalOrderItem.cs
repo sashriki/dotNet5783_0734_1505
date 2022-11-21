@@ -58,8 +58,7 @@ internal class DalOrderItem: Iorderitem
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderItemId == idOrderItem)
                 return DataSource.orderItems[i];
-
-        throw new Exception($"order item number: {idOrderItem} is not found in order items.\n");
+        throw new NotfoundException($"Order Item ID: {idOrderItem} not found in order items.\n");
     }
 
     /// <summary>
@@ -75,7 +74,7 @@ internal class DalOrderItem: Iorderitem
                 DataSource.orderItems[i] = UpdatedOrderItem;
                 return;
             }
-        throw new Exception($"order items id {UpdatedOrderItem.OrderItemId} is not found in order items.");
+        throw new NotfoundException($"Order Item ID: {UpdatedOrderItem.OrderItemId} not found in order items.\n");
     }
 
     /// <summary>
@@ -91,7 +90,7 @@ internal class DalOrderItem: Iorderitem
                 DataSource.orderItems.Remove(DataSource.orderItems[i]);
                 return;
             }
-        throw new Exception($"order items id {removeById} is not found in order items.");
+        throw new NotfoundException($"Order Item ID: {removeById} not found in order items.\n");
     }
 }
 

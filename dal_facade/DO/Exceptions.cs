@@ -1,16 +1,18 @@
-﻿//לבדוק נושא זריקת חריגות
+﻿
 
 namespace DO
 {
-    public class Notfound : Exception
+    public class NotfoundException : Exception
     {
-        public Notfound() : base() { }
+        public NotfoundException() : base() { }
+        public NotfoundException(string massage) : base(massage) { }
         public override string ToString()
              => $@"Error! The object was not found";
     }
-    public class duplication : Exception
+    public class DuplicationException : Exception
     {
-        public duplication() : base() { }
+        public DuplicationException() : base() { }
+        public DuplicationException(string massage) : base(massage) { }
         public override string ToString()
              => $@"Error! The object already exists in the system";
     }
