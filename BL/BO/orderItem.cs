@@ -6,9 +6,9 @@ namespace BO
         public int orderItemId { get; set; }
         public int productId { get; set; }
         public string productName { get; set; }
-        public float priceOfProduct { get; set; }
+        public double priceOfProduct { get; set; }
         public int amountOfProduct { get; set; }  //how many I want to order from this product
-        public float finalPriceOfProduct { get; set; }
+        public double finalPriceOfProduct { get; set; }
         public override string ToString() => $@"
          Order Item Id: {orderItemId} 
          Product Id: {productId}

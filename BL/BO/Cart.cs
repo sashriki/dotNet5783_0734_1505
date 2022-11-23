@@ -1,12 +1,12 @@
 ﻿
 namespace BO;
-internal class Cart
+public class Cart
 {
     public string CustomerName { get; set; } //customer name
     public string CustomerAdress { get; set; } //Customer's residential address
     public string CustomerEmail { get; set; } //Customer email address
     public IEnumerable<orderItem> orderItems { get; set; }
-    public float totalPrice { get; set; }
+    public double totalPrice { get; set; }
 
     public override string ToString()
     {

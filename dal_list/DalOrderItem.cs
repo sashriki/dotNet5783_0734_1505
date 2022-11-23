@@ -41,10 +41,9 @@ internal class DalOrderItem: Iorderitem
     public OrderItem GetbyIdOfProductAndOrder(int idOrder, int idProduct)
     {
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
-            if (DataSource.orderItems[i].OrderId == idOrder&& DataSource.orderItems[i].ProductId== idProduct)
+            if (DataSource.orderItems[i].OrderId == idOrder && DataSource.orderItems[i].ProductId == idProduct)
                 return DataSource.orderItems[i];
-
-        throw new Exception($"order item:\n order id: {idOrder} and\n product id: { idProduct }\n  is not found in order items.\n");                   
+        throw new NotfoundException($"order item:\n order id: {idOrder} and\n product id: { idProduct }\n  is not found in order items.\n");                   
     }
 
     /// <summary>
