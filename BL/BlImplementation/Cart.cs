@@ -9,69 +9,76 @@ namespace BlImplementation;
 internal class Cart :ICart
 {
     public IDal Dal = new DalList();
-    public BO.Cart AddProductToCart(BO.Cart newCart, int IdorderItem) 
-    {
+    public BO.Cart AddProductToCart(BO.Cart newCart, int Iproduct) 
+    {//אם המוצר לא קיים או שנגמר במלאי יש לזרוק חריגה
+     //מה אם אדם רוצה להוסיף כמה מוצרים ולא אחד
         BO.orderItem ordItemBO= new BO.orderItem();
-        DO.OrderItem ordItemDO = new DO.OrderItem();
+        DO.Product productDO = new DO.Product();
         foreach (var x in newCart.orderItems)
-            if (x.orderItemId == IdorderItem)
+            if (x.productId == Iproduct)
             {
-                ordItemDO= Dal.Iorderitem.GetById(x.orderItemId);
-                if (ordItemDO.Amount>0)
+                productDO = Dal.IProduct.GetById(x.productId);
+                if (productDO.AmmountInStock>0)
                 {
-                    ordItemDO.Amount--;
                     x.amountOfProduct++;
-                    x.finalPriceOfProduct = ordItemDO.Price;
-                    newCart.totalPrice += ordItemDO.Price;
+                    x.finalPriceOfProduct += productDO.ProductPrice;
+                    newCart.totalPrice += productDO.ProductPrice;
                 }
                 return newCart;
             }
-        ordItemDO = Dal.Iorderitem.GetById(IdorderItem);
-        if(ordItemDO.Amount>0)
+        productDO = Dal.IProduct.GetById(Iproduct);
+        if(productDO.AmmountInStock > 0)
         {
-            ordItemDO.Amount--;
-            newCart.totalPrice += ordItemDO.Price;
-            ordItemBO = ChangingItemTypeInOrder(ordItemDO);
-            ordItemBO.priceOfProduct += ordItemDO.Price;
+            newCart.totalPrice += productDO.ProductPrice;
+            ordItemBO = ChangingItemTypeInOrder(productDO);
+            ordItemBO.priceOfProduct += productDO.ProductPrice;
             newCart.orderItems.Append(ordItemBO);
         }
         return newCart;
     }
-    public BO.orderItem ChangingItemTypeInOrder(DO.OrderItem ordItemDO)
+    public BO.orderItem ChangingItemTypeInOrder(DO.Product productDO)
     {
         BO.orderItem ordItemBO = new BO.orderItem();
-        ordItemBO.orderItemId = ordItemDO.OrderItemId;
-        ordItemBO.productId=ordItemDO.ProductId;
-        //  ordItemBO.productName= ????????
-        ordItemBO.priceOfProduct= ordItemDO.Price;
-        ordItemBO.amountOfProduct = ordItemDO.Amount;
-        //ordItemBO.finalPriceOfProduct= ???????????
+        //לברר אם אפשר להשתמש במס רץ של של שכבת הנתונים
+        ordItemBO.orderItemId = //ordItemDO.OrderItemId;
+        ordItemBO.productId= productDO.ProductId;
+        ordItemBO.productName= productDO.ProductName;
+        ordItemBO.priceOfProduct= productDO.ProductPrice;
+        //לפי מה יודעים כמה הקונה רוצה מהמוצר
+        //ordItemBO.amountOfProduct = productDO.AmmountInStock;
+        ordItemBO.finalPriceOfProduct = ordItemBO.amountOfProduct * ordItemBO.priceOfProduct;
         return ordItemBO;
     }
-    public BO.Cart UpdateAmount(BO.Cart newCart, int IdorderItem, int amount)
+    public BO.Cart UpdateAmount(BO.Cart newCart, int Iproduct, int amount)
     {
         BO.orderItem ordItemBO = new BO.orderItem();
-        DO.OrderItem ordItemDO = new DO.OrderItem();
+        DO.Product productDO = new DO.Product();
         foreach (var x in newCart.orderItems)
-            if (x.orderItemId == IdorderItem)
+            if (x.productId == Iproduct)
             {
-                ordItemBO = x;
                 if (x.amountOfProduct == amount)
                     return newCart;
+                ordItemBO = x;
+                break;
             }
+        //חרגיה למקרה שהוא לא מצא את האובייקט
         if (ordItemBO.amountOfProduct < amount)
-            AddProductToCart(newCart, IdorderItem);//לבדוק מה קורה אם צריך להוסיף כמה איברים ולא אחד
-        ordItemDO = Dal.Iorderitem.GetById(IdorderItem);
+        {
+            for (int i = ordItemBO.amountOfProduct; i < amount; i++)
+                AddProductToCart(newCart, Iproduct);
+            return newCart;
+        }
+        productDO = Dal.IProduct.GetById(Iproduct);
         if (ordItemBO.amountOfProduct > amount)
         {
             int QuantityDifference = ordItemBO.amountOfProduct - amount;
-            ordItemBO.priceOfProduct -= (ordItemDO.Price * QuantityDifference);
+            ordItemBO.priceOfProduct -= (productDO.ProductPrice * QuantityDifference);
             ordItemBO.amountOfProduct -= QuantityDifference;
-            newCart.totalPrice-= (ordItemDO.Price * QuantityDifference);
+            newCart.totalPrice-= (productDO.ProductPrice * QuantityDifference);
         }
         if (amount == 0)
         {
-            newCart.totalPrice -= (ordItemDO.Price * ordItemBO.amountOfProduct);
+            newCart.totalPrice -= (productDO.ProductPrice * ordItemBO.amountOfProduct);
             //newCart.orderItems צריך למחוק את המור בהזמנה.
         }
         return newCart;

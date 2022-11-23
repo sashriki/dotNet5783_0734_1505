@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 
 namespace BlImplementation;
 
-internal class Order :IOrder
+internal class Order : IOrder
 {
     public IDal Dal = new DalList();
     public IEnumerable<BO.OrderForList> GetAllToManager()
