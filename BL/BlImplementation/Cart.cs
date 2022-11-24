@@ -4,6 +4,7 @@ using BO;
 using Dal;
 using DalApi;
 using System.Data;
+using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 
 namespace BlImplementation;
@@ -88,14 +89,15 @@ internal class Cart :ICart
     }
     public void OrderConfirmation(BO.Cart newCart)
     {
+        List<Exception> listOfException=new List<Exception>();
         DO.Product productDO = new DO.Product();
-        if (newCart.CustomerAdress != "")
+        if (newCart.CustomerAdress == "")
             throw new DataMissingException(
-                    "The customer address is missing to complete the operation");
-        if(newCart.CustomerName!="" )
+                "The customer address is missing to complete the operation"); 
+        if (newCart.CustomerName == "")
             throw new DataMissingException(
                     "The customer name is missing to complete the operation");
-        if(newCart.CustomerAdress!="")
+        if(newCart.CustomerEmail=="")
             throw new DataMissingException(
                     "Email address of the customer in the company");
         if(!newCart.CustomerAdress.EndsWith("@gmail.com"))
@@ -120,21 +122,16 @@ internal class Cart :ICart
         NewOrderDO.OrderDate= DateTime.Now;
         NewOrderDO.ShipDate= DateTime.MinValue;
         NewOrderDO.DeliveryDate= DateTime.MinValue;
+        NewOrderDO.CustomerAdress= newCart.CustomerAdress;  
+        NewOrderDO.CustomerName= newCart.CustomerName;
+        NewOrderDO.CustomerEmail= newCart.CustomerEmail;
         int IdOrder=Dal.Iorder.Add(NewOrderDO);
-        BO.orderItem ordItem = new BO.orderItem();
-        BO.Order NewOrderBO =ChangingFromDOToBO(NewOrderDO);
         foreach (var item in newCart.orderItems)
-        {
-            ordItem = item;
-            NewOrderBO.orderItems.Append(item);
-        }
+            Dal.Iorderitem.Add(ChangingFromBOToDO(item,IdOrder));
     }
-    public BO.Order ChangingFromDOToBO(DO.Order NewOrderDO)
+    public DO.OrderItem ChangingFromBOToDO(BO.orderItem NewOrderBO,int ID)
     {
-        BO.Order NewOrderBO=new BO.Order();
-        NewOrderBO.OrderDate = NewOrderDO.OrderDate;
-        NewOrderBO.ShipDate = NewOrderDO.ShipDate;
-        NewOrderBO.DeliveryDate = NewOrderDO.DeliveryDate;
-        return NewOrderBO;
+        DO.OrderItem NewOrderDO=new DO.OrderItem();
+        return NewOrderDO;
     }
 }

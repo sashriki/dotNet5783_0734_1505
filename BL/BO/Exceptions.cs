@@ -1,6 +1,7 @@
 ﻿
 namespace BO
 {
+    [Serializable]
     public class NotfoundExceptionBO : Exception
     {
         public NotfoundExceptionBO() : base() { }
