@@ -69,7 +69,7 @@ internal class Order : IOrder
         if (ordDO.ShipDate != DateTime.MinValue &&
             ordDO.DeliveryDate!= DateTime.MinValue)
             throw new RepeatedUpdateBO($"Order ID: {IdOrder} provided to the customer.\n")
-        ordDO.DeliveryDate = DateTime.Now;//לבדוק איך לעדכן את התאריך של השילוח
+        ordDO.DeliveryDate = DateTime.Now;
         Dal.Iorder.Update(ordDO);
         return (ConversionOrder(ordDO));
     }

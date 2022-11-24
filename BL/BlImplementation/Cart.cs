@@ -116,11 +116,25 @@ internal class Cart :ICart
             if (productDO.AmmountInStock < item.amountOfProduct)
                 throw new ItemMissingException("{item.productName} out of stock");
         }
-        DO.Order NewOrder = new DO.Order();
-        NewOrder.OrderDate= DateTime.Now;
-        NewOrder.ShipDate= DateTime.MinValue;
-        NewOrder.DeliveryDate= DateTime.MinValue;
-        int IdOrder=Dal.Iorder.Add(NewOrder);
-        
+        DO.Order NewOrderDO = new DO.Order();
+        NewOrderDO.OrderDate= DateTime.Now;
+        NewOrderDO.ShipDate= DateTime.MinValue;
+        NewOrderDO.DeliveryDate= DateTime.MinValue;
+        int IdOrder=Dal.Iorder.Add(NewOrderDO);
+        BO.orderItem ordItem = new BO.orderItem();
+        BO.Order NewOrderBO =ChangingFromDOToBO(NewOrderDO);
+        foreach (var item in newCart.orderItems)
+        {
+            ordItem = item;
+            NewOrderBO.orderItems.Append(item);
+        }
+    }
+    public BO.Order ChangingFromDOToBO(DO.Order NewOrderDO)
+    {
+        BO.Order NewOrderBO=new BO.Order();
+        NewOrderBO.OrderDate = NewOrderDO.OrderDate;
+        NewOrderBO.ShipDate = NewOrderDO.ShipDate;
+        NewOrderBO.DeliveryDate = NewOrderDO.DeliveryDate;
+        return NewOrderBO;
     }
 }
