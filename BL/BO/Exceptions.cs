@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace BO
 {
-    public class NotfoundExceptionBO : Exception
+    public class NotfoundExceptionBO : Exception  //לא נמצא
     {
         public NotfoundExceptionBO() : base() { }
         public NotfoundExceptionBO(string massage) : base(massage) { }
@@ -27,23 +22,18 @@ namespace BO
         public override string ToString()
              => $@"The object has already been updated in the system";
     }
+    public class DataMissingException : Exception
+    {
+        public DataMissingException() : base() { }
+        public DataMissingException(string massage) : base(massage) { }
+        public override string ToString()
+             => $@"Error! Data is missing to complete the operation";
+    }
+    public class ItemMissingException : Exception
+    {
+        public ItemMissingException() : base() { }
+        public ItemMissingException(string massage) : base(massage) { }
+        public override string ToString()
+             => $@"The item is out of stock!";
+    }
 }
-/*
-
-namespace DO
-{//Invalid input
-    public class NotfoundException : Exception
-    {
-        public NotfoundException() : base() { }
-        public NotfoundException(string massage) : base(massage) { }
-        public override string ToString()
-             => $@"Error! The object was not found";
-    }
-    public class DuplicationException : Exception
-    {
-        public DuplicationException() : base() { }
-        public DuplicationException(string massage) : base(massage) { }
-        public override string ToString()
-             => $@"Error! The object already exists in the system";
-    }
-}*/

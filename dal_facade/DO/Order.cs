@@ -6,9 +6,9 @@
         public string CustomerName { get; set; } //customer name
         public string CustomerAdress { get; set; } //Customer's residential address
         public string CustomerEmail { get; set; } //Customer email address
-        public DateTime OrderDate { get; set; }  //Date the order was placed
-        public DateTime ShipDate { get; set; } //Date the order was sent
-        public DateTime DeliveryDate { get; set; } //The date of receipt of the order
+        public DateTime? OrderDate { get; set; }  //Date the order was placed
+        public DateTime? ShipDate { get; set; } //Date the order was sent
+        public DateTime? DeliveryDate { get; set; } //The date of receipt of the order
         /// <summary>
         /// Function to print order details
         /// </summary>

@@ -2,10 +2,10 @@
 namespace BO;
 public class Cart
 {
-    public string CustomerName { get; set; } //customer name
+    public string CustomerName { get; set; } //customer name 
     public string CustomerAdress { get; set; } //Customer's residential address
     public string CustomerEmail { get; set; } //Customer email address
-    public IEnumerable<orderItem> orderItems { get; set; }
+    public IEnumerable<orderItem> orderItems { get; set; } //something
     public double totalPrice { get; set; }
 
     public override string ToString()
