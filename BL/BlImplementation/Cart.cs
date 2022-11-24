@@ -1,11 +1,13 @@
 ﻿
 using BlApi;
+using BO;
 using Dal;
 using DalApi;
+using System.Data;
 using System.Security.Cryptography.X509Certificates;
 
 namespace BlImplementation;
-
+//לשים לב- לזרוק שמות או מספרי זהות? אם כן צריך שיהיה מתואם עם שכבת הנתונים
 internal class Cart :ICart
 {
     public IDal Dal = new DalList();
@@ -79,10 +81,46 @@ internal class Cart :ICart
         if (amount == 0)
         {
             newCart.totalPrice -= (productDO.ProductPrice * ordItemBO.amountOfProduct);
-            //newCart.orderItems צריך למחוק את המור בהזמנה.
+            newCart.orderItems = newCart.orderItems.
+                Where(x => x.productId != Iproduct);
         }
         return newCart;
     }
     public void OrderConfirmation(BO.Cart newCart)
-    { }
+    {
+        DO.Product productDO = new DO.Product();
+        if (newCart.CustomerAdress != "")
+            throw new DataMissingException(
+                    "The customer address is missing to complete the operation");
+        if(newCart.CustomerName!="" )
+            throw new DataMissingException(
+                    "The customer name is missing to complete the operation");
+        if(newCart.CustomerAdress!="")
+            throw new DataMissingException(
+                    "Email address of the customer in the company");
+        if(!newCart.CustomerAdress.EndsWith("@gmail.com"))
+            throw new InvalidInputBO(
+                    "Customer email address is invalid");
+        foreach (var item in newCart.orderItems)
+        {
+            try
+            {
+                productDO = Dal.IProduct.GetById(item.productId);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            if (item.amountOfProduct <= 0)
+                throw new InvalidInputBO("Error! quantity for {item.productName} is invalid");
+            if (productDO.AmmountInStock < item.amountOfProduct)
+                throw new ItemMissingException("{item.productName} out of stock");
+        }
+        DO.Order NewOrder = new DO.Order();
+        NewOrder.OrderDate= DateTime.Now;
+        NewOrder.ShipDate= DateTime.MinValue;
+        NewOrder.DeliveryDate= DateTime.MinValue;
+        int IdOrder=Dal.Iorder.Add(NewOrder);
+        
+    }
 }

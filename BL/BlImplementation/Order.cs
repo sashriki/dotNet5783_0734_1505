@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 namespace BlImplementation;
 
 internal class Order : IOrder
-{
+{//לוודא את הנושא של האורדרוטם שמוזכר אצל הדר בפונ גט למנהל ובקשת פרטי הזמנה
     public IDal Dal = new DalList();
     public IEnumerable<BO.OrderForList> GetAllToManager()
     {
@@ -18,7 +18,7 @@ internal class Order : IOrder
                                                  select ConversionFromDoToBo(item);
         return OrdersList;
     }
-    public BO.Order GetOrder(int IdOrder)
+    public BO.Order GetOrderToManager(int IdOrder)
     {
         DO.Order orderToGet=new DO.Order();
         if (IdOrder < 0)

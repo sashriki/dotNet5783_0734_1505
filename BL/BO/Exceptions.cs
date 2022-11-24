@@ -22,4 +22,18 @@ namespace BO
         public override string ToString()
              => $@"The object has already been updated in the system";
     }
+    public class DataMissingException : Exception
+    {
+        public DataMissingException() : base() { }
+        public DataMissingException(string massage) : base(massage) { }
+        public override string ToString()
+             => $@"Error! Data is missing to complete the operation";
+    }
+    public class ItemMissingException : Exception
+    {
+        public ItemMissingException() : base() { }
+        public ItemMissingException(string massage) : base(massage) { }
+        public override string ToString()
+             => $@"The item is out of stock!";
+    }
 }
