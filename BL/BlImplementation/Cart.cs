@@ -2,6 +2,9 @@
 using Dal;
 using DalApi;
 using System.Data;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
+
 namespace BlImplementation;
 //לשים לב- לזרוק שמות או מספרי זהות? אם כן צריך שיהיה מתואם עם שכבת הנתונים
 internal class Cart :ICart
@@ -84,14 +87,15 @@ internal class Cart :ICart
     }
     public void OrderConfirmation(BO.Cart newCart)
     {
+        List<Exception> listOfException=new List<Exception>();
         DO.Product productDO = new DO.Product();
-        if (newCart.CustomerAdress != "")
+        if (newCart.CustomerAdress == "")
             throw new DataMissingException(
-                    "The customer address is missing to complete the operation");
-        if(newCart.CustomerName!="" )
+                "The customer address is missing to complete the operation"); 
+        if (newCart.CustomerName == "")
             throw new DataMissingException(
                     "The customer name is missing to complete the operation");
-        if(newCart.CustomerAdress!="")
+        if(newCart.CustomerEmail=="")
             throw new DataMissingException(
                     "Email address of the customer in the company");
         if(!newCart.CustomerAdress.EndsWith("@gmail.com"))
@@ -112,11 +116,20 @@ internal class Cart :ICart
             if (productDO.AmmountInStock < item.amountOfProduct)
                 throw new ItemMissingException("{item.productName} out of stock");
         }
-        DO.Order NewOrder = new DO.Order();
-        NewOrder.OrderDate= DateTime.Now;
-        NewOrder.ShipDate= DateTime.MinValue;
-        NewOrder.DeliveryDate= DateTime.MinValue;
-        int IdOrder=Dal.Iorder.Add(NewOrder);
-        
+        DO.Order NewOrderDO = new DO.Order();
+        NewOrderDO.OrderDate= DateTime.Now;
+        NewOrderDO.ShipDate= DateTime.MinValue;
+        NewOrderDO.DeliveryDate= DateTime.MinValue;
+        NewOrderDO.CustomerAdress= newCart.CustomerAdress;  
+        NewOrderDO.CustomerName= newCart.CustomerName;
+        NewOrderDO.CustomerEmail= newCart.CustomerEmail;
+        int IdOrder=Dal.Iorder.Add(NewOrderDO);
+        foreach (var item in newCart.orderItems)
+            Dal.Iorderitem.Add(ChangingFromBOToDO(item,IdOrder));
+    }
+    public DO.OrderItem ChangingFromBOToDO(BO.orderItem NewOrderBO,int ID)
+    {
+        DO.OrderItem NewOrderDO=new DO.OrderItem();
+        return NewOrderDO;
     }
 }

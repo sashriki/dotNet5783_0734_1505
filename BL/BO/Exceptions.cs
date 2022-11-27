@@ -1,7 +1,8 @@
 ﻿
 namespace BO
 {
-    public class NotfoundExceptionBO : Exception  //לא נמצא
+    [Serializable]
+    public class NotfoundExceptionBO : Exception
     {
         public NotfoundExceptionBO() : base() { }
         public NotfoundExceptionBO(string massage) : base(massage) { }
