@@ -3,6 +3,7 @@ using Dal;
 using DalApi;
 using BlImplementation;
 using BO;
+using System.Security.Cryptography;
 
 namespace BlTest
 {
@@ -89,7 +90,12 @@ namespace BlTest
         public static class ProductFunctions   //functions - product
         {
             public static void getAllProducts()
-            { }
+            {
+                IEnumerable<BO.ProductForList> productForLists = Obj.Product.getAllProducts();
+                foreach (var item in productForLists)
+                    Console.WriteLine(item);
+                return;
+            }
             public static void getByIdToMannage()
             { }
             public static void getByIdToCostumer()
