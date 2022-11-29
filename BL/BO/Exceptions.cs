@@ -41,10 +41,14 @@ namespace BO
     [Serializable]
     public class ItemMissingException : Exception
     {
-        string throwing;
-        public ItemMissingException(string massage) : base(massage) { throwing = massage; }
+        string throwing;     
+        public ItemMissingException(string massage) 
+            : base(massage) { throwing = $@"BL: The item {massage} is out of stock!"; }
+        public ItemMissingException(string massage,int amountInTheStock) : 
+            base(massage) { throwing =
+                $@"BL: Missing items in stock! There are only {amountInTheStock} items left of the {massage}"; }
         public override string ToString()
-             => $@"BL: The item {throwing} is out of stock!";
+             => throwing;
     }
     [Serializable]
     public class NoElementsException : Exception

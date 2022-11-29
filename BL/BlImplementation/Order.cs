@@ -96,12 +96,11 @@
             ordDO.ShipDate != DateTime.MinValue ? BO.OrderStatus.shipped : BO.OrderStatus.confirmed;
     }
     //perfect
-    public void UpdateToManager(BO.Order updateOrd)
-    {
-        //בונוס
-        return;
-    }
-    //המרות
+    //public void UpdateToManager(BO.Order updateOrd)
+    //{
+    //    //בונוס
+    //    return;
+    //}
     public BO.orderItem DO_orderItemToBO_OrderItem(DO.OrderItem ord)
     {
         BO.orderItem orderItem = new BO.orderItem();
@@ -150,15 +149,15 @@
                                     where item.OrderId == ord.OrderId
                                     select item.Price;
         orderForList.amountOfItems = count.Count();   //amount
-        List<double> prices = count.ToList();
-        foreach (var item in prices) orderForList.finalPrice += item;  //price
+        IEnumerable<double> prices = count.ToList();
+        foreach (var item in prices) 
+            orderForList.finalPrice += item;  //price
         if (ord.DeliveryDate != DateTime.MinValue)  //status
             orderForList.OrderStatus = BO.OrderStatus.deliveredToCostumer;
         else if (ord.ShipDate != DateTime.MinValue)
             orderForList.OrderStatus = BO.OrderStatus.shipped;
         else
             orderForList.OrderStatus = BO.OrderStatus.confirmed;
-
         return orderForList;
     }
 

@@ -45,18 +45,30 @@ internal class Cart : BlApi.ICart
             throw new NotfoundException("order item");
         if (ordBO.amountOfProduct == amount)
             return newCart;
+        productDO = Dal.IProduct.GetById(IDproduct);
         if (ordBO.amountOfProduct < amount)
         {
-            newCart.orderItems.Where(od => od.productId == IDproduct).First().amountOfProduct=amount;
+            int dif = amount - ordBO.amountOfProduct;
+            if (productDO.AmmountInStock >= amount)
+            {
+                newCart.orderItems.Where(od => od.productId == IDproduct).First().
+                    finalPriceOfProduct += dif * ordBO.priceOfProduct;
+                newCart.orderItems.Where(od => od.productId == IDproduct).First().
+                    amountOfProduct = amount;
+                newCart.totalPrice += dif * ordBO.priceOfProduct;
+            }
+            else
+                throw new DataMissingException(ordBO.productName);
             return newCart;
         }
-        productDO = Dal.IProduct.GetById(IDproduct);
         if (ordBO.amountOfProduct > amount)
         {
-            int QuantityDifference = ordBO.amountOfProduct - amount;
-            ordBO.priceOfProduct -= (productDO.ProductPrice * QuantityDifference);
-            ordBO.amountOfProduct -= QuantityDifference;
-            newCart.totalPrice -= (productDO.ProductPrice * QuantityDifference);
+            int dif =  ordBO.amountOfProduct- amount;
+            newCart.orderItems.Where(od => od.productId == IDproduct).First().
+                finalPriceOfProduct -= dif * ordBO.priceOfProduct;
+            newCart.orderItems.Where(od => od.productId == IDproduct).First().
+                amountOfProduct = amount;
+            newCart.totalPrice -= dif * ordBO.priceOfProduct;
         }
         if (amount == 0)
         {
@@ -71,23 +83,7 @@ internal class Cart : BlApi.ICart
         try
         {
             check(newCart);
-            List<Exception> listOfException = new List<Exception>();
-            DO.Product productDO = new DO.Product();
-            foreach (var item in newCart.orderItems)
-            {
-                try
-                {
-                    productDO = Dal.IProduct.GetById(item.productId);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-                if (item.amountOfProduct <= 0)
-                    throw new InvalidInputBO("Error! quantity for {item.productName} is invalid");
-                if (productDO.AmmountInStock < item.amountOfProduct)
-                    throw new ItemMissingException("{item.productName} out of stock");
-            }
+           // List<Exception> listOfException = new List<Exception>();
             DO.Order NewOrderDO = new DO.Order();
             NewOrderDO.OrderDate = DateTime.Now;
             NewOrderDO.ShipDate = DateTime.MinValue;
@@ -98,16 +94,39 @@ internal class Cart : BlApi.ICart
             int IdOrder = Dal.Iorder.Add(NewOrderDO);
             foreach (var item in newCart.orderItems)
                 Dal.Iorderitem.Add(ChangingFromBOToDO(item, IdOrder));
-
         }
-        catch (Exception ex) 
+        catch (BO.DataMissingException ex)
+        {
+            throw ex;
+        }
+        catch (BO.ItemMissingException ex)
+        {
+            throw ex;
+        }
+        catch (BO.InvalidInputBO ex)
         {
             throw ex;
         }
     }
 
-    private static void check(BO.Cart newCart)
+    private void check(BO.Cart newCart)
     {
+        DO.Product productDO = new DO.Product();
+        foreach (var item in newCart.orderItems)
+        {
+            try
+            {
+                productDO = Dal.IProduct.GetById(item.productId);                
+            }
+            catch (DO.NotfoundException ex)
+            {
+                throw new BO.BONotfoundException(ex);
+            }
+            if (item.amountOfProduct <= 0)
+                throw new InvalidInputBO(item.productName);
+            if (productDO.AmmountInStock < item.amountOfProduct)
+                throw new ItemMissingException(item.productName, productDO.AmmountInStock);
+        }
         if (newCart.CustomerAdress == "")
             throw new DataMissingException("address");
         if (newCart.CustomerName == "")
@@ -118,9 +137,13 @@ internal class Cart : BlApi.ICart
             throw new DataMissingException("email");
     }
 
-    public DO.OrderItem ChangingFromBOToDO(BO.orderItem NewOrderBO, int ID)
+    public DO.OrderItem ChangingFromBOToDO(BO.orderItem NewOrderBO, int IdOrder)
     {
         DO.OrderItem NewOrderDO = new DO.OrderItem();
+        NewOrderDO.Price= NewOrderBO.priceOfProduct;
+        NewOrderDO.ProductId = NewOrderBO.productId;
+        NewOrderDO.Amount = NewOrderBO.amountOfProduct;
+        NewOrderDO.OrderId= IdOrder;
         return NewOrderDO;
     }
 }

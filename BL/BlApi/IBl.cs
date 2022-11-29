@@ -1,7 +1,7 @@
 ﻿namespace BlApi;
 public interface IBl
 {
-    public ICart cart { get; }
-    public IOrder order { get; }
-    public IProduct product { get; }
+    public ICart Cart { get; }
+    public IOrder Order { get; }
+    public IProduct Product { get; }
 }
