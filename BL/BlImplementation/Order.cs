@@ -1,98 +1,123 @@
-﻿using BlApi;
-using Dal;
-using DalApi;
-using System.Data;
-namespace BlImplementation;
-
-internal class Order :IOrder
-{//לוודא את הנושא של האורדרוטם שמוזכר אצל הדר בפונ גט למנהל ובקשת פרטי הזמנה
-    public IDal Dal = new DalList();
+﻿internal class Order : BlApi.IOrder
+{
+    public DalApi.IDal Dal = new Dal.DalList();
     public IEnumerable<BO.OrderForList> GetAllToManager()
     {
         IEnumerable<DO.Order> OrderList = Dal.Iorder.GetAll();
-        IEnumerable<BO.OrderForList> OrdersList= from item in OrderList
-                                                 select ConversionFromDoToBo(item);
+        IEnumerable<BO.OrderForList> OrdersList = from item in OrderList
+                                                  select DO_orderToBO_OrderForList(item);
+        if (OrdersList.Any())
+            throw new BO.NoElementsException("orders");
         return OrdersList;
     }
-    public BO.Order GetOrderToManager(int IdOrder)
+    public BO.Order GetOrderByID(int IdOrder)
     {
-        DO.Order orderToGet=new DO.Order();
+        DO.Order orderToGet = new DO.Order();
         if (IdOrder < 0)
-            throw new InvalidInputBO($"Order id: {IdOrder} invalid input.\n");
+            throw new BO.InvalidInputBO($"Order id");
         try
         {
             orderToGet = Dal.Iorder.GetById(IdOrder);
         }
-        catch(NotfoundException ex)
+        catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            throw new BO.BONotfoundException(ex);
         }
-        return ConversionOrder(orderToGet); 
+        return DO_orderToBO_order(orderToGet);
     }
     public BO.Order ShippingUpdateToManager(int IdOrder)
     {
+        if(IdOrder<0)
+            throw new BO.InvalidInputBO($"Order id");
         DO.Order ordDO = new DO.Order();
-        BO.Order ordBO = new BO.Order();
         try
         {
             ordDO = Dal.Iorder.GetById(IdOrder);
         }
-        catch (NotfoundException ex)
+        catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            throw new BO.BONotfoundException(ex);
         }
-        ordDO.ShipDate = DateTime.Now;
-        Dal.Iorder.Update(ordDO);
-        ordBO = ConversionOrder(ordDO);
-        ordBO.orderStatus = OrderStatus.shipped;
-        return ordBO;
+        if (ordDO.ShipDate != DateTime.MinValue)
+        {
+            ordDO.ShipDate = DateTime.Now;
+            Dal.Iorder.Update(ordDO);
+        }
+        return DO_orderToBO_order(ordDO);
     }
     public BO.Order supplyUpdateToManager(int IdOrder)
-    {//עדכון אספקת הזמנה
+    {
         if (IdOrder < 0)
-            throw new InvalidInputBO($"Order id: {IdOrder} invalid input.\n");
+            throw new BO.InvalidInputBO($"Order id");
         DO.Order ordDO = new DO.Order();
-        BO.Order ordBO = new BO.Order();
         try
         {
             ordDO = Dal.Iorder.GetById(IdOrder);
         }
-        catch (NotfoundException ex)
+        catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            throw new BO.BONotfoundException(ex);
         }
-        ordDO.DeliveryDate = DateTime.Now;
-        Dal.Iorder.Update(ordDO);
-        return (ConversionOrder(ordDO));
+        if (ordDO.DeliveryDate != DateTime.MinValue)
+        {
+            ordDO.DeliveryDate = DateTime.Now;
+            Dal.Iorder.Update(ordDO);
+        }
+        return (DO_orderToBO_order(ordDO));
     }
     public BO.OrderTracking OrderTracking(int IdOrder)
-    {//מעקב הזמנה
+    {
         if (IdOrder < 0)
-            throw new InvalidInputBO($"Order id: {IdOrder} invalid input.\n");
+            throw new BO.InvalidInputBO($"Order id");
         DO.Order ordDO = new DO.Order();
-        BO.Order ordBO = new BO.Order();
         try
         {
             ordDO = Dal.Iorder.GetById(IdOrder);
         }
-        catch (NotfoundException ex)
+        catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            throw new BO.BONotfoundException(ex); 
         }
-        ordBO= ConversionOrder(ordDO);
-        BO.OrderTracking Tracking = new OrderTracking();
-        Tracking.orderId = ordBO.OrderId;
-        Tracking.OrderStatus=ordBO.orderStatus;
-        //לבדוק איך מאתחלים את הרשימה המפגרת הזאת
-        //Tracking.packageProgress (ordBO.OrderDate,ordBO.orderStatus);
-        // confirmed, shipped, deliveredToCostumer 
-        return Tracking;
+        return new BO.OrderTracking
+        {
+            orderId = ordDO.OrderId,
+            OrderStatus = getStatus(ordDO),
+            packageProgress = new List<(DateTime, BO.OrderStatus)>
+            {
+                 (ordDO.OrderDate.Value, BO.OrderStatus.confirmed),
+                 (ordDO.ShipDate.Value, BO.OrderStatus.shipped),
+                 (ordDO.DeliveryDate.Value, BO.OrderStatus.deliveredToCostumer)
+            }
+        }; 
     }
+    private BO.OrderStatus getStatus(DO.Order ordDO)
+    {
+        return ordDO.DeliveryDate != DateTime.MinValue ? BO.OrderStatus.deliveredToCostumer :
+            ordDO.ShipDate != DateTime.MinValue ? BO.OrderStatus.shipped : BO.OrderStatus.confirmed;
+    }
+    //perfect
     public void UpdateToManager(BO.Order updateOrd)
     {
-        Console.WriteLine();
+        //בונוס
+        return;
     }
-    public BO.Order ConversionOrder(DO.Order ordDO)
+    //המרות
+    public BO.orderItem DO_orderItemToBO_OrderItem(DO.OrderItem ord)
+    {
+        BO.orderItem orderItem = new BO.orderItem();
+        orderItem.orderItemId = ord.OrderItemId;
+        orderItem.productId = ord.ProductId;
+        orderItem.priceOfProduct = ord.Price;
+        orderItem.amountOfProduct = ord.Amount;
+        orderItem.finalPriceOfProduct = ord.Price * ord.Amount;
+        IEnumerable<DO.Product> products = Dal.IProduct.GetAll();
+        IEnumerable<string> productName = from item in products
+                                          where item.ProductId == ord.ProductId
+                                          select item.ProductName;
+        orderItem.productName = productName.ToArray()[0];
+        return orderItem;
+    }
+    public BO.Order DO_orderToBO_order(DO.Order ordDO)
     {
         BO.Order ordBO = new BO.Order();
         ordBO.OrderId = ordDO.OrderId;
@@ -102,21 +127,40 @@ internal class Order :IOrder
         ordBO.ShipDate = ordDO.ShipDate;
         ordBO.OrderDate = ordDO.OrderDate;
         ordBO.DeliveryDate = ordDO.DeliveryDate;
+        if (ordDO.DeliveryDate != DateTime.MinValue)  //status
+            ordBO.orderStatus = BO.OrderStatus.deliveredToCostumer;
+        else if (ordDO.ShipDate != DateTime.MinValue)
+            ordBO.orderStatus = BO.OrderStatus.shipped;
+        else
+            ordBO.orderStatus = BO.OrderStatus.confirmed;
+        IEnumerable<DO.OrderItem> itemsInOrder = Dal.Iorderitem.GetAll();
+        IEnumerable<BO.orderItem> orderItems = from item in itemsInOrder
+                                               where item.OrderId == ordDO.OrderId
+                                               select DO_orderItemToBO_OrderItem(item);
+        ordBO.orderItems = orderItems;
         return ordBO;
     }
-    public BO.OrderForList ConversionFromDoToBo(DO.Order ord)
+    public BO.OrderForList DO_orderToBO_OrderForList(DO.Order ord)
     {
-        BO.OrderForList orderForList = new OrderForList();
-        orderForList.orderId = ord.OrderId;
-        orderForList.costumerName = ord.CustomerName;
-        if (ord.OrderDate == DateTime.MinValue)//לבדוק!!!!!!!!!!!!
-            orderForList.OrderStatus = OrderStatus.confirmed;
+        BO.OrderForList orderForList = new BO.OrderForList();
+        orderForList.orderId = ord.OrderId;  //id
+        orderForList.costumerName = ord.CustomerName;  //name
+        IEnumerable<DO.OrderItem> OrderItemList = Dal.Iorderitem.GetAll();
+        IEnumerable<double> count = from item in OrderItemList
+                                    where item.OrderId == ord.OrderId
+                                    select item.Price;
+        orderForList.amountOfItems = count.Count();   //amount
+        List<double> prices = count.ToList();
+        foreach (var item in prices) orderForList.finalPrice += item;  //price
+        if (ord.DeliveryDate != DateTime.MinValue)  //status
+            orderForList.OrderStatus = BO.OrderStatus.deliveredToCostumer;
         else if (ord.ShipDate != DateTime.MinValue)
-            orderForList.OrderStatus = OrderStatus.shipped;
+            orderForList.OrderStatus = BO.OrderStatus.shipped;
         else
-            orderForList.OrderStatus = OrderStatus.deliveredToCostumer;
-        //orderForList.ammountOfItems=ord.
-        // orderForList.finalPrice
+            orderForList.OrderStatus = BO.OrderStatus.confirmed;
+
         return orderForList;
     }
+
 }
+

@@ -1,135 +1,126 @@
-﻿using BlApi;
-using Dal;
-using DalApi;
+﻿using BO;
+using DO;
 using System.Data;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-
-namespace BlImplementation;
-//לשים לב- לזרוק שמות או מספרי זהות? אם כן צריך שיהיה מתואם עם שכבת הנתונים
-internal class Cart :ICart
+internal class Cart : BlApi.ICart
 {
-    public IDal Dal = new DalList();
-    public BO.Cart AddProductToCart(BO.Cart newCart, int Iproduct) 
-    {//אם המוצר לא קיים או שנגמר במלאי יש לזרוק חריגה
-     //מה אם אדם רוצה להוסיף כמה מוצרים ולא אחד
-        BO.orderItem ordItemBO= new BO.orderItem();
-        DO.Product productDO = new DO.Product();
-        foreach (var x in newCart.orderItems)
-            if (x.productId == Iproduct)
-            {
-                productDO = Dal.IProduct.GetById(x.productId);
-                if (productDO.AmmountInStock>0)
-                {
-                    x.amountOfProduct++;
-                    x.finalPriceOfProduct += productDO.ProductPrice;
-                    newCart.totalPrice += productDO.ProductPrice;
-                }
-                return newCart;
-            }
-        productDO = Dal.IProduct.GetById(Iproduct);
-        if(productDO.AmmountInStock > 0)
+    public DalApi.IDal Dal = new Dal.DalList();
+    public BO.Cart AddProductToCart(BO.Cart newCart, int IDproduct)
+    {
+        DO.Product productDO = new DO.Product();   
+        try
         {
-            newCart.totalPrice += productDO.ProductPrice;
-            ordItemBO = ChangingItemTypeInOrder(productDO);
-            ordItemBO.priceOfProduct += productDO.ProductPrice;
+            productDO=Dal.IProduct.GetById(IDproduct);   
+        }
+        catch(Exception ex)
+        {
+            throw new BO.BONotfoundException(ex);
+        }
+        BO.orderItem ordItemBO = new BO.orderItem();
+        BO.orderItem? ord = newCart.orderItems.Where(od => od.productId == IDproduct).First();
+        if (ord != null)
+        {
+            if (productDO.AmmountInStock >= ord.amountOfProduct + 1)
+                newCart.orderItems.Where(od => od.productName == productDO.ProductName).First().amountOfProduct++;
+            else
+                throw new ItemMissingException(productDO.ProductName);
+        }
+        else
+        {
+            if (productDO.AmmountInStock < 1)
+                throw new ItemMissingException(productDO.ProductName);
+            ordItemBO.orderItemId = 0;
+            ordItemBO.productId = productDO.ProductId;
+            ordItemBO.priceOfProduct = productDO.ProductPrice;
+            ordItemBO.amountOfProduct = 1;
+            ordItemBO.finalPriceOfProduct = productDO.ProductPrice;
             newCart.orderItems.Append(ordItemBO);
         }
         return newCart;
     }
-    public BO.orderItem ChangingItemTypeInOrder(DO.Product productDO)
+    public BO.Cart UpdateAmount(BO.Cart newCart, int IDproduct, int amount)
     {
-        BO.orderItem ordItemBO = new BO.orderItem();
-        //לברר אם אפשר להשתמש במס רץ של של שכבת הנתונים
-        ordItemBO.orderItemId = //ordItemDO.OrderItemId;
-        ordItemBO.productId= productDO.ProductId;
-        ordItemBO.productName= productDO.ProductName;
-        ordItemBO.priceOfProduct= productDO.ProductPrice;
-        //לפי מה יודעים כמה הקונה רוצה מהמוצר
-        //ordItemBO.amountOfProduct = productDO.AmmountInStock;
-        ordItemBO.finalPriceOfProduct = ordItemBO.amountOfProduct * ordItemBO.priceOfProduct;
-        return ordItemBO;
-    }
-    public BO.Cart UpdateAmount(BO.Cart newCart, int Iproduct, int amount)
-    {
-        BO.orderItem ordItemBO = new BO.orderItem();
         DO.Product productDO = new DO.Product();
-        foreach (var x in newCart.orderItems)
-            if (x.productId == Iproduct)
-            {
-                if (x.amountOfProduct == amount)
-                    return newCart;
-                ordItemBO = x;
-                break;
-            }
-        //חרגיה למקרה שהוא לא מצא את האובייקט
-        if (ordItemBO.amountOfProduct < amount)
+        BO.orderItem? ordBO = newCart.orderItems.Where(od => od.productId == IDproduct).First();
+        if (ordBO == null)
+            throw new NotfoundException("order item");
+        if (ordBO.amountOfProduct == amount)
+            return newCart;
+        if (ordBO.amountOfProduct < amount)
         {
-            for (int i = ordItemBO.amountOfProduct; i < amount; i++)
-                AddProductToCart(newCart, Iproduct);
+            newCart.orderItems.Where(od => od.productId == IDproduct).First().amountOfProduct=amount;
             return newCart;
         }
-        productDO = Dal.IProduct.GetById(Iproduct);
-        if (ordItemBO.amountOfProduct > amount)
+        productDO = Dal.IProduct.GetById(IDproduct);
+        if (ordBO.amountOfProduct > amount)
         {
-            int QuantityDifference = ordItemBO.amountOfProduct - amount;
-            ordItemBO.priceOfProduct -= (productDO.ProductPrice * QuantityDifference);
-            ordItemBO.amountOfProduct -= QuantityDifference;
-            newCart.totalPrice-= (productDO.ProductPrice * QuantityDifference);
+            int QuantityDifference = ordBO.amountOfProduct - amount;
+            ordBO.priceOfProduct -= (productDO.ProductPrice * QuantityDifference);
+            ordBO.amountOfProduct -= QuantityDifference;
+            newCart.totalPrice -= (productDO.ProductPrice * QuantityDifference);
         }
         if (amount == 0)
         {
-            newCart.totalPrice -= (productDO.ProductPrice * ordItemBO.amountOfProduct);
+            newCart.totalPrice -= (productDO.ProductPrice * ordBO.amountOfProduct);
             newCart.orderItems = newCart.orderItems.
-                Where(x => x.productId != Iproduct);
+                Where(x => x.productId != IDproduct);
         }
         return newCart;
     }
     public void OrderConfirmation(BO.Cart newCart)
     {
-        List<Exception> listOfException=new List<Exception>();
-        DO.Product productDO = new DO.Product();
-        if (newCart.CustomerAdress == "")
-            throw new DataMissingException(
-                "The customer address is missing to complete the operation"); 
-        if (newCart.CustomerName == "")
-            throw new DataMissingException(
-                    "The customer name is missing to complete the operation");
-        if(newCart.CustomerEmail=="")
-            throw new DataMissingException(
-                    "Email address of the customer in the company");
-        if(!newCart.CustomerAdress.EndsWith("@gmail.com"))
-            throw new InvalidInputBO(
-                    "Customer email address is invalid");
-        foreach (var item in newCart.orderItems)
+        try
         {
-            try
+            check(newCart);
+            List<Exception> listOfException = new List<Exception>();
+            DO.Product productDO = new DO.Product();
+            foreach (var item in newCart.orderItems)
             {
-                productDO = Dal.IProduct.GetById(item.productId);
+                try
+                {
+                    productDO = Dal.IProduct.GetById(item.productId);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                if (item.amountOfProduct <= 0)
+                    throw new InvalidInputBO("Error! quantity for {item.productName} is invalid");
+                if (productDO.AmmountInStock < item.amountOfProduct)
+                    throw new ItemMissingException("{item.productName} out of stock");
             }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-            if (item.amountOfProduct <= 0)
-                throw new InvalidInputBO("Error! quantity for {item.productName} is invalid");
-            if (productDO.AmmountInStock < item.amountOfProduct)
-                throw new ItemMissingException("{item.productName} out of stock");
+            DO.Order NewOrderDO = new DO.Order();
+            NewOrderDO.OrderDate = DateTime.Now;
+            NewOrderDO.ShipDate = DateTime.MinValue;
+            NewOrderDO.DeliveryDate = DateTime.MinValue;
+            NewOrderDO.CustomerAdress = newCart.CustomerAdress;
+            NewOrderDO.CustomerName = newCart.CustomerName;
+            NewOrderDO.CustomerEmail = newCart.CustomerEmail;
+            int IdOrder = Dal.Iorder.Add(NewOrderDO);
+            foreach (var item in newCart.orderItems)
+                Dal.Iorderitem.Add(ChangingFromBOToDO(item, IdOrder));
+
         }
-        DO.Order NewOrderDO = new DO.Order();
-        NewOrderDO.OrderDate= DateTime.Now;
-        NewOrderDO.ShipDate= DateTime.MinValue;
-        NewOrderDO.DeliveryDate= DateTime.MinValue;
-        NewOrderDO.CustomerAdress= newCart.CustomerAdress;  
-        NewOrderDO.CustomerName= newCart.CustomerName;
-        NewOrderDO.CustomerEmail= newCart.CustomerEmail;
-        int IdOrder=Dal.Iorder.Add(NewOrderDO);
-        foreach (var item in newCart.orderItems)
-            Dal.Iorderitem.Add(ChangingFromBOToDO(item,IdOrder));
+        catch (Exception ex) 
+        {
+            throw ex;
+        }
     }
-    public DO.OrderItem ChangingFromBOToDO(BO.orderItem NewOrderBO,int ID)
+
+    private static void check(BO.Cart newCart)
     {
-        DO.OrderItem NewOrderDO=new DO.OrderItem();
+        if (newCart.CustomerAdress == "")
+            throw new DataMissingException("address");
+        if (newCart.CustomerName == "")
+            throw new DataMissingException("name");
+        if (newCart.CustomerEmail == "")
+            throw new DataMissingException("email");
+        if (!newCart.CustomerAdress.EndsWith("@gmail.com"))
+            throw new DataMissingException("email");
+    }
+
+    public DO.OrderItem ChangingFromBOToDO(BO.orderItem NewOrderBO, int ID)
+    {
+        DO.OrderItem NewOrderDO = new DO.OrderItem();
         return NewOrderDO;
     }
 }

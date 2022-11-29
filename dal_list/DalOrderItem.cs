@@ -1,5 +1,4 @@
 ﻿using DO;
-using System.Runtime.CompilerServices;
 using DalApi;
 
 
@@ -15,6 +14,9 @@ internal class DalOrderItem: Iorderitem
     public int Add(OrderItem NewOrderItem)
     {
         NewOrderItem.OrderItemId = DataSource.Config.orderItemIndex++;
+        int x = DataSource.orderItems.FindIndex(x => x.OrderItemId == NewOrderItem.OrderItemId);
+        if (x == -1)
+            throw new DuplicationException("orderItem");
         DataSource.orderItems.Add(NewOrderItem);
         return NewOrderItem.OrderItemId;
     }
@@ -43,7 +45,7 @@ internal class DalOrderItem: Iorderitem
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderId == idOrder && DataSource.orderItems[i].ProductId == idProduct)
                 return DataSource.orderItems[i];
-        throw new NotfoundException($"order item:\n order id: {idOrder} and\n product id: { idProduct }\n  is not found in order items.\n");                   
+        throw new NotfoundException("order item");                   
     }
 
     /// <summary>
@@ -57,7 +59,7 @@ internal class DalOrderItem: Iorderitem
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderItemId == idOrderItem)
                 return DataSource.orderItems[i];
-        throw new NotfoundException($"Order Item ID: {idOrderItem} not found in order items.\n");
+        throw new NotfoundException("Order Item");
     }
 
     /// <summary>
@@ -73,7 +75,7 @@ internal class DalOrderItem: Iorderitem
                 DataSource.orderItems[i] = UpdatedOrderItem;
                 return;
             }
-        throw new NotfoundException($"Order Item ID: {UpdatedOrderItem.OrderItemId} not found in order items.\n");
+        throw new NotfoundException($"Order Item");
     }
 
     /// <summary>
@@ -89,7 +91,7 @@ internal class DalOrderItem: Iorderitem
                 DataSource.orderItems.Remove(DataSource.orderItems[i]);
                 return;
             }
-        throw new NotfoundException($"Order Item ID: {removeById} not found in order items.\n");
+        throw new NotfoundException("Order Item");
     }
 }
 
