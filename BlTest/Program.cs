@@ -4,12 +4,21 @@ using DalApi;
 using BlImplementation;
 using BO;
 using System.Security.Cryptography;
+using DO;
 
 namespace BlTest
 {
     internal class Program
     {
         private static IBl Obj = new Bl();
+        private static Cart cart = new Cart
+        {
+            CustomerName = null,
+            CustomerAdress = null,
+            CustomerEmail = null,
+            orderItems = new IEnumerable<orderItem>(),
+            totalPrice = 0
+        };
         public static void Main()
         {
             while (true)
@@ -150,15 +159,40 @@ namespace BlTest
         public static class OrderFunctions   
         {
             public static void GetAllToManager() 
-            { }
+            {
+                IEnumerable<BO.OrderForList> Orders = Obj.Order.GetAllToManager();
+                foreach (var item in Orders)
+                    Console.WriteLine(item);
+                return;
+            }
             public static void GetOrderByID() 
-            { }
+            {
+                BO.Order ordBO= new BO.Order();  
+                Console.WriteLine("Enter order ID\n");
+                ordBO=Obj.Order.GetOrderByID(int.Parse(Console.ReadLine()));
+                Console.WriteLine(ordBO);
+            }
             public static void ShippingUpdateToManager()
-            { }
+            {
+                BO.Order ordBO = new BO.Order();
+                Console.WriteLine("Enter order ID\n");
+                ordBO = Obj.Order.ShippingUpdateToManager(int.Parse(Console.ReadLine()));
+                Console.WriteLine(ordBO);
+            }
             public static void supplyUpdateToManager()
-            { }
+            {
+                BO.Order ordBO = new BO.Order();
+                Console.WriteLine("Enter order ID\n");
+                ordBO = Obj.Order.supplyUpdateToManager(int.Parse(Console.ReadLine()));
+                Console.WriteLine(ordBO);
+            }
             public static void OrderTracking() 
-            { }
+            {
+                BO.OrderTracking ordTraBO = new BO.OrderTracking();
+                Console.WriteLine("Enter order ID\n");
+                ordTraBO = Obj.Order.OrderTracking(int.Parse(Console.ReadLine()));
+                Console.WriteLine(ordTraBO);
+            }
         }
         public static void OptionsCart()
         {
