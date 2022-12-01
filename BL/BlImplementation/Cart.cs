@@ -15,6 +15,7 @@ internal class Cart : BlApi.ICart
         {
             throw new BO.BONotfoundException(ex);
         }
+
         BO.orderItem ordItemBO = new BO.orderItem();
         BO.orderItem? ord = newCart.orderItems.Where(od => od.productId == IDproduct).First();
         if (ord != null)

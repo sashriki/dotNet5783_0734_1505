@@ -16,7 +16,7 @@ namespace BlTest
             CustomerName = null,
             CustomerAdress = null,
             CustomerEmail = null,
-            orderItems = new IEnumerable<orderItem>(),
+            orderItems = new IEnumerable<BO.orderItem>(),
             totalPrice = 0
         };
         public static void Main()
@@ -106,15 +106,55 @@ namespace BlTest
                 return;
             }
             public static void getByIdToMannage()
-            { }
+            {
+                BO.Product productBO = new BO.Product();
+                Console.WriteLine("Enter product ID\n");
+                productBO = Obj.Product.getByIdToMannage(int.Parse(Console.ReadLine()));
+                Console.WriteLine(productBO);
+                return;
+            }
             public static void getByIdToCostumer()
-            { }
+            {
+                BO.ProductItem productBO = new BO.ProductItem();
+                Console.WriteLine("Enter product ID\n");
+                Console.WriteLine(productBO);
+                return;
+            }
             public static void addProduct()
             { }
             public static void removeProduct()
-            { }
+            {
+                Console.WriteLine("Enter product ID\n");
+                int ID = int.Parse(Console.ReadLine());
+                try
+                {
+                    Obj.Product.removeProduct(ID);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());   
+                }
+            }
             public static void updateProduct()
-            { }
+            {
+                BO.Product NewProduct = new BO.Product();
+                Console.WriteLine("enter a product name\n");
+                NewProduct.ProductName = Console.ReadLine();
+                Console.WriteLine("enter a product number\n");
+                NewProduct.ProductId = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the amount of products in stock\n");
+                NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
+                Console.WriteLine("enter a product price\n");
+                NewProduct.ProductPrice = int.Parse(Console.ReadLine());
+                Console.WriteLine("enter a product category\n");
+                NewProduct.ProductCategory = (BO.Category)int.Parse(Console.ReadLine());
+                try
+                { Obj.Product.updateProduct(NewProduct); }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);  //warning!
+                }
+            }
         }
         public static void OptionsOrder()
         {
