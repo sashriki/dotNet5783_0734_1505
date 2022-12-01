@@ -23,9 +23,9 @@ public class Order
        Ship Date: {ShipDate}
        Delivery Date: {DeliveryDate}
        Final Price: {finalPrice}";
-        foreach (var item in orderItems)
-            s = s + item + '\n';
-        return s;
+       foreach (var item in orderItems)
+           s = s + item + '\n';
+       return s;
     }
 
 }

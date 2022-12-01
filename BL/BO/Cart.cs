@@ -5,7 +5,7 @@ public class Cart
     public string CustomerName { get; set; } //customer name 
     public string CustomerAdress { get; set; } //Customer's residential address
     public string CustomerEmail { get; set; } //Customer email address
-    public IEnumerable<BO.orderItem> orderItems { get; set; } //something
+    public List<BO.orderItem> orderItems { get; set; } //something
     public double totalPrice { get; set; }
 
     public override string ToString()

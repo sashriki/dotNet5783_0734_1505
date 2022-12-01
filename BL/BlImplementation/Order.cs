@@ -15,7 +15,7 @@ internal class Order : BlApi.IOrder
         IEnumerable<DO.Order> OrderList = Dal.Iorder.GetAll();
         IEnumerable<BO.OrderForList> OrdersList = from item in OrderList
                                                   select DO_orderToBO_OrderForList(item);
-        if (OrdersList.Any())
+        if (!OrdersList.Any())
             throw new BO.NoElementsException("orders");
         return OrdersList;
     }

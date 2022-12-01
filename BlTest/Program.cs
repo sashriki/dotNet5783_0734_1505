@@ -1,6 +1,7 @@
 ﻿using BlApi;
 using BlImplementation;
 using BO;
+using System;
 using DalApi;
 using DO;
 
@@ -65,8 +66,8 @@ namespace BlTest
             action = Console.ReadLine();
             while (true)
             {
-                try
-                {
+                try 
+                { 
                     switch (action)
                     {
                         case "a":   //To display all products
@@ -96,7 +97,7 @@ namespace BlTest
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());   
+                    Console.WriteLine(ex);   
                 }
                 Console.WriteLine("enter your choice again\n");
                 action = Console.ReadLine();
@@ -126,18 +127,46 @@ namespace BlTest
             {
                 BO.ProductItem productBO = new BO.ProductItem();
                 Console.WriteLine("Enter product ID\n");
+                productBO=Obj.Product.getByIdToCostumer(int.Parse(Console.ReadLine()),cart);
                 Console.WriteLine(productBO);
                 return;
             }
             public static void addProduct()
-            { }
+            {
+                BO.Product NewProduct = new BO.Product();
+                Console.WriteLine("enter a product name");
+                NewProduct.ProductName = Console.ReadLine();
+                Console.WriteLine("enter a product number");
+                NewProduct.ProductId = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the amount of products in stock");
+                NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
+                Console.WriteLine("enter a product price");
+                NewProduct.ProductPrice = int.Parse(Console.ReadLine());
+                Console.WriteLine("choose a product category:\n" +
+                    "0: clothing\r\n" +
+                    "1: shoes\r\n" +
+                    "2: home workout\r\n" +
+                    "3: gym equipment\r\n" +
+                    "4: accessories\r\n");
+                NewProduct.ProductCategory = (BO.Category)int.Parse(Console.ReadLine());
+                try
+                {
+                    Obj.Product.addProduct(NewProduct);
+                    Console.WriteLine("The operation was performed successfully!\n");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);  //warning!
+                }
+            }
             public static void removeProduct()
             {
-                Console.WriteLine("Enter product ID\n");
+                Console.WriteLine("Enter product ID");
                 int ID = int.Parse(Console.ReadLine());
                 try
                 {
                     Obj.Product.removeProduct(ID);
+                    Console.WriteLine("The operation was performed successfully!\n");
                 }
                 catch(Exception ex)
                 {
@@ -147,18 +176,27 @@ namespace BlTest
             public static void updateProduct()
             {
                 BO.Product NewProduct = new BO.Product();
-                Console.WriteLine("enter a product name\n");
+                Console.WriteLine("Enter a product name");
                 NewProduct.ProductName = Console.ReadLine();
-                Console.WriteLine("enter a product number\n");
+                Console.WriteLine("Enter a product number");
                 NewProduct.ProductId = int.Parse(Console.ReadLine());
-                Console.WriteLine("Enter the amount of products in stock\n");
+                Console.WriteLine("Enter the amount of products in stock");
                 NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
-                Console.WriteLine("enter a product price\n");
-                NewProduct.ProductPrice = int.Parse(Console.ReadLine());
-                Console.WriteLine("enter a product category\n");
+                Console.WriteLine("Enter a product price");
+                NewProduct.ProductPrice = double.Parse(Console.ReadLine());
+                //Console.WriteLine("Enter a product category");
+                Console.WriteLine("choose a product category:\n" +
+                    "0: clothing\r\n" +
+                    "1: shoes\r\n" +
+                    "2: home workout\r\n" +
+                    "3: gym equipment\r\n" +
+                    "4: accessories");
                 NewProduct.ProductCategory = (BO.Category)int.Parse(Console.ReadLine());
                 try
-                { Obj.Product.updateProduct(NewProduct); }
+                { 
+                    Obj.Product.updateProduct(NewProduct);
+                    Console.WriteLine("The operation was performed successfully!\n");
+                }
                 catch(Exception ex)
                 {
                     Console.WriteLine(ex);  //warning!
@@ -187,19 +225,19 @@ namespace BlTest
                     switch (action)
                     {
                         case "a":   // To display all orders for the manager
-                            OrderFunctions.GetAllToManager();
+                            OrderFunctions.GetAllToManager();//V
                             break;
                         case "b":   //To display an order by ID
-                            OrderFunctions.GetOrderByID();
+                            OrderFunctions.GetOrderByID();//v
                             break;
                         case "c":   //Update order shipping for the manager
-                            OrderFunctions.ShippingUpdateToManager();
+                            OrderFunctions.ShippingUpdateToManager();//v
                             break;
                         case "d":   //Update order delivery for manager
                             OrderFunctions.supplyUpdateToManager();
                             break;
                         case "e":   //To track an order   
-                            OrderFunctions.OrderTracking();
+                            OrderFunctions.OrderTracking();//v
                             break;
                         case "f":   //To update an order for a manager
                             OrderFunctions.UpdateToManager();
@@ -234,7 +272,7 @@ namespace BlTest
             public static void GetOrderByID()
             {
                 BO.Order ordBO = new BO.Order();
-                Console.WriteLine("Enter order ID\n");
+                Console.WriteLine("Enter order ID");
                 ordBO = Obj.Order.GetOrderByID(int.Parse(Console.ReadLine()));
                 Console.WriteLine(ordBO);
             }
@@ -282,6 +320,7 @@ namespace BlTest
                 "a: To add a product to the shopping cart\r\n" +
                 "b: To update the quantity of a product in the shopping basket\r\n" +
                 "c: To make an order\r\n" +
+                "d: To print the entire shopping cart\r\n" +
                 "f: exit\n");
             action = Console.ReadLine();
             while (true)
@@ -298,6 +337,9 @@ namespace BlTest
                             break;
                         case "c":   //To make an order
                             CartFunctions.OrderConfirmation();
+                            break;
+                        case "d":
+                            Console.WriteLine(cart);
                             break;
                         case "f":
                             return;
@@ -325,6 +367,7 @@ namespace BlTest
                 Console.WriteLine("Enter a product ID number:\n");
                 IdOrdItem = Convert.ToInt32(Console.ReadLine());
                 cart = Obj.Cart.AddProductToCart(cart, IdOrdItem);
+                Console.WriteLine("The operation was performed successfully!\n");
             }
             public static void UpdateAmount()
             {
@@ -334,6 +377,7 @@ namespace BlTest
                 Console.WriteLine("Enter a quantity for the requested product:\n");
                 amount = Convert.ToInt32(Console.ReadLine());
                 cart = Obj.Cart.UpdateAmount(cart, IdOrdItem, amount);
+                Console.WriteLine("The operation was performed successfully!\n");
             }
             public static void OrderConfirmation()
             {
@@ -345,6 +389,7 @@ namespace BlTest
                 cart.CustomerAdress = Console.ReadLine();
                 Console.WriteLine("Enter shipping address:");
                 Obj.Cart.OrderConfirmation(cart);
+                Console.WriteLine("The operation was performed successfully!\n");
             }
         }
     }

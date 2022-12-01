@@ -15,7 +15,7 @@ internal class DalOrderItem : Iorderitem
     {
         NewOrderItem.OrderItemId = DataSource.Config.orderItemIndex++;
         int x = DataSource.orderItems.FindIndex(x => x.OrderItemId == NewOrderItem.OrderItemId);
-        if (x == -1)
+        if (x != -1)
             throw new DuplicationException("orderItem");
         DataSource.orderItems.Add(NewOrderItem);
         return NewOrderItem.OrderItemId;

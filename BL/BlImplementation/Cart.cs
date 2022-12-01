@@ -26,7 +26,8 @@ internal class Cart : BlApi.ICart
         //Creating a new order item object
         BO.orderItem ordItemBO = new BO.orderItem();
         //Finding the item by ID from the list of items in the order
-        BO.orderItem? ord = newCart.orderItems.Where(od => od.productId == IDproduct).First();
+        BO.orderItem? ord = newCart.orderItems.FirstOrDefault(od => od.productId == IDproduct);
+        newCart.orderItems.ToList();
         if (ord != null) //If the item is found   
         {
             //If there are enough items in stock
@@ -46,7 +47,7 @@ internal class Cart : BlApi.ICart
             ordItemBO.priceOfProduct = productDO.ProductPrice;
             ordItemBO.amountOfProduct = 1;
             ordItemBO.finalPriceOfProduct = productDO.ProductPrice;
-            newCart.orderItems.Append(ordItemBO);
+            newCart.orderItems.Add(ordItemBO);
         }
         return newCart;
     }
@@ -98,8 +99,9 @@ internal class Cart : BlApi.ICart
         if (amount == 0)//To remove a product from a shopping cart
         {
             newCart.totalPrice -= (productDO.ProductPrice * ordBO.amountOfProduct);
-            newCart.orderItems = newCart.orderItems.
-                Where(x => x.productId != IDproduct);
+            newCart.orderItems.Remove(ordBO);
+            //newCart.orderItems = newCart.orderItems.
+            //    Where(x => x.productId != IDproduct);
         }
         return newCart;
     }
@@ -171,8 +173,8 @@ internal class Cart : BlApi.ICart
             throw new DataMissingException("name");
         if (newCart.CustomerEmail == "")
             throw new DataMissingException("email");
-        if (!newCart.CustomerAdress.EndsWith("@gmail.com"))
-            throw new DataMissingException("email");
+        if (!newCart.CustomerEmail.EndsWith("@gmail.com"))
+            throw new InvalidOperationException("email");
     }
     /// <summary>
     /// Test for converting from an Item object in the order of BO to DO
