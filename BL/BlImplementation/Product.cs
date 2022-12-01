@@ -30,7 +30,7 @@
             throw new BO.InvalidInputBO("product ID");
         }
     }
-    public BO.ProductItem getByIdToCostumer(int id, BO.orderItem orderItem)
+    public BO.ProductItem getByIdToCostumer(int id, BO.Cart cart)
     {
         DO.Product DO_product = new DO.Product();
         if (id > 0)
@@ -43,7 +43,7 @@
             {
                 throw new BO.BONotfoundException(ex);
             }
-            return Do_ProductToBo_ProductItem(DO_product, orderItem);
+            return Do_ProductToBo_ProductItem(DO_product, cart);
 
         }
         else
@@ -72,14 +72,18 @@
         //    Dal.Iorder.Delete(id);
 
         IEnumerable<DO.OrderItem> orderItems = Dal.Iorderitem.GetAll();
-        bool flag = true;
-        foreach (var item in orderItems) { if (item.ProductId == id) { flag = false; break; } }
+        bool flag = false;
+        foreach(var item in orderItems) { if (item.ProductId == id) { flag = true; break; } }
         if (flag)
-            Dal.Iorder.Delete(id);
-        else
-        {
-            //throw exception!!
-        }
+            try 
+            {
+                Dal.Iorder.Delete(id);
+            }
+            catch(Exception ex)
+            {
+                throw new BO.BONotfoundException(ex);   
+            }
+        
     }
     public void updateProduct(BO.Product BO_product)
     {
@@ -110,7 +114,7 @@
         B0_product.ProductCategory = (BO.Category)product.ProductCategory;
         return B0_product;
     }
-    private BO.ProductItem Do_ProductToBo_ProductItem(DO.Product product, BO.orderItem orderItem)
+    private BO.ProductItem Do_ProductToBo_ProductItem(DO.Product product, BO.Cart cart)
     {
         BO.ProductItem B0_product = new BO.ProductItem();
         B0_product.productId = product.ProductId;
@@ -121,7 +125,11 @@
             B0_product.inStock = false;
         B0_product.price = product.ProductPrice;
         B0_product.Category = (BO.Category)product.ProductCategory;
-        B0_product.ammountInCart = orderItem.amountOfProduct;
+        BO.orderItem? x = cart.orderItems.Where(od => od.productId == product.ProductId).First();
+        if (x != null)
+            B0_product.ammountInCart = x.amountOfProduct;
+        else
+            B0_product.ammountInCart = 0;
         return B0_product;
     }
     private DO.Product Bo_ProductToDo_Product(BO.Product product)
