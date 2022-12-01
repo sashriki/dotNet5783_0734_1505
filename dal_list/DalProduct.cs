@@ -1,10 +1,9 @@
 ﻿using DalApi;
 using DO;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Dal;
 
-internal class DalProduct :IProduct 
+internal class DalProduct : IProduct
 {
     /// <summary>
     /// Adding a product

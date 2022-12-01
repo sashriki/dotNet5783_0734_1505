@@ -1,10 +1,10 @@
-﻿using DO;
-using DalApi;
+﻿using DalApi;
+using DO;
 
 
 namespace Dal;
 
-internal class DalOrderItem: Iorderitem
+internal class DalOrderItem : Iorderitem
 {
     /// <summary>
     /// Adding an ordered item to the list
@@ -29,7 +29,7 @@ internal class DalOrderItem: Iorderitem
     {
         List<OrderItem> orderItemReturnList = new List<OrderItem>();
         for (int i = 0; i < DataSource.orderItems.Count(); i++)   //warning??
-            orderItemReturnList.Add( DataSource.orderItems[i]);
+            orderItemReturnList.Add(DataSource.orderItems[i]);
         return orderItemReturnList;
     }
 
@@ -45,7 +45,7 @@ internal class DalOrderItem: Iorderitem
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i].OrderId == idOrder && DataSource.orderItems[i].ProductId == idProduct)
                 return DataSource.orderItems[i];
-        throw new NotfoundException("order item");                   
+        throw new NotfoundException("order item");
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿internal class Product :BlApi.IProduct
+﻿internal class Product : BlApi.IProduct
 {
     private DalApi.IDal Dal = new Dal.DalList();
     public IEnumerable<BO.ProductForList> getAllProducts()
@@ -19,7 +19,7 @@
             {
                 DO_product = Dal.IProduct.GetById(id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new BO.BONotfoundException(ex);
             }
@@ -70,11 +70,11 @@
         //                            select orderItem;
         //if (!orderItems.Any())
         //    Dal.Iorder.Delete(id);
-        
+
         IEnumerable<DO.OrderItem> orderItems = Dal.Iorderitem.GetAll();
         bool flag = true;
-        foreach(var item in orderItems) { if (item.ProductId == id) { flag = false; break; } }
-        if(flag)
+        foreach (var item in orderItems) { if (item.ProductId == id) { flag = false; break; } }
+        if (flag)
             Dal.Iorder.Delete(id);
         else
         {

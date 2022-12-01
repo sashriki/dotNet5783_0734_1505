@@ -1,7 +1,7 @@
 ﻿using DO;
 namespace Dal;
 
-internal static class DataSource 
+internal static class DataSource
 {
     //lists
     static public List<Product> products = new List<Product>();
@@ -45,9 +45,9 @@ internal static class DataSource
         {//The loop will create new products and add to the list
             Product newProduct = new Product(); //Creating an object
             newProduct.ProductId = Config.productIndex++; //ID number by running number
-            newProduct.ProductName = "product" + i; 
+            newProduct.ProductName = "product" + i;
             newProduct.ProductCategory = (Category)(random.Next(0, 5)); ;
-            newProduct.ProductPrice = Math.Round(random.Next(500) + random.NextDouble(),2);
+            //newProduct.ProductPrice = Math.Round(random.Next(500) + random.NextDouble(),2);
             if (random.Next(0, 100) > 5)
             {
                 newProduct.AmmountInStock = random.Next(20, 100);
@@ -60,8 +60,6 @@ internal static class DataSource
         }
     }
     private static void InitOrder()
-    {
-        for (int i = 0; i < InitialNumOfOrders; i++)
     {//Initialization for orders
         for (int i = 0; i < InitialNumOfOrders; i++)
         {
@@ -77,7 +75,7 @@ internal static class DataSource
                 if (random.Next(0, 100) < 60)
                     newOrder.DeliveryDate = newOrder.ShipDate + new TimeSpan(random.Next(0, 14), random.Next(0, 12), random.Next(0, 59), random.Next(0, 59));
                 else
-                    newOrder.DeliveryDate= DateTime.MinValue;
+                    newOrder.DeliveryDate = DateTime.MinValue;
             }
 
             else
@@ -85,7 +83,7 @@ internal static class DataSource
                 newOrder.ShipDate = DateTime.MinValue;
                 newOrder.DeliveryDate = DateTime.MinValue;
             }
-            orders.Add(newOrder);   
+            orders.Add(newOrder);
         }
     }
     private static void InitOrderItem()

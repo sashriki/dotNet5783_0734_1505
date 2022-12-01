@@ -10,16 +10,16 @@ public class Cart
 
     public override string ToString()
     {
-       string s = $@"
+        string s = $@"
        Customer Name: {CustomerName}
        Customer Adress: {CustomerAdress}
        Customer Email: {CustomerEmail}
        Total Price: {totalPrice}";
-        foreach(var item in orderItems) 
-            s=s+item +'\n';
+        foreach (var item in orderItems)
+            s = s + item + '\n';
         return s;
     }
-  
+
 
 
 }

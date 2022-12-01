@@ -1,7 +1,5 @@
-﻿using DO;
-using DalApi;
-using System.Linq.Expressions;
-using System.Security.Cryptography;
+﻿using DalApi;
+using DO;
 
 namespace Dal
 {
@@ -104,7 +102,7 @@ namespace Dal
                 int IdProduct = int.Parse(Console.ReadLine());
                 Console.WriteLine(Object.Iorderitem.GetbyIdOfProductAndOrder(IdOrder, IdProduct)); //print only the ID
             }
-            public static void DisplayAll() 
+            public static void DisplayAll()
             {//To print all items in orders 
                 //List<OrderItem> ordItm = Object.Iorderitem.GetAll();
                 IEnumerable<OrderItem> ordItm = Object.Iorderitem.GetAll();
@@ -187,7 +185,7 @@ namespace Dal
                 NewOrder.OrderDate = DateTime.Now;
                 NewOrder.DeliveryDate = DateTime.MinValue;
                 NewOrder.ShipDate = DateTime.MinValue;
-                Object.Iorder.Add(NewOrder); 
+                Object.Iorder.Add(NewOrder);
             }
 
             public static void DisplayById()
