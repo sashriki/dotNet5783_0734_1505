@@ -15,8 +15,8 @@ namespace BlTest
             CustomerName = null,
             CustomerAdress = null,
             CustomerEmail = null,
-            orderItems = new List<BO.orderItem>(),
-            totalPrice = 0
+            OrderItems = new List<BO.OrderItem>(),
+            TotalPrice = 0
         };
         public static void Main()
         {
@@ -140,14 +140,14 @@ namespace BlTest
                 NewProduct.ProductId = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter the amount of products in stock");
                 NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
-                Console.WriteLine("enter a product price");
+                Console.WriteLine("enter a product Price");
                 NewProduct.ProductPrice = int.Parse(Console.ReadLine());
                 Console.WriteLine("choose a product category:\n" +
-                    "0: clothing\r\n" +
-                    "1: shoes\r\n" +
+                    "0: Clothing\r\n" +
+                    "1: Shoes\r\n" +
                     "2: home workout\r\n" +
                     "3: gym equipment\r\n" +
-                    "4: accessories\r\n");
+                    "4: Accessories\r\n");
                 NewProduct.ProductCategory = (BO.Category)int.Parse(Console.ReadLine());
                 try
                 {
@@ -182,15 +182,15 @@ namespace BlTest
                 NewProduct.ProductId = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter the amount of products in stock");
                 NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
-                Console.WriteLine("Enter a product price");
+                Console.WriteLine("Enter a product Price");
                 NewProduct.ProductPrice = double.Parse(Console.ReadLine());
                 //Console.WriteLine("Enter a product category");
                 Console.WriteLine("choose a product category:\n" +
-                    "0: clothing\r\n" +
-                    "1: shoes\r\n" +
+                    "0: Clothing\r\n" +
+                    "1: Shoes\r\n" +
                     "2: home workout\r\n" +
                     "3: gym equipment\r\n" +
-                    "4: accessories");
+                    "4: Accessories");
                 NewProduct.ProductCategory = (BO.Category)int.Parse(Console.ReadLine());
                 try
                 { 

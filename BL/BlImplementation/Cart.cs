@@ -24,15 +24,15 @@ internal class Cart : BlApi.ICart
             throw new BO.BONotfoundException(ex);
         }
         //Creating a new order item object
-        BO.orderItem ordItemBO = new BO.orderItem();
+        BO.OrderItem ordItemBO = new BO.OrderItem();
         //Finding the item by ID from the list of items in the order
-        BO.orderItem? ord = newCart.orderItems.FirstOrDefault(od => od.productId == IDproduct);
-        newCart.orderItems.ToList();
+        BO.OrderItem? ord = newCart.OrderItems.FirstOrDefault(od => od.ProductId == IDproduct);
+        newCart.OrderItems.ToList();
         if (ord != null) //If the item is found   
         {
             //If there are enough items in stock
-            if (productDO.AmmountInStock >= ord.amountOfProduct + 1)
-                newCart.orderItems.Where(od => od.productName == productDO.ProductName).First().amountOfProduct++;
+            if (productDO.AmmountInStock >= ord.AmountOfProduct + 1)
+                newCart.OrderItems.Where(od => od.ProductName == productDO.ProductName).First().AmountOfProduct++;
             else
                 throw new ItemMissingException(productDO.ProductName);
         }
@@ -42,12 +42,13 @@ internal class Cart : BlApi.ICart
             if (productDO.AmmountInStock < 1)
                 throw new ItemMissingException(productDO.ProductName);
             //Adding the item to the list
-            ordItemBO.orderItemId = 0;
-            ordItemBO.productId = productDO.ProductId;
-            ordItemBO.priceOfProduct = productDO.ProductPrice;
-            ordItemBO.amountOfProduct = 1;
-            ordItemBO.finalPriceOfProduct = productDO.ProductPrice;
-            newCart.orderItems.Add(ordItemBO);
+            ordItemBO.OrderItemId = 0;
+            ordItemBO.ProductId = productDO.ProductId;
+            ordItemBO.PriceOfProduct = productDO.ProductPrice;
+            ordItemBO.AmountOfProduct = 1;
+            ordItemBO.FinalPriceOfProduct = productDO.ProductPrice;
+            newCart.TotalPrice+= productDO.ProductPrice;
+            newCart.OrderItems.Add(ordItemBO);
         }
         return newCart;
     }
@@ -65,43 +66,43 @@ internal class Cart : BlApi.ICart
         //Creating a new order item object
         DO.Product productDO = new DO.Product();
         //Finding the item by ID from the list of items in the order
-        BO.orderItem? ordBO = newCart.orderItems.Where(od => od.productId == IDproduct).First();
+        BO.OrderItem? ordBO = newCart.OrderItems.Where(od => od.ProductId == IDproduct).First();
         if (ordBO == null) //If the item is not in the shopping cart
             throw new NotfoundException("order item");
-        if (ordBO.amountOfProduct == amount)//If the quantity is updated
+        if (ordBO.AmountOfProduct == amount)//If the quantity is updated
             return newCart;
         //If the item is in the shopping cart and the quantity is not updated
         productDO = Dal.IProduct.GetById(IDproduct);
-        if (ordBO.amountOfProduct < amount)//to increase quantity
+        if (ordBO.AmountOfProduct < amount)//to increase quantity
         {
-            int dif = amount - ordBO.amountOfProduct;
+            int dif = amount - ordBO.AmountOfProduct;
             if (productDO.AmmountInStock >= amount)//If there is enough in stock
             {
-                newCart.orderItems.Where(od => od.productId == IDproduct).First().
-                    finalPriceOfProduct += dif * ordBO.priceOfProduct;
-                newCart.orderItems.Where(od => od.productId == IDproduct).First().
-                    amountOfProduct = amount;
-                newCart.totalPrice += dif * ordBO.priceOfProduct;
+                newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
+                    FinalPriceOfProduct += dif * ordBO.PriceOfProduct;
+                newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
+                    AmountOfProduct = amount;
+                newCart.TotalPrice += dif * ordBO.PriceOfProduct;
             }
             else
-                throw new DataMissingException(ordBO.productName);
+                throw new DataMissingException(ordBO.ProductName);
             return newCart;
         }
-        if (ordBO.amountOfProduct > amount)//to reduce quantity
+        if (ordBO.AmountOfProduct > amount)//to reduce quantity
         {
-            int dif = ordBO.amountOfProduct - amount;
-            newCart.orderItems.Where(od => od.productId == IDproduct).First().
-                finalPriceOfProduct -= dif * ordBO.priceOfProduct;
-            newCart.orderItems.Where(od => od.productId == IDproduct).First().
-                amountOfProduct = amount;
-            newCart.totalPrice -= dif * ordBO.priceOfProduct;
+            int dif = ordBO.AmountOfProduct - amount;
+            newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
+                FinalPriceOfProduct -= dif * ordBO.PriceOfProduct;
+            newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
+                AmountOfProduct = amount;
+            newCart.TotalPrice -= dif * ordBO.PriceOfProduct;
         }
         if (amount == 0)//To remove a product from a shopping cart
         {
-            newCart.totalPrice -= (productDO.ProductPrice * ordBO.amountOfProduct);
-            newCart.orderItems.Remove(ordBO);
-            //newCart.orderItems = newCart.orderItems.
-            //    Where(x => x.productId != IDproduct);
+            newCart.TotalPrice -= (productDO.ProductPrice * ordBO.AmountOfProduct);
+            newCart.OrderItems.Remove(ordBO);
+            //newCart.OrderItems = newCart.OrderItems.
+            //    Where(x => x.ProductId != IDproduct);
         }
         return newCart;
     }
@@ -123,7 +124,7 @@ internal class Cart : BlApi.ICart
             NewOrderDO.CustomerName = newCart.CustomerName;
             NewOrderDO.CustomerEmail = newCart.CustomerEmail;
             int IdOrder = Dal.Iorder.Add(NewOrderDO);
-            foreach (var item in newCart.orderItems)
+            foreach (var item in newCart.OrderItems)
                 Dal.Iorderitem.Add(ChangingFromBOToDO(item, IdOrder));
         }
         catch (BO.DataMissingException ex)
@@ -151,20 +152,20 @@ internal class Cart : BlApi.ICart
     {
         DO.Product productDO = new DO.Product();
         //Testing for product integrity
-        foreach (var item in newCart.orderItems)
+        foreach (var item in newCart.OrderItems)
         {
             try
             {
-                productDO = Dal.IProduct.GetById(item.productId);
+                productDO = Dal.IProduct.GetById(item.ProductId);
             }
             catch (DO.NotfoundException ex)
             {
                 throw new BO.BONotfoundException(ex);
             }
-            if (item.amountOfProduct <= 0)
-                throw new InvalidInputBO(item.productName);
-            if (productDO.AmmountInStock < item.amountOfProduct)
-                throw new ItemMissingException(item.productName, productDO.AmmountInStock);
+            if (item.AmountOfProduct <= 0)
+                throw new InvalidInputBO(item.ProductName);
+            if (productDO.AmmountInStock < item.AmountOfProduct)
+                throw new ItemMissingException(item.ProductName, productDO.AmmountInStock);
         }
         //Checking for correctness of customer details
         if (newCart.CustomerAdress == "")
@@ -182,12 +183,12 @@ internal class Cart : BlApi.ICart
     /// <param name="NewOrderBO"></param>
     /// <param name="IdOrder"></param>
     /// <returns></returns>
-    public DO.OrderItem ChangingFromBOToDO(BO.orderItem NewOrderBO, int IdOrder)
+    public DO.OrderItem ChangingFromBOToDO(BO.OrderItem NewOrderBO, int IdOrder)
     {
         DO.OrderItem NewOrderDO = new DO.OrderItem();
-        NewOrderDO.Price = NewOrderBO.priceOfProduct;
-        NewOrderDO.ProductId = NewOrderBO.productId;
-        NewOrderDO.Amount = NewOrderBO.amountOfProduct;
+        NewOrderDO.Price = NewOrderBO.PriceOfProduct;
+        NewOrderDO.ProductId = NewOrderBO.ProductId;
+        NewOrderDO.Amount = NewOrderBO.AmountOfProduct;
         NewOrderDO.OrderId = IdOrder;
         return NewOrderDO;
     }
