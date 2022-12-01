@@ -121,7 +121,28 @@ namespace BlTest
                 return;
             }
             public static void addProduct()
-            { }
+            { 
+                BO.Product NewProduct = new BO.Product();
+                Console.WriteLine("enter a product name\n");
+                NewProduct.ProductName = Console.ReadLine();
+                Console.WriteLine("enter a product number\n");
+                NewProduct.ProductId = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the amount of products in stock\n");
+                NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
+                Console.WriteLine("enter a product price\n");
+                NewProduct.ProductPrice = int.Parse(Console.ReadLine());
+                Console.WriteLine("enter a product category\n");
+                NewProduct.ProductCategory = (BO.Category)int.Parse(Console.ReadLine());
+                try
+                { 
+                    Obj.Product.addProduct(NewProduct); 
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);  //warning!
+                }
+
+            }
             public static void removeProduct()
             {
                 Console.WriteLine("Enter product ID\n");
