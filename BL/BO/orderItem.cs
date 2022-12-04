@@ -5,7 +5,7 @@ namespace BO
     {
         public int OrderItemId { get; set; }
         public int ProductId { get; set; }
-        public string ProductName { get; set; }
+        public string? ProductName { get; set; }
         public double PriceOfProduct { get; set; }
         public int AmountOfProduct { get; set; }  //how many I want to order from this product
         public double FinalPriceOfProduct { get; set; }

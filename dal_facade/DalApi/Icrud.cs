@@ -6,5 +6,5 @@ public interface Icrud<T>
     public void Delete(int objToDelete);
     public void Update(T objToUpdate);
     public T GetById(int objToGet);
-    public IEnumerable<T> GetAll();
+    public IEnumerable<T?> GetAll();
 }

@@ -3,7 +3,7 @@ namespace BlApi;
 
 public interface IOrder
 {
-    public IEnumerable<BO.OrderForList> GetAllToManager();
+    public IEnumerable<BO.OrderForList?> GetAllToManager();
     public BO.Order GetOrderByID(int IdOrder);
     public BO.Order ShippingUpdateToManager(int IdOrder);
     public BO.Order supplyUpdateToManager(int IdOrder);

@@ -6,8 +6,8 @@ namespace BO
     public class OrderTracking
     {
         public int OrderId { get; set; }
-        public OrderStatus OrderStatus { get; set; }
-        public List<(DateTime, OrderStatus)> PackageProgress { get; set; }
+        public OrderStatus? OrderStatus { get; set; }
+        public List<(DateTime?, OrderStatus?)> PackageProgress { get; set; }
         public override string ToString()
         {
          string s = $@"

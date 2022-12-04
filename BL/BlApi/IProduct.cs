@@ -1,7 +1,7 @@
 ﻿namespace BlApi;
 public interface IProduct
 {
-    public IEnumerable<BO.ProductForList> getAllProducts();
+    public IEnumerable<BO.ProductForList?> getAllProducts();
     public BO.Product getByIdToMannage(int id);
     public BO.ProductItem getByIdToCostumer(int id, BO.Cart cart);
     public void addProduct (BO.Product product);
