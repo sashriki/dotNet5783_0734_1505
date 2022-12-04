@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DO
+﻿namespace DO
 {
     public struct Product
     {
         public int ProductId { get; set; } //Product ID number
         public string ProductName { get; set; } //Product Name
         public int AmmountInStock { get; set; } //Quantity in stock of the product
-        public float ProductPrice { get; set; } //product price
+        public double ProductPrice { get; set; } //product price
         public Category ProductCategory { get; set; }  //Product category
         /// <summary>
         /// Function for printing product details

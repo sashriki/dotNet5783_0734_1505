@@ -1,4 +1,4 @@
-﻿internal class Product :BlApi.IProduct
+﻿internal class Product : BlApi.IProduct
 {
     private DalApi.IDal Dal = new Dal.DalList();
     public IEnumerable<BO.ProductForList> getAllProducts()
@@ -6,7 +6,7 @@
         IEnumerable<DO.Product> DO_products = Dal.IProduct.GetAll();
         IEnumerable<BO.ProductForList> BO_products = from item in DO_products
                                                      select Do_ProductToBo_ProductForList(item);
-        if (BO_products.Any())
+        if (!BO_products.Any())
             throw new BO.NoElementsException("products");
         return BO_products;
     }
@@ -19,7 +19,7 @@
             {
                 DO_product = Dal.IProduct.GetById(id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new BO.BONotfoundException(ex);
             }
@@ -44,7 +44,6 @@
                 throw new BO.BONotfoundException(ex);
             }
             return Do_ProductToBo_ProductItem(DO_product, cart);
-
         }
         else
         {
@@ -53,7 +52,7 @@
     }
     public void addProduct(BO.Product BO_product)
     {
-        if (BO_product.ProductId < 0)
+        if (BO_product.ProductId > 0)
             if (BO_product.ProductName != null)
                 if (BO_product.ProductPrice > 0)
                     if (BO_product.AmmountInStock > 0)
@@ -65,25 +64,32 @@
     }
     public void removeProduct(int id)
     {
-        //IEnumerable<DO.OrderItem> orderItems = from orderItem in Dal.Iorderitem.GetAll()
-        //                            where orderItem.ProductId==id    // ליעל כי חבל שיעבור על הכל ברגע שמצא
-        //                            select orderItem;
-        //if (!orderItems.Any())
-        //    Dal.Iorder.Delete(id);
-        
-        IEnumerable<DO.OrderItem> orderItems = Dal.Iorderitem.GetAll();
+        IEnumerable<DO.Product> products = Dal.IProduct.GetAll();
         bool flag = false;
-        foreach(var item in orderItems) { if (item.ProductId == id) { flag = true; break; } }
+        foreach(var item in products) { if (item.ProductId == id) { flag = true; break; } }
         if (flag)
             try 
             {
-                Dal.Iorder.Delete(id);
+                Dal.IProduct.Delete(id);
             }
             catch(Exception ex)
             {
                 throw new BO.BONotfoundException(ex);   
             }
-        
+
+        /*IEnumerable<DO.OrderItem> orderItems = Dal.Iorderitem.GetAll();
+        bool flag = false;
+        foreach (var item in orderItems) { if (item.ProductId == id) { flag = true; break; } }
+        if (flag)
+            try
+            {
+                Dal.Iorder.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw new BO.BONotfoundException(ex);
+            }*/
+
     }
     public void updateProduct(BO.Product BO_product)
     {
@@ -91,10 +97,12 @@
             if (BO_product.ProductName != null)
                 if (BO_product.ProductPrice > 0)
                     if (BO_product.AmmountInStock > 0)
+                    {
                         Dal.IProduct.Update(Bo_ProductToDo_Product(BO_product));
-        //throw exception!!
+                        return;
+                    }
+        throw new BO.InvalidInputBO("data");
     }
-    //המרות
     private BO.ProductForList Do_ProductToBo_ProductForList(DO.Product product)
     {
         BO.ProductForList products = new BO.ProductForList();
@@ -125,7 +133,7 @@
             B0_product.inStock = false;
         B0_product.price = product.ProductPrice;
         B0_product.Category = (BO.Category)product.ProductCategory;
-        BO.orderItem? x = cart.orderItems.Where(od => od.productId == product.ProductId).First();
+        BO.orderItem? x = cart.orderItems.FirstOrDefault(od => od.productId == product.ProductId);
         if (x != null)
             B0_product.ammountInCart = x.amountOfProduct;
         else
@@ -137,7 +145,7 @@
         DO.Product DO_product = new DO.Product();
         DO_product.ProductId = product.ProductId;
         DO_product.ProductName = product.ProductName;
-        DO_product.ProductPrice = product.ProductPrice;
+        DO_product.ProductPrice = (float)product.ProductPrice;
         DO_product.ProductCategory = (DO.Category)product.ProductCategory;
         DO_product.AmmountInStock = product.AmmountInStock;
         return DO_product;

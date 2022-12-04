@@ -17,7 +17,7 @@ internal class DalOrder : Iorder
         if (x != -1)
             throw new DuplicationException("Order");
         DataSource.orders.Add(NewOrder);
-        return NewOrder.OrderId;   
+        return NewOrder.OrderId;
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ internal class DalOrder : Iorder
     /// <exception cref="Exception"></exception>
     public Order GetById(int idOrder)
     {
-        int x = DataSource.orders.FindIndex(x => x.OrderId  == idOrder);
+        int x = DataSource.orders.FindIndex(x => x.OrderId == idOrder);
         if (x == -1)
             throw new NotfoundException("Order");
         else

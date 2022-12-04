@@ -1,9 +1,8 @@
-﻿using DO;
-namespace DalApi;
+﻿namespace DalApi;
 
-public interface Icrud<T> 
+public interface Icrud<T>
 {
-    public int Add(T objToAdd);  
+    public int Add(T objToAdd);
     public void Delete(int objToDelete);
     public void Update(T objToUpdate);
     public T GetById(int objToGet);

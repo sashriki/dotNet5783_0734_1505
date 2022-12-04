@@ -1,7 +1,5 @@
-﻿using DO;
-using DalApi;
-using System.Linq.Expressions;
-using System.Security.Cryptography;
+﻿using DalApi;
+using DO;
 
 namespace Dal
 {
@@ -104,7 +102,7 @@ namespace Dal
                 int IdProduct = int.Parse(Console.ReadLine());
                 Console.WriteLine(Object.Iorderitem.GetbyIdOfProductAndOrder(IdOrder, IdProduct)); //print only the ID
             }
-            public static void DisplayAll() 
+            public static void DisplayAll()
             {//To print all items in orders 
                 //List<OrderItem> ordItm = Object.Iorderitem.GetAll();
                 IEnumerable<OrderItem> ordItm = Object.Iorderitem.GetAll();
@@ -187,7 +185,7 @@ namespace Dal
                 NewOrder.OrderDate = DateTime.Now;
                 NewOrder.DeliveryDate = DateTime.MinValue;
                 NewOrder.ShipDate = DateTime.MinValue;
-                Object.Iorder.Add(NewOrder); 
+                Object.Iorder.Add(NewOrder);
             }
 
             public static void DisplayById()
@@ -270,15 +268,17 @@ namespace Dal
         {
             public static void Add()
             {//To add a product to the list
-                Product NewProduct = new Product();
+                Product NewProduct = new Product();   
+                Console.WriteLine("Enter a product ID\n");
+                NewProduct.ProductId = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a product name\n");
                 NewProduct.ProductName = Console.ReadLine();
                 Console.WriteLine("Enter the amount of products in stock\n");
                 NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
-                Console.WriteLine("enter a product price\n");
+                Console.WriteLine("Enter a product price\n");
                 NewProduct.ProductPrice = int.Parse(Console.ReadLine());
-                Console.WriteLine("enter a product category\n");
-                NewProduct.ProductCategory = (Category)int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter a product category\n");
+                NewProduct.ProductCategory = (Category)int.Parse(Console.ReadLine());         
                 Object.IProduct.Add(NewProduct);
             }
             public static void DisplayById()

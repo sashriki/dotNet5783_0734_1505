@@ -1,12 +1,21 @@
-﻿internal class Order : BlApi.IOrder
+﻿using BO;
+using System.Data;
+using System.Security.Cryptography;
+
+internal class Order : BlApi.IOrder
 {
     public DalApi.IDal Dal = new Dal.DalList();
+    /// <summary>
+    /// To return all orders for the manager
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="BO.NoElementsException"></exception>
     public IEnumerable<BO.OrderForList> GetAllToManager()
     {
         IEnumerable<DO.Order> OrderList = Dal.Iorder.GetAll();
         IEnumerable<BO.OrderForList> OrdersList = from item in OrderList
                                                   select DO_orderToBO_OrderForList(item);
-        if (OrdersList.Any())
+        if (!OrdersList.Any())
             throw new BO.NoElementsException("orders");
         return OrdersList;
     }
@@ -27,7 +36,7 @@
     }
     public BO.Order ShippingUpdateToManager(int IdOrder)
     {
-        if(IdOrder<0)
+        if (IdOrder < 0)
             throw new BO.InvalidInputBO($"Order id");
         DO.Order ordDO = new DO.Order();
         try
@@ -76,7 +85,7 @@
         }
         catch (Exception ex)
         {
-            throw new BO.BONotfoundException(ex); 
+            throw new BO.BONotfoundException(ex);
         }
         return new BO.OrderTracking
         {
@@ -88,19 +97,55 @@
                  (ordDO.ShipDate.Value, BO.OrderStatus.shipped),
                  (ordDO.DeliveryDate.Value, BO.OrderStatus.deliveredToCostumer)
             }
-        }; 
+        };
     }
     private BO.OrderStatus getStatus(DO.Order ordDO)
     {
         return ordDO.DeliveryDate != DateTime.MinValue ? BO.OrderStatus.deliveredToCostumer :
             ordDO.ShipDate != DateTime.MinValue ? BO.OrderStatus.shipped : BO.OrderStatus.confirmed;
     }
-    //perfect
-    //public void UpdateToManager(BO.Order updateOrd)
-    //{
-    //    //בונוס
-    //    return;
-    //}
+
+    public void UpdateToManager(BO.Order updateOrd ,int IdProduct,int Amount)
+    {
+        if (updateOrd.ShipDate != DateTime.MinValue)
+            throw new InvalidAction("change order");
+        BO.orderItem? ordBO = updateOrd.orderItems.
+            Where(od => od.productId == IdProduct).First();
+        if(ordBO!=null)
+        {            
+            if (Amount != 0)
+            {
+                int dif = ordBO.amountOfProduct - Amount;
+                ordBO.finalPriceOfProduct += dif * ordBO.priceOfProduct;
+                ordBO.amountOfProduct = Amount;
+                updateOrd.finalPrice += dif * ordBO.priceOfProduct;
+            }
+            else 
+                updateOrd.orderItems.ToList().Remove(ordBO);
+        }
+        else
+        {
+            if (Amount == 0)
+                throw new InvalidAction("Added 0 products to order");
+            DO.Product proDO = new DO.Product();
+            try
+            {
+                proDO = Dal.IProduct.GetById(IdProduct);
+            }
+            catch(Exception ex)
+            {
+                throw new BO.BONotfoundException(ex);
+            }
+            BO.orderItem newOrdItem = new BO.orderItem();
+            newOrdItem.productId = IdProduct;
+            newOrdItem.amountOfProduct = Amount;
+            newOrdItem.priceOfProduct = proDO.ProductPrice;
+            newOrdItem.finalPriceOfProduct = Amount * proDO.ProductPrice;
+            newOrdItem.productName = proDO.ProductName;
+            updateOrd.orderItems.Append(newOrdItem);           
+        }
+        return;
+    }
     public BO.orderItem DO_orderItemToBO_OrderItem(DO.OrderItem ord)
     {
         BO.orderItem orderItem = new BO.orderItem();
@@ -150,7 +195,7 @@
                                     select item.Price;
         orderForList.amountOfItems = count.Count();   //amount
         IEnumerable<double> prices = count.ToList();
-        foreach (var item in prices) 
+        foreach (var item in prices)
             orderForList.finalPrice += item;  //price
         if (ord.DeliveryDate != DateTime.MinValue)  //status
             orderForList.OrderStatus = BO.OrderStatus.deliveredToCostumer;

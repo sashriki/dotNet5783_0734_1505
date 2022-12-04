@@ -1,10 +1,9 @@
 ﻿using DalApi;
 using DO;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Dal;
 
-internal class DalProduct :IProduct 
+internal class DalProduct : IProduct
 {
     /// <summary>
     /// Adding a product
@@ -14,7 +13,7 @@ internal class DalProduct :IProduct
     public int Add(Product NewProduct)
     {
         int x = DataSource.products.FindIndex(x => x.ProductId == NewProduct.ProductId);
-        if (x == -1)
+        if (x != -1)
             throw new NotfoundException("Product");
         DataSource.products.Add(NewProduct);
         return NewProduct.ProductId;
