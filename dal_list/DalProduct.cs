@@ -12,7 +12,7 @@ internal class DalProduct : IProduct
     /// <returns></returns>
     public int Add(Product NewProduct)
     {
-        int x = DataSource.products.FindIndex(x => x.ProductId == NewProduct.ProductId);
+        int x = DataSource.products.FindIndex(x => x?.ProductId == NewProduct.ProductId);
         if (x != -1)
             throw new NotfoundException("Product");
         DataSource.products.Add(NewProduct);
@@ -23,12 +23,19 @@ internal class DalProduct : IProduct
     /// Returning the list of products
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Product> GetAll()
+    public IEnumerable<Product?> GetAll(Func<Product?, bool>? condition = null)
     {
-        List<Product> ProductReturnList = new List<Product>();
-        for (int i = 0; i < DataSource.products.Count(); i++)   //warning??
-            ProductReturnList.Add(DataSource.products[i]);
-        return ProductReturnList;
+        IEnumerable<Product?> productReturn;
+        if (condition == null)
+        {
+            productReturn = new List<Product?>();
+            for (int i = 0; i < DataSource.products.Count(); i++)   //warning??
+                productReturn.Append(DataSource.products[i]);
+            return productReturn;
+        }
+        return productReturn = from item in DataSource.products
+                               where condition(item) == true
+                               select item;
     }
 
     /// <summary>
@@ -39,11 +46,12 @@ internal class DalProduct : IProduct
     /// <exception cref="Exception"></exception>
     public Product GetById(int idProduct)
     {
-        int x = DataSource.products.FindIndex(x => x.ProductId == idProduct);
+        Product product=new Product();
+        int x = DataSource.products.FindIndex(x => x?.ProductId == idProduct);
         if (x == -1)
             throw new NotfoundException("Product");
-        else
-            return DataSource.products[x];
+        product=DataSource.products[x].Value;
+        return product;
     }
 
     /// <summary>
@@ -53,11 +61,10 @@ internal class DalProduct : IProduct
     /// <exception cref="Exception"></exception>
     public void Update(Product UpdatedProduct)
     {
-        int x = DataSource.products.FindIndex(x => x.ProductId == UpdatedProduct.ProductId);
+        int x = DataSource.products.FindIndex(x => x?.ProductId == UpdatedProduct.ProductId);
         if (x == -1)
             throw new NotfoundException("Product");
-        else
-            DataSource.products.Insert(x + 1, UpdatedProduct);
+        DataSource.products.Insert(x + 1, UpdatedProduct);
     }
 
     /// <summary>
@@ -67,10 +74,16 @@ internal class DalProduct : IProduct
     /// <exception cref="Exception"></exception>
     public void Delete(int removeById)
     {
-        int x = DataSource.products.FindIndex(x => x.ProductId == removeById);
+        int x = DataSource.products.FindIndex(x => x?.ProductId == removeById);
         if (x == -1)
             throw new NotfoundException("Product");
-        else
-            DataSource.products.RemoveAt(x);
+        DataSource.products.RemoveAt(x);
+    }
+    public Product GetByCondition(Func<Product?, bool>? condition)
+    {
+        Product? NewProduct = DataSource.products.Find(x => condition(x));
+        if (NewProduct == null)
+            throw new NotfoundException("Product");
+        return NewProduct.Value;
     }
 }

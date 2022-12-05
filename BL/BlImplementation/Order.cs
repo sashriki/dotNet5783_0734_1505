@@ -47,7 +47,7 @@ internal class Order : BlApi.IOrder
         {
             throw new BO.BONotfoundException(ex);
         }
-        if (ordDO.ShipDate != DateTime.MinValue)
+        if (ordDO.ShipDate != null)
         {
             ordDO.ShipDate = DateTime.Now;
             Dal.Iorder.Update(ordDO);
@@ -67,7 +67,7 @@ internal class Order : BlApi.IOrder
         {
             throw new BO.BONotfoundException(ex);
         }
-        if (ordDO.DeliveryDate != DateTime.MinValue)
+        if (ordDO.DeliveryDate != null)
         {
             ordDO.DeliveryDate = DateTime.Now;
             Dal.Iorder.Update(ordDO);
@@ -91,7 +91,7 @@ internal class Order : BlApi.IOrder
         {
             OrderId = ordDO.OrderId,
             OrderStatus = getStatus(ordDO),
-            PackageProgress = new List<(DateTime, BO.OrderStatus)>
+            PackageProgress = new List<(DateTime?, BO.OrderStatus?)>
             {
                  (ordDO.OrderDate.Value, BO.OrderStatus.Confirmed),
                  (ordDO.ShipDate.Value, BO.OrderStatus.Shipped),
@@ -101,8 +101,8 @@ internal class Order : BlApi.IOrder
     }
     private BO.OrderStatus getStatus(DO.Order ordDO)
     {
-        return ordDO.DeliveryDate != DateTime.MinValue ? BO.OrderStatus.DeliveredToCostumer :
-            ordDO.ShipDate != DateTime.MinValue ? BO.OrderStatus.Shipped : BO.OrderStatus.Confirmed;
+        return ordDO.DeliveryDate != null ? BO.OrderStatus.DeliveredToCostumer :
+            ordDO.ShipDate != null ? BO.OrderStatus.Shipped : BO.OrderStatus.Confirmed;
     }
 
     public void UpdateToManager(BO.Order updateOrd ,int IdProduct,int Amount)
@@ -171,9 +171,9 @@ internal class Order : BlApi.IOrder
         ordBO.ShipDate = ordDO.ShipDate;
         ordBO.OrderDate = ordDO.OrderDate;
         ordBO.DeliveryDate = ordDO.DeliveryDate;
-        if (ordDO.DeliveryDate != DateTime.MinValue)  //status
+        if (ordDO.DeliveryDate != null)  //status
             ordBO.OrderStatus = BO.OrderStatus.DeliveredToCostumer;
-        else if (ordDO.ShipDate != DateTime.MinValue)
+        else if (ordDO.ShipDate != null)
             ordBO.OrderStatus = BO.OrderStatus.Shipped;
         else
             ordBO.OrderStatus = BO.OrderStatus.Confirmed;
@@ -197,9 +197,9 @@ internal class Order : BlApi.IOrder
         IEnumerable<double> prices = count.ToList();
         foreach (var item in prices)
             orderForList.FinalPrice += item;  //Price
-        if (ord.DeliveryDate != DateTime.MinValue)  //status
+        if (ord.DeliveryDate != null)  //status
             orderForList.OrderStatus = BO.OrderStatus.DeliveredToCostumer;
-        else if (ord.ShipDate != DateTime.MinValue)
+        else if (ord.ShipDate != null)
             orderForList.OrderStatus = BO.OrderStatus.Shipped;
         else
             orderForList.OrderStatus = BO.OrderStatus.Confirmed;

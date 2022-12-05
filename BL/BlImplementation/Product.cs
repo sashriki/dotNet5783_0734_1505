@@ -76,20 +76,6 @@
             {
                 throw new BO.BONotfoundException(ex);   
             }
-
-        /*IEnumerable<DO.OrderItem> OrderItems = Dal.Iorderitem.GetAll();
-        bool flag = false;
-        foreach (var item in OrderItems) { if (item.ProductId == id) { flag = true; break; } }
-        if (flag)
-            try
-            {
-                Dal.Iorder.Delete(id);
-            }
-            catch (Exception ex)
-            {
-                throw new BO.BONotfoundException(ex);
-            }*/
-
     }
     public void updateProduct(BO.Product BO_product)
     {
