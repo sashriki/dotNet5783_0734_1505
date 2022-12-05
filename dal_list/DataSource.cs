@@ -4,9 +4,9 @@ namespace Dal;
 internal static class DataSource
 {
     //lists
-    static public List<Product> products = new List<Product>();
-    static public List<Order> orders = new List<Order>();
-    static public List<OrderItem> orderItems = new List<OrderItem>();
+    static public List<Product>? products = new List<Product>();
+    static public List<Order>? orders = new List<Order>();
+    static public List<OrderItem>? orderItems = new List<OrderItem>();
 
     //continuous numbers
     internal static class Config
