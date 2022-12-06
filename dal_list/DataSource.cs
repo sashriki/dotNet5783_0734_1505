@@ -4,9 +4,9 @@ namespace Dal;
 internal static class DataSource
 {
     //lists
-    static public List<Product>? products = new List<Product>();
-    static public List<Order>? orders = new List<Order>();
-    static public List<OrderItem>? orderItems = new List<OrderItem>();
+    static public List<Product?> products = new List<Product?>();
+    static public List<Order?> orders = new List<Order?>();
+    static public List<OrderItem?> orderItems = new List<OrderItem?>();
 
     //continuous numbers
     internal static class Config
@@ -75,13 +75,13 @@ internal static class DataSource
                 if (random.Next(0, 100) < 60)
                     newOrder.DeliveryDate = newOrder.ShipDate + new TimeSpan(random.Next(0, 14), random.Next(0, 12), random.Next(0, 59), random.Next(0, 59));
                 else
-                    newOrder.DeliveryDate = DateTime.MinValue;
+                    newOrder.DeliveryDate = null;
             }
 
             else
             {
-                newOrder.ShipDate = DateTime.MinValue;
-                newOrder.DeliveryDate = DateTime.MinValue;
+                newOrder.ShipDate = null;
+                newOrder.DeliveryDate = null;
             }
             orders.Add(newOrder);
         }
@@ -92,11 +92,11 @@ internal static class DataSource
         {
             OrderItem newOrderItem = new OrderItem();
             newOrderItem.OrderItemId = Config.orderItemIndex++;
-            newOrderItem.OrderId = orders[random.Next(0, InitialNumOfOrders)].OrderId;
+            newOrderItem.OrderId = orders[random.Next(0, InitialNumOfOrders)].Value.OrderId;
             int index = random.Next(0, InitialNumOfproducts);
-            newOrderItem.ProductId = products[index].ProductId;
+            newOrderItem.ProductId = products[index].Value.ProductId;
             newOrderItem.Amount = random.Next(0, 5);
-            newOrderItem.Price = products[index].ProductPrice;
+            newOrderItem.Price = products[index].Value.ProductPrice;
             orderItems.Add(newOrderItem);
         }
     }

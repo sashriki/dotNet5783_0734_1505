@@ -2,8 +2,8 @@
 namespace BO
 {
     public enum Category      //the product category
-    { clothing, shoes, home_workout, gym_equipment, accessories };
+    { Clothing, Shoes, HomeWorkout, GymEquipment, Accessories };
     public enum OrderStatus
-    { confirmed, shipped, deliveredToCostumer };
+    { Confirmed, Shipped, DeliveredToCostumer };
 
 }

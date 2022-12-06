@@ -3,14 +3,14 @@ namespace BO
 {
     public class ProductForList
     {
-        public int productId { get; set; }
-        public string productName { get; set; }
-        public double price { get; set; }
-        public Category Category { get; set; }
+        public int ProductId { get; set; }
+        public string? ProductName { get; set; }
+        public double Price { get; set; }
+        public Category? Category { get; set; }
         public override string ToString() => $@" 
-        Product Id: {productId}
-        Product name: {productName}
-        Price: {price}
+        Product Id: {ProductId}
+        Product name: {ProductName}
+        Price: {Price}
         Category: {Category}";
     }
 }

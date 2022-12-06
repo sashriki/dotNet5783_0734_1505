@@ -2,11 +2,11 @@
 namespace BO;
 public class Cart
 {
-    public string CustomerName { get; set; } //customer name 
-    public string CustomerAdress { get; set; } //Customer's residential address
-    public string CustomerEmail { get; set; } //Customer email address
-    public List<BO.orderItem> orderItems { get; set; } //something
-    public double totalPrice { get; set; }
+    public string? CustomerName { get; set; } //customer name 
+    public string? CustomerAdress { get; set; } //Customer's residential address
+    public string? CustomerEmail { get; set; } //Customer email address
+    public List<BO.OrderItem?> OrderItems { get; set; } //something
+    public double TotalPrice { get; set; }
 
     public override string ToString()
     {
@@ -14,8 +14,8 @@ public class Cart
        Customer Name: {CustomerName}
        Customer Adress: {CustomerAdress}
        Customer Email: {CustomerEmail}
-       Total Price: {totalPrice}";
-        foreach (var item in orderItems)
+       Total Price: {Math.Round(TotalPrice,2)}";
+        foreach (var item in OrderItems)
             s = s + item + '\n';
         return s;
     }

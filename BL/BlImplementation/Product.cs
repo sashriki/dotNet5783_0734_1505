@@ -76,20 +76,6 @@
             {
                 throw new BO.BONotfoundException(ex);   
             }
-
-        /*IEnumerable<DO.OrderItem> orderItems = Dal.Iorderitem.GetAll();
-        bool flag = false;
-        foreach (var item in orderItems) { if (item.ProductId == id) { flag = true; break; } }
-        if (flag)
-            try
-            {
-                Dal.Iorder.Delete(id);
-            }
-            catch (Exception ex)
-            {
-                throw new BO.BONotfoundException(ex);
-            }*/
-
     }
     public void updateProduct(BO.Product BO_product)
     {
@@ -106,9 +92,9 @@
     private BO.ProductForList Do_ProductToBo_ProductForList(DO.Product product)
     {
         BO.ProductForList products = new BO.ProductForList();
-        products.productId = product.ProductId;
-        products.productName = product.ProductName;
-        products.price = product.ProductPrice;
+        products.ProductId = product.ProductId;
+        products.ProductName = product.ProductName;
+        products.Price = product.ProductPrice;
         products.Category = (BO.Category)product.ProductCategory;
         return products;
     }
@@ -125,19 +111,19 @@
     private BO.ProductItem Do_ProductToBo_ProductItem(DO.Product product, BO.Cart cart)
     {
         BO.ProductItem B0_product = new BO.ProductItem();
-        B0_product.productId = product.ProductId;
-        B0_product.productName = product.ProductName;
+        B0_product.ProductId = product.ProductId;
+        B0_product.ProductName = product.ProductName;
         if (product.AmmountInStock > 0)
-            B0_product.inStock = true;
+            B0_product.InStock = true;
         else
-            B0_product.inStock = false;
-        B0_product.price = product.ProductPrice;
+            B0_product.InStock = false;
+        B0_product.Price = product.ProductPrice;
         B0_product.Category = (BO.Category)product.ProductCategory;
-        BO.orderItem? x = cart.orderItems.FirstOrDefault(od => od.productId == product.ProductId);
+        BO.OrderItem? x = cart.OrderItems.FirstOrDefault(od => od.ProductId == product.ProductId);
         if (x != null)
-            B0_product.ammountInCart = x.amountOfProduct;
+            B0_product.AmmountInCart = x.AmountOfProduct;
         else
-            B0_product.ammountInCart = 0;
+            B0_product.AmmountInCart = 0;
         return B0_product;
     }
     private DO.Product Bo_ProductToDo_Product(BO.Product product)
