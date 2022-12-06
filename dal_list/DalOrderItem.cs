@@ -61,13 +61,13 @@ internal class DalOrderItem : Iorderitem
     /// <param name="idOrderItem"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public OrderItem GetById(int idOrderItem)
+    public OrderItem? GetById(int idOrderItem)
     {
-        OrderItem orderItem = new OrderItem();
+        OrderItem? orderItem = new OrderItem();
         for (int i = 0; i < DataSource.orderItems.Count(); i++)
             if (DataSource.orderItems[i]?.OrderItemId == idOrderItem)
             { 
-                orderItem= DataSource.orderItems[i].Value;
+                orderItem= DataSource.orderItems[i];
                 return orderItem;
             }
         throw new NotfoundException("Order Item");
@@ -102,12 +102,12 @@ internal class DalOrderItem : Iorderitem
             }
         throw new NotfoundException("Order Item");
     }
-    public OrderItem GetByCondition(Func<OrderItem?, bool>? condition)
+    public OrderItem? GetByCondition(Func<OrderItem?, bool>? condition)
     {
         OrderItem? NewOrderItem = DataSource.orderItems.Find(x => condition(x));
         if (NewOrderItem == null)
             throw new NotfoundException("Order Item");
-        return NewOrderItem.Value;
+        return NewOrderItem;
     }
 }
 

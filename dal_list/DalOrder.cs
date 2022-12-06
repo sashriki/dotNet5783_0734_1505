@@ -25,13 +25,13 @@ internal class DalOrder : Iorder
     /// <param name="idOrder"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public Order GetById(int idOrder)
+    public Order? GetById(int idOrder)
     {
-        Order order=new Order();
+        Order? order=new Order();
         int x = DataSource.orders.FindIndex(x => x?.OrderId == idOrder);
         if (x == -1)
             throw new NotfoundException("Order");
-        order =DataSource.orders[x].Value;
+        order =DataSource.orders[x];
         return order;
     }
     /// <summary>
@@ -63,12 +63,12 @@ internal class DalOrder : Iorder
         }
         throw new NotfoundException("Order");
     }
-    public Order GetByCondition(Func<Order?, bool>? condition)
+    public Order? GetByCondition(Func<Order?, bool>? condition)
     {
         Order? NewOrder = DataSource.orders.Find(x => condition!(x!.Value));
         if (NewOrder == null)
             throw new NotfoundException("Order");
-        return NewOrder.Value;
+        return NewOrder;
     }
 
     /// <summary>

@@ -1,6 +1,5 @@
 ﻿using BO;
 using System.Data;
-using System.Security.Cryptography;
 
 internal class Order : BlApi.IOrder
 {

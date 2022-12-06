@@ -1,5 +1,5 @@
 ﻿internal class Product : BlApi.IProduct
-{
+{  //עכק'רעאיטחיארעקכ
     private DalApi.IDal Dal = new Dal.DalList();
     public IEnumerable<BO.ProductForList> getAllProducts()
     {

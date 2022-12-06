@@ -44,13 +44,13 @@ internal class DalProduct : IProduct
     /// <param name="idProduct"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public Product GetById(int idProduct)
+    public Product? GetById(int idProduct)
     {
-        Product product=new Product();
+        Product? product=new Product();
         int x = DataSource.products.FindIndex(x => x?.ProductId == idProduct);
         if (x == -1)
             throw new NotfoundException("Product");
-        product=DataSource.products[x].Value;
+        product=DataSource.products[x];
         return product;
     }
 
@@ -79,11 +79,11 @@ internal class DalProduct : IProduct
             throw new NotfoundException("Product");
         DataSource.products.RemoveAt(x);
     }
-    public Product GetByCondition(Func<Product?, bool>? condition)
+    public Product? GetByCondition(Func<Product?, bool>? condition)
     {
         Product? NewProduct = DataSource.products.Find(x => condition(x));
         if (NewProduct == null)
             throw new NotfoundException("Product");
-        return NewProduct.Value;
+        return NewProduct;
     }
 }
