@@ -12,3 +12,15 @@ public interface Icrud<T> where T : struct
     public IEnumerable<T?> GetAll(Func<T?,bool>? condition = null);
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
