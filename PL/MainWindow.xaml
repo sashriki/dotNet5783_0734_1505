@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Button x:Name="Product" Content="Product" Margin="330,89,330,291" RenderTransformOrigin="0.5,0.5" FontSize="24" FontFamily="Arial Rounded MT Bold" Click="Button_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.694"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="2.388"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
 
     </Grid>
 </Window>
