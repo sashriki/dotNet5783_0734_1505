@@ -1,5 +1,4 @@
-﻿using PLL.ProductWin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,23 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PLL
+namespace PLL.ProductWin
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainProductWin.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainProductWin : Window
     {
-        public MainWindow()
+        public MainProductWin()
         {
             InitializeComponent();
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            new MainProductWin().Show();
+
         }
     }
 }
