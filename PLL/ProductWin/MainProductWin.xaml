@@ -26,6 +26,13 @@
                 <ComboBoxItem Content="Accessories" />
             </ComboBox>
         </Grid>
+        <ListView x:Name="ProductListview" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ProductListview_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
 <!--clothing, shoes, home_workout, gym_equipment, accessories-->
