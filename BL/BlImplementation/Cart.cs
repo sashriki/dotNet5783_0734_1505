@@ -14,7 +14,7 @@ internal class Cart : BlApi.ICart
     /// <exception cref="ItemMissingException"></exception>
     public BO.Cart AddProductToCart(BO.Cart newCart, int IDproduct)
     {
-        DO.Product? productDO = new DO.Product();
+        DO.Product productDO = new DO.Product();
         try
         {
             productDO = Dal.IProduct.GetById(IDproduct);
@@ -24,30 +24,30 @@ internal class Cart : BlApi.ICart
             throw new BO.BONotfoundException(ex);
         }
         //Creating a new order item object
-        BO.OrderItem? ordItemBO = new BO.OrderItem();
+        BO.OrderItem ordItemBO = new BO.OrderItem();
         //Finding the item by ID from the list of items in the order
         BO.OrderItem? ord = newCart.OrderItems.FirstOrDefault(od => od.ProductId == IDproduct);
         newCart.OrderItems.ToList();
         if (ord != null) //If the item is found   
         {
             //If there are enough items in stock
-            if (productDO.Value.AmmountInStock >= ord.AmountOfProduct + 1)
-                newCart.OrderItems.Where(od => od.ProductName == productDO?.ProductName).First().AmountOfProduct++;
+            if (productDO.AmmountInStock >= ord.AmountOfProduct + 1)
+                newCart.OrderItems.Where(od => od.ProductName == productDO.ProductName).First().AmountOfProduct++;
             else
-                throw new ItemMissingException(productDO?.ProductName);
+                throw new ItemMissingException(productDO.ProductName);
         }
         else //If the item does not exist in the list
         {
             //If there are enough items in stock
-            if (productDO.Value.AmmountInStock < 1)
-                throw new ItemMissingException(productDO?.ProductName);
+            if (productDO.AmmountInStock < 1)
+                throw new ItemMissingException(productDO.ProductName);
             //Adding the item to the list
             ordItemBO.OrderItemId = 0;
-            ordItemBO.ProductId = productDO.Value.ProductId;
-            ordItemBO.PriceOfProduct = productDO.Value.ProductPrice;
+            ordItemBO.ProductId = productDO.ProductId;
+            ordItemBO.PriceOfProduct = productDO.ProductPrice;
             ordItemBO.AmountOfProduct = 1;
-            ordItemBO.FinalPriceOfProduct = productDO.Value.ProductPrice;
-            newCart.TotalPrice+= productDO.Value.ProductPrice;
+            ordItemBO.FinalPriceOfProduct = productDO.ProductPrice;
+            newCart.TotalPrice+= productDO.ProductPrice;
             newCart.OrderItems.Add(ordItemBO);
         }
         return newCart;
@@ -64,7 +64,7 @@ internal class Cart : BlApi.ICart
     public BO.Cart UpdateAmount(BO.Cart newCart, int IDproduct, int amount)
     {
         //Creating a new order item object
-        DO.Product? productDO = new DO.Product();
+        DO.Product productDO = new DO.Product();
         //Finding the item by ID from the list of items in the order
         BO.OrderItem? ordBO = newCart.OrderItems.Where(od => od.ProductId == IDproduct).First();
         if (ordBO == null) //If the item is not in the shopping cart
@@ -76,7 +76,7 @@ internal class Cart : BlApi.ICart
         if (ordBO.AmountOfProduct < amount)//to increase quantity
         {
             int dif = amount - ordBO.AmountOfProduct;
-            if (productDO.Value.AmmountInStock >= amount)//If there is enough in stock
+            if (productDO.AmmountInStock >= amount)//If there is enough in stock
             {
                 newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
                     FinalPriceOfProduct += dif * ordBO.PriceOfProduct;
@@ -99,7 +99,7 @@ internal class Cart : BlApi.ICart
         }
         if (amount == 0)//To remove a product from a shopping cart
         {
-            newCart.TotalPrice -= (productDO.Value.ProductPrice * ordBO.AmountOfProduct);
+            newCart.TotalPrice -= (productDO.ProductPrice * ordBO.AmountOfProduct);
             newCart.OrderItems.Remove(ordBO);
             //newCart.OrderItems = newCart.OrderItems.
             //    Where(x => x.ProductId != IDproduct);
@@ -150,7 +150,7 @@ internal class Cart : BlApi.ICart
     /// <exception cref="DataMissingException"></exception>
     private void check(BO.Cart newCart)
     {
-        DO.Product? productDO = new DO.Product();
+        DO.Product productDO = new DO.Product();
         //Testing for product integrity
         foreach (var item in newCart.OrderItems)
         {
@@ -164,8 +164,8 @@ internal class Cart : BlApi.ICart
             }
             if (item.AmountOfProduct <= 0)
                 throw new InvalidInputBO(item.ProductName);
-            if (productDO.Value.AmmountInStock < item.AmountOfProduct)
-                throw new ItemMissingException(item.ProductName, productDO.Value.AmmountInStock);
+            if (productDO.AmmountInStock < item.AmountOfProduct)
+                throw new ItemMissingException(item.ProductName, productDO.AmmountInStock);
         }
         //Checking for correctness of customer details
         if (newCart.CustomerAdress == "")
