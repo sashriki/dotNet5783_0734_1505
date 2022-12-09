@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             welcome1505();
-            welcome0734();
+//            welcome0734();
             Console.ReadKey();
             Console.WriteLine("hgfds");
 
