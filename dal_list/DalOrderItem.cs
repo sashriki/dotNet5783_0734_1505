@@ -1,5 +1,7 @@
 ﻿using DalApi;
 using DO;
+using static Dal.DataSource;
+
 namespace Dal;
 
 internal class DalOrderItem : Iorderitem
@@ -11,11 +13,11 @@ internal class DalOrderItem : Iorderitem
     /// <returns></returns>
     public int Add(OrderItem NewOrderItem)
     {
-        NewOrderItem.OrderItemId = DataSource.Config.orderItemIndex++;
-        int x = DataSource.orderItems.FindIndex(x => x?.OrderItemId == NewOrderItem.OrderItemId);
+        NewOrderItem.OrderItemId = Config.orderItemIndex++;
+        int x = orderItems.FindIndex(x => x?.OrderItemId == NewOrderItem.OrderItemId);
         if (x != -1)
             throw new DuplicationException("orderItem");
-        DataSource.orderItems.Add(NewOrderItem);
+        orderItems.Add(NewOrderItem);
         return NewOrderItem.OrderItemId;
     }
 
@@ -29,11 +31,11 @@ internal class DalOrderItem : Iorderitem
         if (condition == null)
         {
             orderItemReturn = new List<OrderItem?>();
-            for (int i = 0; i < DataSource.orderItems.Count(); i++)   //warning??
-                orderItemReturn.Append(DataSource.orderItems[i]);
+            for (int i = 0; i < orderItems.Count(); i++)   //warning??
+                orderItemReturn.Append(orderItems[i]);
             return orderItemReturn;
         }
-        return orderItemReturn =from item in DataSource.orderItems
+        return orderItemReturn =from item in orderItems
                                 where condition(item) == true
                                 select item;
     }
@@ -47,10 +49,10 @@ internal class DalOrderItem : Iorderitem
     public OrderItem GetbyIdOfProductAndOrder(int idOrder, int idProduct)
     {
         OrderItem orderItem = new OrderItem();
-        for (int i = 0; i < DataSource.orderItems.Count(); i++)
-            if (DataSource.orderItems[i]?.OrderId == idOrder && DataSource.orderItems[i]?.ProductId == idProduct)
+        for (int i = 0; i < orderItems.Count(); i++)
+            if (orderItems[i]?.OrderId == idOrder && orderItems[i]?.ProductId == idProduct)
             {
-                orderItem= DataSource.orderItems[i].Value;
+                orderItem= orderItems[i].Value;
                 return orderItem;
             }
         throw new NotfoundException("order item");
@@ -61,16 +63,13 @@ internal class DalOrderItem : Iorderitem
     /// <param name="idOrderItem"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public OrderItem? GetById(int idOrderItem)
+    public OrderItem GetById(int idOrderItem)
     {
-        OrderItem? orderItem = new OrderItem();
-        for (int i = 0; i < DataSource.orderItems.Count(); i++)
-            if (DataSource.orderItems[i]?.OrderItemId == idOrderItem)
-            { 
-                orderItem= DataSource.orderItems[i];
-                return orderItem;
-            }
-        throw new NotfoundException("Order Item");
+        int index  = orderItems.FindIndex(x => x?.OrderItemId == idOrderItem);
+        if (index == -1)
+            throw new NotfoundException("Order Item");
+
+        return orderItems[index] ?? throw new NotfoundException("Order Item");
     }
     /// <summary>
     /// Update an item in the order
@@ -79,10 +78,10 @@ internal class DalOrderItem : Iorderitem
     /// <exception cref="Exception"></exception>
     public void Update(OrderItem UpdatedOrderItem)
     {
-        for (int i = 0; i < DataSource.orderItems.Count(); i++)
-            if (DataSource.orderItems[i]?.OrderItemId == UpdatedOrderItem.OrderItemId)
+        for (int i = 0; i < orderItems.Count(); i++)
+            if (orderItems[i]?.OrderItemId == UpdatedOrderItem.OrderItemId)
             {
-                DataSource.orderItems[i] = UpdatedOrderItem;
+                orderItems[i] = UpdatedOrderItem;
                 return;
             }
         throw new NotfoundException($"Order Item");
@@ -94,18 +93,17 @@ internal class DalOrderItem : Iorderitem
     /// <exception cref="Exception"></exception>
     public void Delete(int removeById)
     {
-        for (int i = 0; i < DataSource.orderItems.Count(); i++)
-            if (DataSource.orderItems[i]?.OrderItemId == removeById)
+        for (int i = 0; i < orderItems.Count(); i++)
+            if (orderItems[i]?.OrderItemId == removeById)
             {
-                DataSource.orderItems.Remove(DataSource.orderItems[i]);
+                orderItems.Remove(orderItems[i]);
                 return;
             }
         throw new NotfoundException("Order Item");
     }
-    public OrderItem? GetByCondition(Func<OrderItem?, bool>? condition)
+    public OrderItem GetByCondition(Func<OrderItem?, bool>? condition)
     {
-        OrderItem? NewOrderItem = DataSource.orderItems.Find(x => condition(x));
-        if (NewOrderItem == null)
+        OrderItem NewOrderItem = orderItems.Find(x => condition(x)) ??
             throw new NotfoundException("Order Item");
         return NewOrderItem;
     }
