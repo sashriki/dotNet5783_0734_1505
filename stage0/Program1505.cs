@@ -10,7 +10,7 @@
             Console.WriteLine("hgfds");
 
         }
-        static partial void welcome0734();
+        //static partial void welcome0734();
         private static void welcome1505()
         {
             Console.Write("enter your name: ");

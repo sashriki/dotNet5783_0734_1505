@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-
+using BlApi;
+using BlImplementation;
 namespace PLL.ProductWin
 {
     /// <summary>
@@ -13,7 +14,7 @@ namespace PLL.ProductWin
         {
             InitializeComponent();
             bl = new Bl();
-            ProductListview.ItemsSource = bl.Products.getAllProducts();
+            ProductListview.ItemsSource = bl.Product.getAllProducts();
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

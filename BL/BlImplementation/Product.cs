@@ -1,9 +1,9 @@
 ﻿internal class Product : BlApi.IProduct
-{  //עכק'רעאיטחיארעקכ
+{
     private DalApi.IDal Dal = new Dal.DalList();
     public IEnumerable<BO.ProductForList> getAllProducts()
     {
-        IEnumerable<DO.Product> DO_products = Dal.IProduct.GetAll();
+        IEnumerable<DO.Product?> DO_products = Dal.IProduct.GetAll();
         IEnumerable<BO.ProductForList> BO_products = from item in DO_products
                                                      select Do_ProductToBo_ProductForList(item);
         if (!BO_products.Any())
@@ -64,9 +64,9 @@
     }
     public void removeProduct(int id)
     {
-        IEnumerable<DO.Product> products = Dal.IProduct.GetAll();
+        IEnumerable<DO.Product?> products = Dal.IProduct.GetAll();
         bool flag = false;
-        foreach(var item in products) { if (item.ProductId == id) { flag = true; break; } }
+        foreach(var item in products) { if (item?.ProductId == id) { flag = true; break; } }
         if (flag)
             try 
             {
@@ -89,13 +89,13 @@
                     }
         throw new BO.InvalidInputBO("data");
     }
-    private BO.ProductForList Do_ProductToBo_ProductForList(DO.Product product)
+    private BO.ProductForList Do_ProductToBo_ProductForList(DO.Product? product)
     {
         BO.ProductForList products = new BO.ProductForList();
-        products.ProductId = product.ProductId;
-        products.ProductName = product.ProductName;
-        products.Price = product.ProductPrice;
-        products.Category = (BO.Category)product.ProductCategory;
+        products.ProductId = product?.ProductId ?? 0;
+        products.ProductName = product?.ProductName;
+        products.Price = product?.ProductPrice ?? 0;
+        products.Category = (BO.Category)product?.ProductCategory;
         return products;
     }
     private BO.Product Do_ProductToBo_Product(DO.Product product)
