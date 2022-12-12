@@ -18,6 +18,7 @@ internal class Order : BlApi.IOrder
             throw new BO.NoElementsException("orders");
         return OrdersList;
     }
+
     public BO.Order GetOrderByID(int IdOrder)
     {
         DO.Order orderToGet = new DO.Order();

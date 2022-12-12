@@ -3,14 +3,33 @@
 internal class Product : BlApi.IProduct
 {
     private DalApi.IDal Dal = new Dal.DalList();
-    public IEnumerable<BO.ProductForList> getAllProducts()
+    public IEnumerable<BO.ProductForList> getAllProducts(Func<BO.ProductForList?, bool>? condition = null)
     {
         IEnumerable<DO.Product?> DO_products = Dal.IProduct.GetAll();
-        IEnumerable<BO.ProductForList> BO_products = from item in DO_products
-                                                     select Do_ProductToBo_ProductForList(item);
-        if (!BO_products.Any())
+        IEnumerable<BO.ProductForList> BO_productsForList = from item in DO_products
+                                                            select Do_ProductToBo_ProductForList(item);
+        if (!BO_productsForList.Any())
             throw new BO.NoElementsException("products");
-        return BO_products;
+        return condition is null ? BO_productsForList : BO_productsForList.Where(condition);
+    }
+    private BO.ProductForList BOProductProductForList(BO.Product product)
+    {
+        BO.ProductForList products = new BO.ProductForList();
+        products.ProductId = product.ProductId;
+        products.ProductName = product.ProductName;
+        products.Price = product.ProductPrice;
+        products.Category = (BO.Category)product.ProductCategory;
+        return products;
+    }
+    private BO.Product BOProductToD0ProductNullable(DO.Product? product)
+    {
+        BO.Product DO_product = new BO.Product();
+        DO_product.ProductId = product?.ProductId ?? 0;
+        DO_product.ProductName = product?.ProductName;
+        DO_product.ProductPrice = (float)product?.ProductPrice;
+        DO_product.ProductCategory = (BO.Category)product?.ProductCategory;
+        DO_product.AmmountInStock = product?.AmmountInStock ?? 0;
+        return DO_product;
     }
 
     public IEnumerable<BO.ProductForList> GetAllByCondition(Func<BO.ProductForList?, bool>? condition, IEnumerable<BO.ProductForList> productForLists)
@@ -74,15 +93,15 @@ internal class Product : BlApi.IProduct
     {
         IEnumerable<DO.Product?> products = Dal.IProduct.GetAll();
         bool flag = false;
-        foreach(var item in products) { if (item?.ProductId == id) { flag = true; break; } }
+        foreach (var item in products) { if (item?.ProductId == id) { flag = true; break; } }
         if (flag)
-            try 
+            try
             {
                 Dal.IProduct.Delete(id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new BO.BONotfoundException(ex);   
+                throw new BO.BONotfoundException(ex);
             }
     }
     public void updateProduct(BO.Product BO_product)

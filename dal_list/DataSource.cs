@@ -46,7 +46,7 @@ internal static class DataSource
             Product newProduct = new Product(); //Creating an object
             newProduct.ProductId = Config.productIndex++; //ID number by running number
             newProduct.ProductName = "product" + i;
-            newProduct.ProductCategory = (Category)(random.Next(0, 5)); ;
+            newProduct.ProductCategory = (Category)(random.Next(1, 6)); ;
             newProduct.ProductPrice = Math.Round(random.Next(500) + random.NextDouble(),2);
             if (random.Next(0, 100) > 5)
             {

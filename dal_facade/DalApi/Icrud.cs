@@ -10,7 +10,6 @@ public interface Icrud<T> where T : struct
     public T GetById(int objToGet);
     public T GetByCondition(Func<T?, bool>? condition);
     public IEnumerable<T?> GetAll(Func<T?,bool>? condition = null);
-
 }
 
 
