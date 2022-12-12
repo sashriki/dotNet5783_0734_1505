@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using BlApi;
 using BlImplementation;
-using BO;
 
 namespace PLL.ProductWin
 {
@@ -46,5 +43,9 @@ namespace PLL.ProductWin
             
         }
 
+        private void ProductListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
