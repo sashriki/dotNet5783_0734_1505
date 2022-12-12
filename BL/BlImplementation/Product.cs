@@ -1,4 +1,6 @@
-﻿internal class Product : BlApi.IProduct
+﻿using DO;
+
+internal class Product : BlApi.IProduct
 {
     private DalApi.IDal Dal = new Dal.DalList();
     public IEnumerable<BO.ProductForList> getAllProducts()
@@ -10,6 +12,10 @@
             throw new BO.NoElementsException("products");
         return BO_products;
     }
+
+    public IEnumerable<BO.ProductForList> GetAllByCondition(Func<BO.ProductForList?, bool>? condition, IEnumerable<BO.ProductForList> productForLists)
+    => productForLists.Where(condition);
+
     public BO.Product getByIdToMannage(int id)
     {
         DO.Product DO_product = new DO.Product();
@@ -30,6 +36,8 @@
             throw new BO.InvalidInputBO("product ID");
         }
     }
+
+
     public BO.ProductItem getByIdToCostumer(int id, BO.Cart cart)
     {
         DO.Product DO_product = new DO.Product();
@@ -136,5 +144,6 @@
         DO_product.AmmountInStock = product.AmmountInStock;
         return DO_product;
     }
+
 
 }

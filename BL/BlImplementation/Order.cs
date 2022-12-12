@@ -33,6 +33,8 @@ internal class Order : BlApi.IOrder
         }
         return DO_orderToBO_order(orderToGet);
     }
+
+
     public BO.Order ShippingUpdateToManager(int IdOrder)
     {
         if (IdOrder < 0)
