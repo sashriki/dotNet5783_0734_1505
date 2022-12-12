@@ -1,7 +1,7 @@
 ﻿using DO;
-namespace Dal;
 using DalApi;
-
+using static Dal.DataSource;
+namespace Dal;
 
 internal class DalOrder : Iorder
 {
@@ -12,11 +12,11 @@ internal class DalOrder : Iorder
     /// <returns></returns>
     public int Add(Order NewOrder)
     {
-        NewOrder.OrderId = DataSource.Config.orderIndex;
-        int x = DataSource.orders.FindIndex(x => x.Value.OrderId == NewOrder.OrderId);
+        NewOrder.OrderId = Config.orderIndex;
+        int x = orders.FindIndex(x => x?.OrderId == NewOrder.OrderId);
         if (x != -1)
             throw new DuplicationException("Order");
-        DataSource.orders.Add(NewOrder);
+        orders.Add(NewOrder);
         return NewOrder.OrderId;
     }
     /// <summary>
@@ -25,13 +25,13 @@ internal class DalOrder : Iorder
     /// <param name="idOrder"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public Order? GetById(int idOrder)
+    public Order GetById(int idOrder)
     {
-        Order? order=new Order();
-        int x = DataSource.orders.FindIndex(x => x?.OrderId == idOrder);
+        Order order = new Order();
+        int x = orders.FindIndex(x => x?.OrderId == idOrder);
         if (x == -1)
             throw new NotfoundException("Order");
-        order =DataSource.orders[x];
+        order = orders[x] ?? throw new NotfoundException("Order");
         return order;
     }
     /// <summary>
@@ -41,10 +41,10 @@ internal class DalOrder : Iorder
     /// <exception cref="Exception"></exception>
     public void Update(Order UpdatedOrder)
     {
-        int x = DataSource.orders.FindIndex(x => x?.OrderId == UpdatedOrder.OrderId);
+        int x = orders.FindIndex(x => x?.OrderId == UpdatedOrder.OrderId);
         if (x == -1)
             throw new NotfoundException("Order");
-        DataSource.orders[x] = UpdatedOrder;
+        orders[x] = UpdatedOrder;
     }
     /// <summary>
     /// Deleting an order from the order list
@@ -53,39 +53,40 @@ internal class DalOrder : Iorder
     /// <exception cref="Exception"></exception>
     public void Delete(int removeById)
     {
-        for (int i = 0; i < DataSource.orders.Count(); i++)
+        for (int i = 0; i < orders.Count(); i++)
         {
-            if (DataSource.orders[i]?.OrderId == removeById)
+            if (orders[i]?.OrderId == removeById)
             {
-                DataSource.orders.Remove(DataSource.orders[i]);
+                orders.Remove(orders[i]);
                 return;
             }
         }
         throw new NotfoundException("Order");
     }
-    public Order? GetByCondition(Func<Order?, bool>? condition)
+    public Order GetByCondition(Func<Order?, bool>? condition)
     {
-        Order? NewOrder = DataSource.orders.Find(x => condition!(x!.Value));
-        if (NewOrder == null)
+        int index = orders.FindIndex(x => condition(x));
+        if (index == -1)
             throw new NotfoundException("Order");
-        return NewOrder;
+        Order order = orders[index] ?? throw new NotfoundException("Order");
+        return order;
     }
 
     /// <summary>
     /// Returning the order list
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Order?> GetAll(Func<Order?, bool>? condition=null)
+    public IEnumerable<Order?> GetAll(Func<Order?, bool>? condition = null)
     {
         IEnumerable<Order?> orderReturn;
         if (condition == null)
         {
             orderReturn = new List<Order?>();
-            for (int i = 0; i < DataSource.orders.Count(); i++) 
-                orderReturn.Append(DataSource.orders[i]);
+            for (int i = 0; i < orders.Count(); i++)
+                orderReturn.Append(orders[i]);
             return orderReturn;
         }
-        return orderReturn = from item in DataSource.orders
+        return orderReturn = from item in orders
                              where condition(item) == true
                              select item;
     }
