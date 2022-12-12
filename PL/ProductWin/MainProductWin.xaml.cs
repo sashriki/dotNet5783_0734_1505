@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using BlApi;
 using BlImplementation;
+using PL.ProductWin;
 
 namespace PLL.ProductWin
 {
@@ -43,9 +44,9 @@ namespace PLL.ProductWin
             
         }
 
-        private void ProductListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            new AddOrUpdateWin().Show();
         }
     }
 }
