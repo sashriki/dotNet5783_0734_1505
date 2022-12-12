@@ -31,7 +31,6 @@ namespace PL
             InitializeComponent();
             bl = new Bl();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new MainProductWin().Show();

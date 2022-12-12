@@ -18,12 +18,12 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label x:Name="Category" Content="Category:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="256"/>
-            <ComboBox Grid.Column="1">
-                <ComboBoxItem Content="Clothing" />
-                <ComboBoxItem Content="Shoes" />
+            <ComboBox x:Name="SelectionProduct" Grid.Column="1" SelectionChanged="ComboBox_SelectionChanged">
+                <!--<ComboBoxItem Content="All" />-->
+                <!--<ComboBoxItem Content="Shoes" />
                 <ComboBoxItem Content="Home Workout" />
                 <ComboBoxItem Content="Gym Equipment" />
-                <ComboBoxItem Content="Accessories" />
+                <ComboBoxItem Content="Accessories" />-->
             </ComboBox>
         </Grid>
         <ListView x:Name="ProductListview" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ProductListview_SelectionChanged">
@@ -33,6 +33,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" Margin="5" Padding="5"/>
     </Grid>
 </Window>
 <!--clothing, shoes, home_workout, gym_equipment, accessories-->
