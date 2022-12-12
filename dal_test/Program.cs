@@ -105,7 +105,7 @@ namespace Dal
             public static void DisplayAll()
             {//To print all items in orders 
                 //List<OrderItem> ordItm = Object.Iorderitem.GetAll();
-                IEnumerable<OrderItem> ordItm = Object.Iorderitem.GetAll();
+                IEnumerable<OrderItem?> ordItm = Object.Iorderitem.GetAll();
                 foreach (var obj in ordItm)
                     Console.WriteLine(obj);
             }
@@ -196,7 +196,7 @@ namespace Dal
             }
             public static void DisplayAll()
             {//To print all orders in the list         
-                IEnumerable<Order> ord = Object.Iorder.GetAll();
+                IEnumerable<Order?> ord = Object.Iorder.GetAll();
                 foreach (var obj in ord)
                     Console.WriteLine(obj);
             }
@@ -289,7 +289,7 @@ namespace Dal
             }
             public static void DisplayAll()
             {//To print all products
-                IEnumerable<Product> prd = Object.IProduct.GetAll();
+                IEnumerable<Product?> prd = Object.IProduct.GetAll();
                 foreach (var obj in prd)
                     Console.WriteLine(obj);
             }
