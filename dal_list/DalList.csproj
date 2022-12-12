@@ -16,4 +16,4 @@
     <ProjectReference Include="..\dal_facade\DalFacade.csproj" />
   </ItemGroup>
 
-</Project>>
+</Project>
