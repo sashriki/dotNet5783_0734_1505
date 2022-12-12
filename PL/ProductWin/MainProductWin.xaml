@@ -20,14 +20,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label x:Name="Category" Content="Category:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="256"/>
-            <ComboBox x:Name="selectedCategory" Grid.Column="1" SelectionChanged="selectedCategory_SelectionChanged" >
-            <!--<ComboBoxItem Content="All"/>
-                <ComboBoxItem Content="Clothing" />
-                <ComboBoxItem Content="Shoes" />
-                <ComboBoxItem Content="Home Workout" />
-                <ComboBoxItem Content="Gym Equipment" />
-                <ComboBoxItem Content="Accessories" />-->
-            </ComboBox>
+            <ComboBox x:Name="selectedCategory" Grid.Column="1" SelectionChanged="selectedCategory_SelectionChanged" />
 
         </Grid>
 
