@@ -41,8 +41,11 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" Margin="5" Padding="5"/>
+
 
     </Grid>
+
 </Window>
 <!--clothing, shoes, home_workout, gym_equipment, accessories-->
 <!--<Grid x:Name="myGrid">
