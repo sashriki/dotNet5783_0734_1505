@@ -14,9 +14,7 @@ namespace PLL.ProductWin
     public partial class MainProductWin : Window
     {
         private IBl bl;
-
-        private IEnumerable<BO.ProductForList> productsForList;
-
+         private IEnumerable<BO.ProductForList> productsForList;
         public MainProductWin()
         {
             InitializeComponent();
@@ -40,13 +38,16 @@ namespace PLL.ProductWin
                 string _selectedCategory = (string)selectedCategory.SelectedItem;
                 ProductListview.ItemsSource = _selectedCategory == "All" ? productsForList :
                  bl.Product.GetAllByCondition(p => p.Category.ToString() == _selectedCategory, productsForList);
-            }
-            
+            }            
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new AddOrUpdateWin().Show();
+        }
+
+        private void ProductListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
