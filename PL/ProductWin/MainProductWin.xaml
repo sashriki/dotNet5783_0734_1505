@@ -29,7 +29,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="listOfProducts" Header="Id" DisplayMemberBinding="{Binding ProductId}"/>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName}"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName}" Width="80"/>
                     <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}"/>
                     <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}"/>
                 </GridView>
@@ -37,8 +37,7 @@
         </ListView>
         <Button Name="Add" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Left" Margin="677,5,0,5" Padding="5" Click="Add_Click" Width="104"/>
         <Button Content="Return" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Click="Button_Click" Width="48"/>
-
-
+        <TextBox x:Name="Search" HorizontalAlignment="Left" Margin="154,10,0,9" Grid.Row="2" TextWrapping="Wrap" Width="120" FontSize="14" TextChanged="Search_TextChanged"/>
     </Grid>
 
 </Window>

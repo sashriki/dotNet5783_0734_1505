@@ -63,5 +63,16 @@ namespace PLL.ProductWin
             this.Close();
 
         }
+
+        private void Search_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (Search.Text != "")
+            {
+                string x = Search.Text;
+                //ProductListview.ItemsSource=bl.Product.GetAllByCondition(p=>p.ProductName)
+            }
+
+        }
+
     }
 }

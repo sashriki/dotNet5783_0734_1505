@@ -12,7 +12,7 @@ internal class DalProduct : IProduct
     /// <returns></returns>
     public int Add(Product NewProduct)
     {
-        NewProduct.ProductId = Config.orderIndex++;
+        NewProduct.ProductId = NewProduct.ProductId++;
         int x = products.FindIndex(x => x?.ProductId == NewProduct.ProductId);
         if (x != -1)
             throw new DuplicationException("Product");
@@ -61,7 +61,9 @@ internal class DalProduct : IProduct
         int x = products.FindIndex(x => x?.ProductId == UpdatedProduct.ProductId);
         if (x == -1)
             throw new NotfoundException("Product");
+        UpdatedProduct.ProductPrice = Math.Round(UpdatedProduct.ProductPrice,1);
         products[x] = UpdatedProduct;
+        
     }
 
     /// <summary>
