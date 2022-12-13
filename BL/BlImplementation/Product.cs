@@ -3,6 +3,14 @@
 internal class Product : BlApi.IProduct
 {
     private DalApi.IDal Dal = new Dal.DalList();
+    /// <summary>
+    /// The function accepts a condition and returns a
+    /// collection filtered according to the condition, if no condition is
+    /// entered the function will return the entire list.
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns></returns>
+    /// <exception cref="BO.NoElementsException"></exception>
     public IEnumerable<BO.ProductForList> getAllProducts(Func<BO.ProductForList?, bool>? condition = null)
     {
         IEnumerable<DO.Product?> DO_products = Dal.IProduct.GetAll();
@@ -55,8 +63,6 @@ internal class Product : BlApi.IProduct
             throw new BO.InvalidInputBO("product ID");
         }
     }
-
-
     public BO.ProductItem getByIdToCostumer(int id, BO.Cart cart)
     {
         DO.Product DO_product = new DO.Product();

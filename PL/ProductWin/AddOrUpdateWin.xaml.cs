@@ -18,15 +18,21 @@ namespace PL.ProductWin
         public enum state { Add, Update };
         state State;
         int HowManyTimesWeCalledToTxt_TextChangedFunction = 0;
-
-        public AddOrUpdateWin()  //add
+        /// <summary>
+        /// Parameterless constructor for adding a product
+        /// </summary>
+        public AddOrUpdateWin()  
         {
             InitializeComponent();
             Categories.ItemsSource = Enum.GetValues(typeof(BO.Category));
             State = state.Add;
         }
 
-        public AddOrUpdateWin(BO.ProductForList selected_item)  //update
+        /// <summary>
+        /// constructor that receives a parameter to update a product
+        /// </summary>
+        /// <param name="selected_item"></param>
+        public AddOrUpdateWin(BO.ProductForList selected_item) 
         {
             InitializeComponent();
             Categories.ItemsSource = Enum.GetValues(typeof(BO.Category));
@@ -39,8 +45,11 @@ namespace PL.ProductWin
             TxtInStock.Text = $"{prod.AmmountInStock}";
             TxtID.IsReadOnly = true;
         }
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddOrUpdate_Click(object sender, RoutedEventArgs e)
         {
             product = new BO.Product();
@@ -62,7 +71,9 @@ namespace PL.ProductWin
             }
             permissionScreen();
         }
-
+        /// <summary>
+        /// A function responsible for hiding/revealing controls
+        /// </summary>
         private void permissionScreen()
         {
             TxtID.Visibility = Visibility.Hidden;
@@ -79,10 +90,13 @@ namespace PL.ProductWin
             Return.Visibility = Visibility.Visible;
             Termination.Visibility = Visibility.Visible;
         }
-
         private void Categories_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         { }
-
+        /// <summary>
+        /// Function to check input integrity for ID
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DifitsOnlyID(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             Regex regex = new("[^0-9]+");
@@ -97,7 +111,11 @@ namespace PL.ProductWin
                 Error_massageID.Visibility = Visibility.Hidden;
             }
         }
-
+        /// <summary>
+        /// A function to check input integrity for a amount
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DifitsOnlyAmount(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             Regex regex = new("[^0-9]+");
@@ -112,7 +130,11 @@ namespace PL.ProductWin
                 Error_massageAmount.Visibility = Visibility.Hidden;
             }
         }
-
+        /// <summary>
+        /// A function to check the validity of an input for a price
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DifitsOnlyPrice(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             Regex regex = new("[^0-9.]+");
@@ -139,12 +161,16 @@ namespace PL.ProductWin
                e.Handled = regex.IsMatch(e.Text);
             }
         }
-
+        
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
+        /// <summary>
+        /// A function to fill in the product fields
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Txt_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             HowManyTimesWeCalledToTxt_TextChangedFunction++;
@@ -153,8 +179,6 @@ namespace PL.ProductWin
                 AddOrUpdate.IsEnabled = true;
             else
                 AddOrUpdate.IsEnabled = false;
-
-
         }
 
         private void Return_Click(object sender, RoutedEventArgs e)
