@@ -58,7 +58,9 @@ namespace PL.ProductWin
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.ToString());    
+                MessageBox.Show(ex.ToString());
+                new MainProductWin().Show();
+                this.Close();
             }
             permissionScreen();
         }
@@ -76,7 +78,6 @@ namespace PL.ProductWin
             NameText.Visibility = Visibility.Hidden;
             PriceText.Visibility = Visibility.Hidden;
             AddOrUpdate.Visibility = Visibility.Hidden;
-            Return.Visibility = Visibility.Visible;
             Termination.Visibility = Visibility.Visible;
 
         }
@@ -160,11 +161,7 @@ namespace PL.ProductWin
 
         }
 
-        private void Return_Click(object sender, RoutedEventArgs e)
-        {
-            new MainProductWin().Show();
-            this.Close();
-        }
+
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {

@@ -25,7 +25,6 @@
         <Label x:Name="Error_massageAmount" Content="You can only enter digits from 0-9" Foreground="Red" HorizontalAlignment="Left" Margin="170,280,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
         <Button x:Name="CloseWindow" Content="close" HorizontalAlignment="Left" Margin="18,326,0,0" VerticalAlignment="Top" Background="#FFDDDDDD" FontSize="14" Width="64" Click="CloseWindow_Click"/>
         <Button x:Name="Back" Content="Back" HorizontalAlignment="Left" Margin="100,326,0,0" VerticalAlignment="Top" Background="#FFDDDDDD" FontSize="14" Width="64" Click="Back_Click"/>
-        <Button x:Name="Return" Content="Back to the product list" HorizontalAlignment="Center" Margin="0,288,0,0" VerticalAlignment="Top" Visibility="Hidden" Height="31" Width="160" FontSize="14" Click="Return_Click"/>
 
 
     </Grid>

@@ -65,12 +65,8 @@ namespace PLL.ProductWin
 
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (Search.Text != "")
-            {
-                string x = Search.Text;
-                ProductListview.ItemsSource = bl.Product.GetAllByCondition(p => p.ProductName.StartsWith(x), productsForList);
-            }
-
+            string x = Search.Text;
+            ProductListview.ItemsSource = bl.Product.GetAllByCondition(p => p.ProductName.StartsWith(x), productsForList);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
