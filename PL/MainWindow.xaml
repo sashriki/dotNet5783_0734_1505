@@ -17,6 +17,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
+        <Button Content="close" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="25" Width="30" Background="#FFDDDDDD" Click="Button_Click_1"/>
 
 
     </Grid>

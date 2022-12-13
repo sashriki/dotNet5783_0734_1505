@@ -9,8 +9,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="500*"/>
+            <RowDefinition Height="17*"/>
+            <RowDefinition Height="181*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -20,36 +20,31 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label x:Name="Category" Content="Category:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="256"/>
-            <ComboBox x:Name="selectedCategory" Grid.Column="1" SelectionChanged="selectedCategory_SelectionChanged" />
+            <ComboBox x:Name="selectedCategory" Grid.Column="1" SelectionChanged="selectedCategory_SelectionChanged" >
+            <!--<ComboBoxItem Content="All"/>
+                <ComboBoxItem Content="Clothing" />
+                <ComboBoxItem Content="Shoes" />
+                <ComboBoxItem Content="Home Workout" />
+                <ComboBoxItem Content="Gym Equipment" />
+                <ComboBoxItem Content="Accessories" />-->
+            </ComboBox>
 
         </Grid>
 
-        <ListView x:Name="ProductListview" Grid.Row="1"  SelectionChanged="ProductListview_SelectionChanged">
+        <ListView x:Name="ProductListview" MouseDoubleClick="ProductListview_MouseDoubleClick" Margin="0,33,0,0" Grid.RowSpan="2">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ProductId}"/>
+                    <GridViewColumn x:Name="listOfProducts" Header="Id" DisplayMemberBinding="{Binding ProductId}"/>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName}"/>
                     <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}"/>
                     <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" Margin="5" Padding="5" Click="Button_Click"/>
+        <Button Name="Add" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Left" Margin="677,5,0,5" Padding="5" Click="Add_Click" Width="104"/>
+        <Button Content="Return" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Click="Button_Click" Width="48"/>
 
 
     </Grid>
 
 </Window>
-<!--clothing, shoes, home_workout, gym_equipment, accessories-->
-<!--<Grid x:Name="myGrid">
-    <Grid.RowDefinitions>
-        <RowDefinition Height="95*"/>
-        <RowDefinition Height="339*"/>
-    </Grid.RowDefinitions>
-    <Grid x:Name="innerGrid" Grid.Row="1">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
-    </Grid>
-</Grid>-->

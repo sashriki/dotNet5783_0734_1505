@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using BlApi;
 using BlImplementation;
+using PL;
 using PL.ProductWin;
 
 namespace PLL.ProductWin
@@ -38,11 +39,27 @@ namespace PLL.ProductWin
                 string _selectedCategory = (string)selectedCategory.SelectedItem;
                 ProductListview.ItemsSource = _selectedCategory == "All" ? productsForList :
                  bl.Product.GetAllByCondition(p => p.Category.ToString() == _selectedCategory, productsForList);
-            }            
+            }
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
             new AddOrUpdateWin().Show();
+            this.Close();
+        }
+
+        private void ProductListview_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            new AddOrUpdateWin((BO.ProductForList)ProductListview.SelectedItem).Show();
+            this.Close();
+        }
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            this.Close();
+
         }
 
         private void ProductListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
