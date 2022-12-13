@@ -15,7 +15,9 @@ namespace PLL.ProductWin
     public partial class MainProductWin : Window
     {
         private IBl bl;
-         private IEnumerable<BO.ProductForList> productsForList;
+
+        private IEnumerable<BO.ProductForList> productsForList;
+
         public MainProductWin()
         {
             InitializeComponent();
@@ -57,14 +59,24 @@ namespace PLL.ProductWin
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
             this.Close();
 
         }
 
-        private void ProductListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (Search.Text != "")
+            {
+                string x = Search.Text;
+                ProductListview.ItemsSource = bl.Product.GetAllByCondition(p => p.ProductName.StartsWith(x), productsForList);
+            }
 
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            this.Close();
         }
     }
 }

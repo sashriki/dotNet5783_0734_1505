@@ -58,7 +58,7 @@ namespace PL.ProductWin
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);    
+                MessageBox.Show(ex.ToString());    
             }
             permissionScreen();
         }
@@ -151,10 +151,19 @@ namespace PL.ProductWin
             if (TxtID.Text != "" && TxtInStock.Text != "" && TxtName.Text != "" && TxtPrice.Text != "" && Categories.SelectedItem!= null && 
                 ((State == state.Update && HowManyTimesWeCalledToTxt_TextChangedFunction>4)||(State == state.Add)))
                 AddOrUpdate.IsEnabled = true;
+            else
+                AddOrUpdate.IsEnabled = false;
+
 
         }
 
         private void Return_Click(object sender, RoutedEventArgs e)
+        {
+            new MainProductWin().Show();
+            this.Close();
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
         {
             new MainProductWin().Show();
             this.Close();
