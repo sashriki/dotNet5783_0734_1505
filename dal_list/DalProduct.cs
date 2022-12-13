@@ -88,7 +88,7 @@ internal class DalProduct : IProduct
         int x= products.FindIndex(x => condition(x));
         if (x == -1)
             throw new NotfoundException("Product");
-        Product NewProduct= products[x] ?? throw new NotfoundException("Product");
+        Product NewProduct = products[x] ?? throw new NotfoundException("Product");
         return NewProduct;
     }
 }

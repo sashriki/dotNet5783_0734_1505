@@ -13,7 +13,7 @@
             base(massage)
         { throwing = "BL error! the " + massage + " is not found."; }
         public override string ToString()
-            => $@"{throwing}\n";
+            => $@"{throwing}";
     }
 
     [Serializable]
@@ -25,7 +25,7 @@
             string throwing = innerException.ToString() + message;
         }
         public override string ToString()
-            => $@"{throwing}\n";
+            => $@"{throwing}";
     }
 
     [Serializable]
@@ -61,7 +61,7 @@
             base(massage)
         { throwing = massage; }
         public override string ToString()
-             => $@"BL: No {throwing} to display\n";
+             => $@"BL: No {throwing} to display";
     }
     [Serializable]
     public class InvalidInputBO : Exception
@@ -71,7 +71,7 @@
             base(massage)
         { throwing = massage; }
         public override string ToString()
-             => $@"BL Error! Invalid input of {throwing}\n";
+             => $@"BL Error! Invalid input of {throwing}";
     }
     [Serializable]
     public class InvalidAction : Exception
@@ -81,7 +81,7 @@
             base(massage)
         { throwing = massage; }
         public override string ToString()
-             => $@"BL Error! Action {throwing} is invalid \n";
+             => $@"BL Error! Action {throwing} is invalid";
     }
 }
 

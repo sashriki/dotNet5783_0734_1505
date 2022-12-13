@@ -54,9 +54,9 @@ internal static class DataSource
             }
             else
             {
-                newProduct.AmmountInStock = 0;
+                newProduct.AmmountInStock = 1;
             }
-            products.Add(newProduct);  //warning!!
+            products.Add(newProduct);  
         }
     }
     private static void InitOrder()

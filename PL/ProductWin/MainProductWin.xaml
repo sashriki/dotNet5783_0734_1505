@@ -19,7 +19,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="Category" Content="Category:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="256"/>
+            <Label x:Name="Category" Content="Category:" HorizontalAlignment="Left" Margin="318,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="79"/>
+            <Label x:Name="earch" Content="Search by name:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="120"/>
+
             <ComboBox x:Name="selectedCategory" Grid.Column="1" SelectionChanged="selectedCategory_SelectionChanged" >
             </ComboBox>
 
@@ -36,8 +38,10 @@
             </ListView.View>
         </ListView>
         <Button Name="Add" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Left" Margin="677,5,0,5" Padding="5" Click="Add_Click" Width="104"/>
-        <Button Content="Return" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Click="Button_Click" Width="48"/>
-        <TextBox x:Name="Search" HorizontalAlignment="Left" Margin="154,10,0,9" Grid.Row="2" TextWrapping="Wrap" Width="120" FontSize="14" TextChanged="Search_TextChanged"/>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Click="Button_Click" Width="48"/>
+        <Button Content="Back" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="2" VerticalAlignment="Center"  Width="48" Click="Button_Click_1"/>
+
+        <TextBox x:Name="Search" HorizontalAlignment="Left" Margin="125,0,0,0" TextWrapping="Wrap" Width="120" FontSize="14" TextChanged="Search_TextChanged"/>
     </Grid>
 
 </Window>

@@ -58,7 +58,7 @@ namespace PL.ProductWin
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);    
+                MessageBox.Show(ex.ToString());    
             }
             permissionScreen();
         }
@@ -161,6 +161,12 @@ namespace PL.ProductWin
         }
 
         private void Return_Click(object sender, RoutedEventArgs e)
+        {
+            new MainProductWin().Show();
+            this.Close();
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
         {
             new MainProductWin().Show();
             this.Close();

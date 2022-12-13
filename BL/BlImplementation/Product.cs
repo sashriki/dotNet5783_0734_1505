@@ -79,15 +79,23 @@ internal class Product : BlApi.IProduct
     }
     public void addProduct(BO.Product BO_product)
     {
-        if (BO_product.ProductId > 0)
-            if (BO_product.ProductName != null)
-                if (BO_product.ProductPrice > 0)
-                    if (BO_product.AmmountInStock > 0)
-                    {
-                        Dal.IProduct.Add(Bo_ProductToDo_Product(BO_product));
-                        return;
-                    }
-        throw new BO.InvalidInputBO("data");
+        try
+        {
+            Dal.IProduct.GetByCondition(x => (x?.ProductName == BO_product?.ProductName) && (x?.ProductId != BO_product?.ProductId));
+
+        }
+        catch
+        {
+            if (BO_product.ProductId > 0)
+                if (BO_product.ProductName != null)
+                    if (BO_product.ProductPrice > 0)
+                        if (BO_product.AmmountInStock > 0)
+                        {
+                            Dal.IProduct.Add(Bo_ProductToDo_Product(BO_product));
+                            return;
+                        }
+        }
+        throw new BO.InvalidInputBO("details");
     }
     public void removeProduct(int id)
     {
@@ -106,15 +114,30 @@ internal class Product : BlApi.IProduct
     }
     public void updateProduct(BO.Product BO_product)
     {
-        if (BO_product.ProductId > 0)
-            if (BO_product.ProductName != null)
-                if (BO_product.ProductPrice > 0)
-                    if (BO_product.AmmountInStock > 0)
-                    {
-                        Dal.IProduct.Update(Bo_ProductToDo_Product(BO_product));
-                        return;
-                    }
-        throw new BO.InvalidInputBO("data");
+        
+        try
+        {
+            Dal.IProduct.GetByCondition(x => (x?.ProductName == BO_product?.ProductName) && (x?.ProductId != BO_product?.ProductId));
+
+        }
+        catch
+        {
+            if (BO_product.ProductId > 0)
+                if (BO_product.ProductName != null)
+                    if (BO_product.ProductPrice > 0)
+                        if (BO_product.AmmountInStock > 0)
+                        {
+                            Dal.IProduct.Update(Bo_ProductToDo_Product(BO_product));
+                            return;
+                        }
+                        else
+                        {
+                            Dal.IProduct.Delete(BO_product.ProductId);
+                            return;
+                        }
+        }
+       
+        throw new BO.InvalidInputBO("details");
     }
     private BO.ProductForList Do_ProductToBo_ProductForList(DO.Product? product)
     {
