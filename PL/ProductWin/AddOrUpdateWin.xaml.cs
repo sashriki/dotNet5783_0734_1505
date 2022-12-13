@@ -78,13 +78,10 @@ namespace PL.ProductWin
             AddOrUpdate.Visibility = Visibility.Hidden;
             Return.Visibility = Visibility.Visible;
             Termination.Visibility = Visibility.Visible;
-
         }
 
         private void Categories_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
+        { }
 
         private void DifitsOnlyID(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
