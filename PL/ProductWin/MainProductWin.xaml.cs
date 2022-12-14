@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using BlApi;
-using BlImplementation;
 using PL;
 using PL.ProductWin;
 
@@ -14,14 +12,12 @@ namespace PLL.ProductWin
     /// </summary>
     public partial class MainProductWin : Window
     {
-        private IBl bl;
 
+        BlApi.IBl? bl = BlApi.Factory.Get();
         private IEnumerable<BO.ProductForList> productsForList;
-
         public MainProductWin()
         {
             InitializeComponent();
-            bl = new Bl();
             productsForList = bl.Product.getAllProducts()!;
             ProductListview.ItemsSource = productsForList;
             

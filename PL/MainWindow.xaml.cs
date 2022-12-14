@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using BlApi;
-using BlImplementation;
+﻿using System.Windows;
 using PLL.ProductWin;
 
 namespace PL
@@ -18,12 +8,11 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        private IBl bl;
+        BlApi.IBl? bl;
         public MainWindow()
         {
             InitializeComponent();
-            bl = new Bl();
+            bl = BlApi.Factory.Get();
         }
         /// <summary>
         /// A function that opens a window for operations on a product
@@ -42,7 +31,7 @@ namespace PL
         /// <param name="e"></param>
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            this.Close();   
+            this.Close();
         }
     }
 }

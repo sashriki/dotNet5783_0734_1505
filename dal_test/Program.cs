@@ -5,7 +5,7 @@ namespace Dal
 {
     public class Program
     {
-        private static IDal Object = new DalList(); //??????????
+        private static DalApi.IDal? dal = DalApi.Factory.Get(); //??????????
         public static void Main()
         {
             while (true)
@@ -91,8 +91,8 @@ namespace Dal
                 newOrderItem.ProductId = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter an ammount number");
                 newOrderItem.Amount = int.Parse(Console.ReadLine());
-                newOrderItem.Price = Object.IProduct.GetById(newOrderItem.ProductId).ProductPrice * newOrderItem.Amount;
-                Object.Iorderitem.Add(newOrderItem);
+                newOrderItem.Price = dal.IProduct.GetById(newOrderItem.ProductId).ProductPrice * newOrderItem.Amount;
+                dal.Iorderitem.Add(newOrderItem);
             }
             public static void DisplayById()
             {//To print an item in an order according to an ID card
@@ -100,12 +100,12 @@ namespace Dal
                 int IdOrder = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a procuct number\n");
                 int IdProduct = int.Parse(Console.ReadLine());
-                Console.WriteLine(Object.Iorderitem.GetbyIdOfProductAndOrder(IdOrder, IdProduct)); //print only the ID
+                Console.WriteLine(dal.Iorderitem.GetbyIdOfProductAndOrder(IdOrder, IdProduct)); //print only the ID
             }
             public static void DisplayAll()
             {//To print all items in orders 
                 //List<OrderItem> ordItm = Object.Iorderitem.GetAll();
-                IEnumerable<OrderItem?> ordItm = Object.Iorderitem.GetAll();
+                IEnumerable<OrderItem?> ordItm = dal.Iorderitem.GetAll();
                 foreach (var obj in ordItm)
                     Console.WriteLine(obj);
             }
@@ -113,21 +113,21 @@ namespace Dal
             {//To update an item in the order
                 Console.WriteLine("enter a order item number");
                 int IdOrderItem = int.Parse(Console.ReadLine());
-                OrderItem ItemToUpdate = Object.Iorderitem.GetById(IdOrderItem);
+                OrderItem ItemToUpdate = dal.Iorderitem.GetById(IdOrderItem);
                 Console.WriteLine("Enter a product number you want to update\n");
                 ItemToUpdate.ProductId = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter an order number you want to update\n");
                 ItemToUpdate.OrderId = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter the ammount of  the product you want to update\n");
                 ItemToUpdate.Amount = int.Parse(Console.ReadLine());
-                ItemToUpdate.Price = Object.IProduct.GetById(ItemToUpdate.ProductId).ProductPrice * ItemToUpdate.Amount;
-                Object.Iorderitem.Update(ItemToUpdate);
+                ItemToUpdate.Price = dal.IProduct.GetById(ItemToUpdate.ProductId).ProductPrice * ItemToUpdate.Amount;
+                dal.Iorderitem.Update(ItemToUpdate);
             }
             public static void Delete()
             {//To delete an item in the order
                 Console.WriteLine("enter a order item number");
                 int IdOrderItem = int.Parse(Console.ReadLine());
-                Object.Iorderitem.Delete(IdOrderItem);
+                dal.Iorderitem.Delete(IdOrderItem);
             }
         }
 
@@ -185,18 +185,18 @@ namespace Dal
                 NewOrder.OrderDate = DateTime.Now;
                 NewOrder.DeliveryDate = DateTime.MinValue;
                 NewOrder.ShipDate = DateTime.MinValue;
-                Object.Iorder.Add(NewOrder);
+                dal.Iorder.Add(NewOrder);
             }
 
             public static void DisplayById()
             {//To print an order by order ID number
                 Console.WriteLine("enter an order number\n");
                 int IdOrder = int.Parse(Console.ReadLine());
-                Console.WriteLine(Object.Iorder.GetById(IdOrder));
+                Console.WriteLine(dal.Iorder.GetById(IdOrder));
             }
             public static void DisplayAll()
             {//To print all orders in the list         
-                IEnumerable<Order?> ord = Object.Iorder.GetAll();
+                IEnumerable<Order?> ord = dal.Iorder.GetAll();
                 foreach (var obj in ord)
                     Console.WriteLine(obj);
             }
@@ -212,14 +212,14 @@ namespace Dal
                 OrderToUpdate.CustomerEmail = Console.ReadLine();
                 Console.WriteLine("Enter a customer address\n");
                 OrderToUpdate.CustomerAdress = Console.ReadLine();
-                Object.Iorder.Update(OrderToUpdate);
+                dal.Iorder.Update(OrderToUpdate);
             }
 
             public static void Delete()
             {//To delete an order
                 Console.WriteLine("enter a order number\n");
                 int IdOrder = int.Parse(Console.ReadLine());
-                Object.Iorder.Delete(IdOrder);
+                dal.Iorder.Delete(IdOrder);
             }
         }
 
@@ -278,18 +278,18 @@ namespace Dal
                 Console.WriteLine("Enter a product price\n");
                 NewProduct.ProductPrice = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter a product category\n");
-                NewProduct.ProductCategory = (Category)int.Parse(Console.ReadLine());         
-                Object.IProduct.Add(NewProduct);
+                NewProduct.ProductCategory = (Category)int.Parse(Console.ReadLine());
+                dal.IProduct.Add(NewProduct);
             }
             public static void DisplayById()
             {//To print a product by product ID number
                 Console.WriteLine("enter a product number\n");
                 int IdProduct = int.Parse(Console.ReadLine());
-                Console.WriteLine(Object.IProduct.GetById(IdProduct));
+                Console.WriteLine(dal.IProduct.GetById(IdProduct));
             }
             public static void DisplayAll()
             {//To print all products
-                IEnumerable<Product?> prd = Object.IProduct.GetAll();
+                IEnumerable<Product?> prd = dal.IProduct.GetAll();
                 foreach (var obj in prd)
                     Console.WriteLine(obj);
             }
@@ -306,13 +306,13 @@ namespace Dal
                 NewProduct.ProductPrice = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a product category\n");
                 NewProduct.ProductCategory = (Category)int.Parse(Console.ReadLine());
-                Object.IProduct.Update(NewProduct);
+                dal.IProduct.Update(NewProduct);
             }
             public static void Delete()
             {//To delete a product
                 Console.WriteLine("enter a product number\n");
                 int IdProduct = int.Parse(Console.ReadLine());
-                Object.IProduct.Delete(IdProduct);
+                dal.IProduct.Delete(IdProduct);
             }
         }
 

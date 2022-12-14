@@ -1,6 +1,4 @@
-﻿using BlApi;
-using BlImplementation;
-using PLL.ProductWin;
+﻿using PLL.ProductWin;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -13,7 +11,8 @@ namespace PL.ProductWin
     public partial class AddOrUpdateWin : Window
     {
 
-        private IBl bl = new Bl();
+        BlApi.IBl? bl = BlApi.Factory.Get();
+
         BO.Product product;
         public enum state { Add, Update };
         state State;
