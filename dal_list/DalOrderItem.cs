@@ -3,7 +3,7 @@ using DO;
 namespace Dal;
 using static Dal.DataSource;
 
-internal class DalOrderItem : Iorderitem
+internal class DalOrderItem : IOrderItem
 {
     /// <summary>
     /// Adding an ordered item to the list

@@ -5,13 +5,13 @@ namespace Dal
     {      
         private DalList()
         { 
-            Iorder = new DalOrder();
-            Iorderitem = new DalOrderItem();
-            IProduct = new DalProduct();
+            Order = new DalOrder();
+            OrderItem = new DalOrderItem();
+            Product = new DalProduct();
         }
         public static IDal Instance { get; } = new DalList();
-        public Iorder Iorder { get; }
-        public Iorderitem Iorderitem { get; }   
-        public IProduct IProduct { get; }
+        public IOrder Order { get; }
+        public IOrderItem OrderItem { get; }   
+        public IProduct Product { get; }
     }
 }

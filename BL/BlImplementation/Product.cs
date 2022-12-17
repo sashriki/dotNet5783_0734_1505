@@ -13,7 +13,7 @@ internal class Product : BlApi.IProduct
     /// <exception cref="BO.NoElementsException"></exception>
     public IEnumerable<BO.ProductForList> getAllProducts(Func<BO.ProductForList?, bool>? condition = null)
     {
-        IEnumerable<DO.Product?> DO_products = dal?.IProduct.GetAll();
+        IEnumerable<DO.Product?> DO_products = dal?.Product.GetAll();
         IEnumerable<BO.ProductForList> BO_productsForList = from item in DO_products
                                                             select Do_ProductToBo_ProductForList(item);
         if (!BO_productsForList.Any())
@@ -50,7 +50,7 @@ internal class Product : BlApi.IProduct
         {
             try
             {
-                DO_product = dal.IProduct.GetById(id);
+                DO_product = dal.Product.GetById(id);
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ internal class Product : BlApi.IProduct
         {
             try
             {
-                DO_product = dal.IProduct.GetById(id);
+                DO_product = dal.Product.GetById(id);
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ internal class Product : BlApi.IProduct
     {
         try
         {
-            dal?.IProduct.GetByCondition(x => (x?.ProductName == BO_product?.ProductName) && (x?.ProductId != BO_product?.ProductId));
+            dal?.Product.GetByCondition(x => (x?.ProductName == BO_product?.ProductName) && (x?.ProductId != BO_product?.ProductId));
         }
         catch
         {
@@ -96,7 +96,7 @@ internal class Product : BlApi.IProduct
                     if (BO_product.ProductPrice > 0)
                         if (BO_product.AmmountInStock > 0)
                         {
-                            dal?.IProduct.Add(Bo_ProductToDo_Product(BO_product));
+                            dal?.Product.Add(Bo_ProductToDo_Product(BO_product));
                             return;
                         }
         }
@@ -104,13 +104,13 @@ internal class Product : BlApi.IProduct
     }
     public void removeProduct(int id)
     {
-        IEnumerable<DO.Product?> products = dal?.IProduct.GetAll();
+        IEnumerable<DO.Product?> products = dal?.Product.GetAll();
         bool flag = false;
         foreach (var item in products) { if (item?.ProductId == id) { flag = true; break; } }
         if (flag)
             try
             {
-                dal?.IProduct.Delete(id);
+                dal?.Product.Delete(id);
             }
             catch (Exception ex)
             {
@@ -122,7 +122,7 @@ internal class Product : BlApi.IProduct
         
         try
         {
-            dal?.IProduct.GetByCondition(x => (x?.ProductName == BO_product?.ProductName) && (x?.ProductId != BO_product?.ProductId));
+            dal?.Product.GetByCondition(x => (x?.ProductName == BO_product?.ProductName) && (x?.ProductId != BO_product?.ProductId));
 
         }
         catch
@@ -132,12 +132,12 @@ internal class Product : BlApi.IProduct
                     if (BO_product.ProductPrice > 0)
                         if (BO_product.AmmountInStock > 0)
                         {
-                            dal?.IProduct.Update(Bo_ProductToDo_Product(BO_product));
+                            dal?.Product.Update(Bo_ProductToDo_Product(BO_product));
                             return;
                         }
                         else
                         {
-                            dal?.IProduct.Delete(BO_product.ProductId);
+                            dal?.Product.Delete(BO_product.ProductId);
                             return;
                         }
         }

@@ -3,7 +3,7 @@ using DalApi;
 using static Dal.DataSource;
 namespace Dal;
 
-internal class DalOrder : Iorder
+internal class DalOrder : IOrder
 {
     /// <summary>
     /// Creating a new order and adding it to the list of orders

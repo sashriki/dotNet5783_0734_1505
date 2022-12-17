@@ -2,8 +2,8 @@
 {
     public interface IDal
     {
-        Iorder Iorder { get; }
-        Iorderitem Iorderitem { get; }
-        IProduct IProduct { get; }
+        IOrder Order { get; }
+        IOrderItem OrderItem { get; }
+        IProduct Product { get; }
     }
 }
