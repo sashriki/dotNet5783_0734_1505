@@ -3,7 +3,8 @@ using DO;
 using System.Data;
 internal class Cart : BlApi.ICart
 {
-    public DalApi.IDal Dal = new Dal.DalList();
+
+    DalApi.IDal? dal = DalApi.Factory.Get();
     /// <summary>
     /// To add a product to the shopping cart
     /// </summary>
@@ -17,7 +18,7 @@ internal class Cart : BlApi.ICart
         DO.Product productDO = new DO.Product();
         try
         {
-            productDO = Dal.IProduct.GetById(IDproduct);
+            productDO = dal.Product.GetById(IDproduct);
         }
         catch (Exception ex)
         {   //If no product is found with the received ID
@@ -72,7 +73,7 @@ internal class Cart : BlApi.ICart
         if (ordBO.AmountOfProduct == amount)//If the quantity is updated
             return newCart;
         //If the item is in the shopping cart and the quantity is not updated
-        productDO = Dal.IProduct.GetById(IDproduct);
+        productDO = dal.Product.GetById(IDproduct);
         if (ordBO.AmountOfProduct < amount)//to increase quantity
         {
             int dif = amount - ordBO.AmountOfProduct;
@@ -123,9 +124,9 @@ internal class Cart : BlApi.ICart
             NewOrderDO.CustomerAdress = newCart.CustomerAdress;
             NewOrderDO.CustomerName = newCart.CustomerName;
             NewOrderDO.CustomerEmail = newCart.CustomerEmail;
-            int IdOrder = Dal.Iorder.Add(NewOrderDO);
+            int IdOrder = dal.Order.Add(NewOrderDO);
             foreach (var item in newCart.OrderItems)
-                Dal.Iorderitem.Add(ChangingFromBOToDO(item, IdOrder));
+                dal?.OrderItem.Add(ChangingFromBOToDO(item, IdOrder));
         }
         catch (BO.DataMissingException ex)
         {
@@ -156,7 +157,7 @@ internal class Cart : BlApi.ICart
         {
             try
             {
-                productDO = Dal.IProduct.GetById(item.ProductId);
+                productDO = dal.Product.GetById(item.ProductId);
             }
             catch (DO.NotfoundException ex)
             {

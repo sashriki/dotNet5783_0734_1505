@@ -3,7 +3,7 @@ using DalApi;
 using static Dal.DataSource;
 namespace Dal;
 
-internal class DalOrder : Iorder
+internal class DalOrder : IOrder
 {
     /// <summary>
     /// Creating a new order and adding it to the list of orders
@@ -63,6 +63,12 @@ internal class DalOrder : Iorder
         }
         throw new NotfoundException("Order");
     }
+    /// <summary>
+    /// Returns an object by condition
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns></returns>
+    /// <exception cref="NotfoundException"></exception>
     public Order GetByCondition(Func<Order?, bool>? condition)
     {
         int index = orders.FindIndex(x => condition(x));
@@ -73,7 +79,10 @@ internal class DalOrder : Iorder
     }
 
     /// <summary>
-    /// Returning the order list
+    /// A function that receives a condition for 
+    /// filtering and returns the list according to the condition,
+    /// when there is no condition the 
+    /// function will return the entire list of objects.
     /// </summary>
     /// <returns></returns>
     public IEnumerable<Order?> GetAll(Func<Order?, bool>? condition = null)

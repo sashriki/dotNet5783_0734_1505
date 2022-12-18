@@ -21,7 +21,9 @@ internal class DalProduct : IProduct
     }
 
     /// <summary>
-    /// Returning the list of products
+    /// A function that receives a condition for filtering
+    /// and returns the list according to the condition, when there is no condition
+    /// the function will return the entire list of objects.
     /// </summary>
     /// <returns></returns>
     public IEnumerable<Product?> GetAll(Func<Product?, bool>? condition = null)
@@ -83,6 +85,12 @@ internal class DalProduct : IProduct
         }
         throw new NotfoundException("Product");
     }
+    /// <summary>
+    /// Returns an object by condition
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns></returns>
+    /// <exception cref="NotfoundException"></exception>
     public Product GetByCondition(Func<Product?, bool>? condition)
     {
         int x= products.FindIndex(x => condition(x));

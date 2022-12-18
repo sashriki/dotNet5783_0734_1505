@@ -23,6 +23,12 @@
             <Label x:Name="earch" Content="Search by name:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="120"/>
 
             <ComboBox x:Name="selectedCategory" Grid.Column="1" SelectionChanged="selectedCategory_SelectionChanged" >
+            <!--<ComboBoxItem Content="All"/>
+                <ComboBoxItem Content="Clothing" />
+                <ComboBoxItem Content="Shoes" />
+                <ComboBoxItem Content="Home Workout" />
+                <ComboBoxItem Content="Gym Equipment" />
+                <ComboBoxItem Content="Accessories" />-->
             </ComboBox>
 
         </Grid>

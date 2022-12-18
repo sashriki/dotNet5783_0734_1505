@@ -10,7 +10,8 @@ namespace BlTest
 {
     internal class Program
     {
-        private static IBl Obj = new Bl();
+        private static BlApi.IBl? bl = BlApi.Factory.Get();
+
         private static Cart cart = new Cart
         {
             CustomerName = null,
@@ -120,7 +121,7 @@ namespace BlTest
             {
                 BO.Product productBO = new BO.Product();
                 Console.WriteLine("Enter product ID\n");
-                productBO = Obj.Product.getByIdToMannage(int.Parse(Console.ReadLine()));
+                productBO = bl.Product.getByIdToMannage(int.Parse(Console.ReadLine()));
                 Console.WriteLine(productBO);
                 return;
             }
@@ -128,7 +129,7 @@ namespace BlTest
             {
                 BO.ProductItem productBO = new BO.ProductItem();
                 Console.WriteLine("Enter product ID\n");
-                productBO=Obj.Product.getByIdToCostumer(int.Parse(Console.ReadLine()),cart);
+                productBO= bl.Product.getByIdToCostumer(int.Parse(Console.ReadLine()),cart);
                 Console.WriteLine(productBO);
                 return;
             }
@@ -152,7 +153,7 @@ namespace BlTest
                 NewProduct.ProductCategory = (BO.Category)int.Parse(Console.ReadLine());
                 try
                 {
-                    Obj.Product.addProduct(NewProduct);
+                    bl.Product.addProduct(NewProduct);
                     Console.WriteLine("The operation was performed successfully!\n");
                 }
                 catch (Exception ex)
@@ -166,7 +167,7 @@ namespace BlTest
                 int ID = int.Parse(Console.ReadLine());
                 try
                 {
-                    Obj.Product.removeProduct(ID);
+                    bl.Product.removeProduct(ID);
                     Console.WriteLine("The operation was performed successfully!\n");
                 }
                 catch(Exception ex)
@@ -194,8 +195,8 @@ namespace BlTest
                     "4: Accessories");
                 NewProduct.ProductCategory = (BO.Category)int.Parse(Console.ReadLine());
                 try
-                { 
-                    Obj.Product.updateProduct(NewProduct);
+                {
+                    bl.Product.updateProduct(NewProduct);
                     Console.WriteLine("The operation was performed successfully!\n");
                 }
                 catch(Exception ex)
@@ -274,28 +275,28 @@ namespace BlTest
             {
                 BO.Order ordBO = new BO.Order();
                 Console.WriteLine("Enter order ID");
-                ordBO = Obj.Order.GetOrderByID(int.Parse(Console.ReadLine()));
+                ordBO = bl.Order.GetOrderByID(int.Parse(Console.ReadLine()));
                 Console.WriteLine(ordBO);
             }
             public static void ShippingUpdateToManager()
             {
                 BO.Order ordBO = new BO.Order();
                 Console.WriteLine("Enter order ID\n");
-                ordBO = Obj.Order.ShippingUpdateToManager(int.Parse(Console.ReadLine()));
+                ordBO = bl.Order.ShippingUpdateToManager(int.Parse(Console.ReadLine()));
                 Console.WriteLine(ordBO);
             }
             public static void supplyUpdateToManager()
             {
                 BO.Order ordBO = new BO.Order();
                 Console.WriteLine("Enter order ID\n");
-                ordBO = Obj.Order.supplyUpdateToManager(int.Parse(Console.ReadLine()));
+                ordBO = bl.Order.supplyUpdateToManager(int.Parse(Console.ReadLine()));
                 Console.WriteLine(ordBO);
             }
             public static void OrderTracking()
             {
                 BO.OrderTracking ordTraBO = new BO.OrderTracking();
                 Console.WriteLine("Enter order ID\n");
-                ordTraBO = Obj.Order.OrderTracking(int.Parse(Console.ReadLine()));
+                ordTraBO = bl.Order.OrderTracking(int.Parse(Console.ReadLine()));
                 Console.WriteLine(ordTraBO);
             }
             public static void UpdateToManager()
@@ -303,12 +304,12 @@ namespace BlTest
                 int IdProduct,Amount;
                 BO.Order newOrd=new BO.Order();
                 Console.WriteLine("Enter order ID");
-                newOrd = Obj.Order.GetOrderByID(int.Parse(Console.ReadLine()));
+                newOrd = bl.Order.GetOrderByID(int.Parse(Console.ReadLine()));
                 Console.WriteLine("Enter product ID");
                 IdProduct = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter a quantity for a product\n");
                 Amount= int.Parse(Console.ReadLine());
-                Obj.Order.UpdateToManager(newOrd, IdProduct, Amount);
+                bl.Order.UpdateToManager(newOrd, IdProduct, Amount);
             }
         }
         /// <summary>
@@ -367,7 +368,7 @@ namespace BlTest
                 int IdOrdItem;
                 Console.WriteLine("Enter a product ID number:\n");
                 IdOrdItem = Convert.ToInt32(Console.ReadLine());
-                cart = Obj.Cart.AddProductToCart(cart, IdOrdItem);
+                cart = bl.Cart.AddProductToCart(cart, IdOrdItem);
                 Console.WriteLine("The operation was performed successfully!\n");
             }
             public static void UpdateAmount()
@@ -377,7 +378,7 @@ namespace BlTest
                 IdOrdItem = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Enter a quantity for the requested product:\n");
                 amount = Convert.ToInt32(Console.ReadLine());
-                cart = Obj.Cart.UpdateAmount(cart, IdOrdItem, amount);
+                cart = bl.Cart.UpdateAmount(cart, IdOrdItem, amount);
                 Console.WriteLine("The operation was performed successfully!\n");
             }
             public static void OrderConfirmation()
@@ -389,7 +390,7 @@ namespace BlTest
                 Console.WriteLine("Enter shipping address:");
                 cart.CustomerAdress = Console.ReadLine();
                 Console.WriteLine("Enter shipping address:");
-                Obj.Cart.OrderConfirmation(cart);
+                bl.Cart.OrderConfirmation(cart);
                 Console.WriteLine("The operation was performed successfully!\n");
             }
         }

@@ -3,7 +3,7 @@ using DO;
 namespace Dal;
 using static Dal.DataSource;
 
-internal class DalOrderItem : Iorderitem
+internal class DalOrderItem : IOrderItem
 {
     /// <summary>
     /// Adding an ordered item to the list
@@ -21,7 +21,9 @@ internal class DalOrderItem : Iorderitem
     }
 
     /// <summary>
-    /// Returning the list of items in the order
+    /// A function that receives a condition for filtering 
+    /// and returns the list according to the condition, when there is no condition
+    /// the function will return the entire list of objects.
     /// </summary>
     /// <returns></returns>
     public IEnumerable<OrderItem?> GetAll(Func<OrderItem?, bool>? condition = null)
@@ -96,6 +98,12 @@ internal class DalOrderItem : Iorderitem
             }
         throw new NotfoundException("Order Item");
     }
+    /// <summary>
+    /// Returns an object by condition
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns></returns>
+    /// <exception cref="NotfoundException"></exception>
     public OrderItem GetByCondition(Func<OrderItem?, bool>? condition)
     {
         int x = orderItems.FindIndex(x => condition(x));

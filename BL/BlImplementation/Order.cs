@@ -3,7 +3,7 @@ using System.Data;
 
 internal class Order : BlApi.IOrder
 {
-    public DalApi.IDal Dal = new Dal.DalList();
+    DalApi.IDal? dal = DalApi.Factory.Get();
     /// <summary>
     /// To return all orders for the manager
     /// </summary>
@@ -11,7 +11,7 @@ internal class Order : BlApi.IOrder
     /// <exception cref="BO.NoElementsException"></exception>
     public IEnumerable<BO.OrderForList?> GetAllToManager()
     {
-        IEnumerable<DO.Order?> OrderList = Dal.Iorder.GetAll();
+        IEnumerable<DO.Order?> OrderList = dal?.Order.GetAll();
         IEnumerable<BO.OrderForList?> OrdersList = from item in OrderList
                                                    select DO_orderToBO_OrderForList(item);
         if (!OrdersList.Any())
@@ -26,7 +26,7 @@ internal class Order : BlApi.IOrder
             throw new BO.InvalidInputBO($"Order id");
         try
         {
-            orderToGet = Dal.Iorder.GetById(IdOrder);
+            orderToGet = dal.Order.GetById(IdOrder);
         }
         catch (Exception ex)
         {
@@ -43,7 +43,7 @@ internal class Order : BlApi.IOrder
         DO.Order ordDO = new DO.Order();
         try
         {
-            ordDO = Dal.Iorder.GetById(IdOrder);
+            ordDO = dal.Order.GetById(IdOrder);
         }
         catch (Exception ex)
         {
@@ -52,7 +52,7 @@ internal class Order : BlApi.IOrder
         if (ordDO.ShipDate != null)
         {
             ordDO.ShipDate = DateTime.Now;
-            Dal.Iorder.Update(ordDO);
+            dal?.Order.Update(ordDO);
         }
         return DO_orderToBO_order(ordDO);
     }
@@ -63,7 +63,7 @@ internal class Order : BlApi.IOrder
         DO.Order ordDO = new DO.Order();
         try
         {
-            ordDO = Dal.Iorder.GetById(IdOrder);
+            ordDO = dal.Order.GetById(IdOrder);
         }
         catch (Exception ex)
         {
@@ -72,7 +72,7 @@ internal class Order : BlApi.IOrder
         if (ordDO.DeliveryDate != null)
         {
             ordDO.DeliveryDate = DateTime.Now;
-            Dal.Iorder.Update(ordDO);
+            dal?.Order.Update(ordDO);
         }
         return (DO_orderToBO_order(ordDO));
     }
@@ -83,7 +83,7 @@ internal class Order : BlApi.IOrder
         DO.Order ordDO = new DO.Order();
         try
         {
-            ordDO = Dal.Iorder.GetById(IdOrder);
+            ordDO = dal.Order.GetById(IdOrder);
         }
         catch (Exception ex)
         {
@@ -132,7 +132,7 @@ internal class Order : BlApi.IOrder
             DO.Product proDO = new DO.Product();
             try
             {
-                proDO = Dal.IProduct.GetById(IdProduct);
+                proDO = dal.Product.GetById(IdProduct);
             }
             catch(Exception ex)
             {
@@ -156,7 +156,7 @@ internal class Order : BlApi.IOrder
         orderItem.PriceOfProduct = ord?.Price ?? 0;
         orderItem.AmountOfProduct = ord?.Amount ?? 0;
         orderItem.FinalPriceOfProduct = (ord?.Price * ord?.Amount) ?? 0;
-        IEnumerable<DO.Product?> products = Dal.IProduct.GetAll();
+        IEnumerable<DO.Product?> products = dal?.Product.GetAll();
         IEnumerable<string> productName = from item in products
                                           where item?.ProductId == ord?.ProductId
                                           select item?.ProductName;
@@ -179,7 +179,7 @@ internal class Order : BlApi.IOrder
             ordBO.OrderStatus = BO.OrderStatus.Shipped;
         else
             ordBO.OrderStatus = BO.OrderStatus.Confirmed;
-        IEnumerable<DO.OrderItem?> itemsInOrder = Dal.Iorderitem.GetAll();
+        IEnumerable<DO.OrderItem?> itemsInOrder = dal?.OrderItem.GetAll();
         IEnumerable<BO.OrderItem?> orderItems = from item in itemsInOrder
                                                where item?.OrderId == ordDO.OrderId
                                                select DO_orderItemToBO_OrderItem(item);
@@ -191,7 +191,7 @@ internal class Order : BlApi.IOrder
         BO.OrderForList orderForList = new BO.OrderForList();
         orderForList.OrderId = ord?.OrderId ?? 0;  //id
         orderForList.CostumerName = ord?.CustomerName;  //name
-        IEnumerable<DO.OrderItem?> OrderItemList = Dal.Iorderitem.GetAll();
+        IEnumerable<DO.OrderItem?> OrderItemList = dal?.OrderItem.GetAll();
         IEnumerable<double> count = from item in OrderItemList
                                     where item?.OrderId == ord?.OrderId
                                     select item?.Price ?? 0;
