@@ -1,6 +1,4 @@
-﻿
-
-namespace DO
+﻿namespace DO
 {
     [Serializable]
     public class NotfoundException : Exception
