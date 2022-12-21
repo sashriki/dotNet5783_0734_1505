@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<products>
+  <product>
+    <Id>676767</Id>
+    <Name>d</Name>
+    <Amount>5</Amount>
+    <Price>45</Price>
+    <Category>shoes</Category>
+  </product>
+</products>
