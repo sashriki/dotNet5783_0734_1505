@@ -274,7 +274,7 @@ namespace Dal
                 Console.WriteLine("enter a product name\n");
                 NewProduct.ProductName = Console.ReadLine();
                 Console.WriteLine("Enter the amount of products in stock\n");
-                NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
+                NewProduct.AmountInStock = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter a product price\n");
                 NewProduct.ProductPrice = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter a product category\n");
@@ -301,7 +301,7 @@ namespace Dal
                 Console.WriteLine("enter a product number\n");
                 NewProduct.ProductId = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter the amount of products in stock\n");
-                NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
+                NewProduct.AmountInStock = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a product price\n");
                 NewProduct.ProductPrice = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a product category\n");

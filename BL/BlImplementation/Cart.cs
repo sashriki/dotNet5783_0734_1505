@@ -32,7 +32,7 @@ internal class Cart : BlApi.ICart
         if (ord != null) //If the item is found   
         {
             //If there are enough items in stock
-            if (productDO.AmmountInStock >= ord.AmountOfProduct + 1)
+            if (productDO.AmountInStock >= ord.AmountOfProduct + 1)
                 newCart.OrderItems.Where(od => od.ProductName == productDO.ProductName).First().AmountOfProduct++;
             else
                 throw new ItemMissingException(productDO.ProductName);
@@ -40,7 +40,7 @@ internal class Cart : BlApi.ICart
         else //If the item does not exist in the list
         {
             //If there are enough items in stock
-            if (productDO.AmmountInStock < 1)
+            if (productDO.AmountInStock < 1)
                 throw new ItemMissingException(productDO.ProductName);
             //Adding the item to the list
             ordItemBO.OrderItemId = 0;
@@ -77,7 +77,7 @@ internal class Cart : BlApi.ICart
         if (ordBO.AmountOfProduct < amount)//to increase quantity
         {
             int dif = amount - ordBO.AmountOfProduct;
-            if (productDO.AmmountInStock >= amount)//If there is enough in stock
+            if (productDO.AmountInStock >= amount)//If there is enough in stock
             {
                 newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
                     FinalPriceOfProduct += dif * ordBO.PriceOfProduct;
@@ -165,8 +165,8 @@ internal class Cart : BlApi.ICart
             }
             if (item.AmountOfProduct <= 0)
                 throw new InvalidInputBO(item.ProductName);
-            if (productDO.AmmountInStock < item.AmountOfProduct)
-                throw new ItemMissingException(item.ProductName, productDO.AmmountInStock);
+            if (productDO.AmountInStock < item.AmountOfProduct)
+                throw new ItemMissingException(item.ProductName, productDO.AmountInStock);
         }
         //Checking for correctness of customer details
         if (newCart.CustomerAdress == "")

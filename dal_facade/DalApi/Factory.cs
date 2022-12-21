@@ -1,5 +1,4 @@
 ﻿namespace DalApi;
-
 using DO;
 using System.Reflection;
 using static DalApi.DalConfig;
@@ -18,7 +17,7 @@ public static class Factory
         }
         catch (Exception)
         {
-            throw new DalConfigException("Failed to load {dal}.dll package");
+            throw new DalConfigException($"Failed to load {dal}.dll package");
         }
 
         Type? type = Type.GetType($"Dal.{dal}, {dal}")

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Dal;
 public class ToolsXML
@@ -33,6 +28,8 @@ public class ToolsXML
             //throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
         }
     }
+
+
     public static List<T> LoadListFromXMLSerializer<T>(string filePath)
     {
         try

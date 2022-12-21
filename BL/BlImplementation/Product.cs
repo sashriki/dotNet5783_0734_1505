@@ -36,7 +36,7 @@ internal class Product : BlApi.IProduct
         DO_product.ProductName = product?.ProductName;
         DO_product.ProductPrice = (float)product?.ProductPrice;
         DO_product.ProductCategory = (BO.Category)product?.ProductCategory;
-        DO_product.AmmountInStock = product?.AmmountInStock ?? 0;
+        DO_product.AmmountInStock = product?.AmountInStock ?? 0;
         return DO_product;
     }
 
@@ -158,7 +158,7 @@ internal class Product : BlApi.IProduct
         BO.Product B0_product = new BO.Product();
         B0_product.ProductId = product.ProductId;
         B0_product.ProductName = product.ProductName;
-        B0_product.AmmountInStock = product.AmmountInStock;
+        B0_product.AmmountInStock = product.AmountInStock;
         B0_product.ProductPrice = product.ProductPrice;
         B0_product.ProductCategory = (BO.Category)product.ProductCategory;
         return B0_product;
@@ -168,7 +168,7 @@ internal class Product : BlApi.IProduct
         BO.ProductItem B0_product = new BO.ProductItem();
         B0_product.ProductId = product.ProductId;
         B0_product.ProductName = product.ProductName;
-        if (product.AmmountInStock > 0)
+        if (product.AmountInStock > 0)
             B0_product.InStock = true;
         else
             B0_product.InStock = false;
@@ -188,7 +188,7 @@ internal class Product : BlApi.IProduct
         DO_product.ProductName = product.ProductName;
         DO_product.ProductPrice = (float)product.ProductPrice;
         DO_product.ProductCategory = (DO.Category)product.ProductCategory;
-        DO_product.AmmountInStock = product.AmmountInStock;
+        DO_product.AmountInStock = product.AmmountInStock;
         return DO_product;
     }
 

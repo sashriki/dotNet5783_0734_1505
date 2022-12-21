@@ -50,11 +50,11 @@ internal static class DataSource
             newProduct.ProductPrice = Math.Round(random.Next(500) + random.NextDouble(),1);
             if (random.Next(0, 100) > 5)
             {
-                newProduct.AmmountInStock = random.Next(20, 100);
+                newProduct.AmountInStock = random.Next(20, 100);
             }
             else
             {
-                newProduct.AmmountInStock = 1;
+                newProduct.AmountInStock = 1;
             }
             products.Add(newProduct);  
         }
