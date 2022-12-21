@@ -55,8 +55,8 @@ internal class dalOrderItem : IOrderItem
         
         if (x != -1)
             throw new NotfoundException("Order Item");
-        
-        return OrderItemLst[x];
+        OrderItem orderItem= OrderItemLst[x];
+        return orderItem;
     }
     public OrderItem GetByCondition(Func<OrderItem?, bool>? condition)
     {
@@ -66,8 +66,9 @@ internal class dalOrderItem : IOrderItem
         
         if (x != -1)
             throw new NotfoundException("Order Item");
-        
-        return OrderItemLst[x];
+
+        OrderItem orderItem = OrderItemLst[x];
+        return orderItem;
     }
     public IEnumerable<OrderItem?> GetAll(Func<OrderItem?, bool>? condition = null)
     {
@@ -76,7 +77,7 @@ internal class dalOrderItem : IOrderItem
         if (condition == null)
             return OrderList.AsEnumerable().OrderByDescending(p => p?.OrderItemId);
 
-        return OrderList.Where(condition).OrderByDescending(p => p?.OrderItemId);
+        return OrderList.Where(condition).OrderByDescending(                  p => p?.OrderItemId);
     }
     public OrderItem GetbyIdOfProductAndOrder(int idOrder, int idProduct)
     {
@@ -87,6 +88,7 @@ internal class dalOrderItem : IOrderItem
         if (x != -1)
             throw new NotfoundException("Order Item");
 
-        return OrderItemLst[x];
+        OrderItem orderItem = OrderItemLst[x];
+        return orderItem;
     }
 }

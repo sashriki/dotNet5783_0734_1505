@@ -44,8 +44,9 @@ internal class dalOrder : IOrder
         List<Order> OrderLst = ToolsXML.LoadListFromXMLSerializer<Order>(path);
         int x = OrderLst.FindIndex(x => x.OrderId == objToGet);
         if (x != -1)
-            throw new NotfoundException("Order");       
-        return OrderLst[x];
+            throw new NotfoundException("Order");
+        Order order = OrderLst[x];
+        return order;
     }
     public Order GetByCondition(Func<Order?, bool>? condition) 
     {
@@ -53,7 +54,8 @@ internal class dalOrder : IOrder
         int x = OrderLst.FindIndex(x => condition(x) == true);
         if (x != -1)
             throw new NotfoundException("Order");
-        return OrderLst[x];
+        Order order = OrderLst[x];
+        return order;
     }
     public IEnumerable<Order?> GetAll(Func<Order?, bool>? condition = null) 
     {
