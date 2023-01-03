@@ -97,13 +97,13 @@ internal class Order : BlApi.IOrder
             {
                  (ordDO.OrderDate, BO.OrderStatus.Confirmed),
                  (ordDO.ShipDate, BO.OrderStatus.Shipped),
-                 (ordDO.DeliveryDate, BO.OrderStatus.DeliveredToCostumer)
+                 (ordDO.DeliveryDate, BO.OrderStatus.Delivered)
             }
         };
     }
     private BO.OrderStatus getStatus(DO.Order ordDO)
     {
-        return ordDO.DeliveryDate != null ? BO.OrderStatus.DeliveredToCostumer :
+        return ordDO.DeliveryDate != null ? BO.OrderStatus.Delivered :
             ordDO.ShipDate != null ? BO.OrderStatus.Shipped : BO.OrderStatus.Confirmed;
     }
 
@@ -174,7 +174,7 @@ internal class Order : BlApi.IOrder
         ordBO.OrderDate = ordDO.OrderDate;
         ordBO.DeliveryDate = ordDO.DeliveryDate;
         if (ordDO.DeliveryDate != null)  //status
-            ordBO.OrderStatus = BO.OrderStatus.DeliveredToCostumer;
+            ordBO.OrderStatus = BO.OrderStatus.Delivered;
         else if (ordDO.ShipDate != null)
             ordBO.OrderStatus = BO.OrderStatus.Shipped;
         else
@@ -200,7 +200,7 @@ internal class Order : BlApi.IOrder
         foreach (var item in prices)
             orderForList.FinalPrice += item;  //Price
         if (ord?.DeliveryDate != null)  //status
-            orderForList.OrderStatus = BO.OrderStatus.DeliveredToCostumer;
+            orderForList.OrderStatus = BO.OrderStatus.Delivered;
         else if (ord?.ShipDate != null)
             orderForList.OrderStatus = BO.OrderStatus.Shipped;
         else

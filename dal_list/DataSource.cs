@@ -35,6 +35,10 @@ internal static class DataSource
         InitProduct();
         InitOrder();
         InitOrderItem();
+
+        //ToolsXML.SaveListToXMLSerializer(products, "xmlProduct.xml");
+        //ToolsXML.SaveListToXMLSerializer(orders, "xmlOrder.xml");
+        //ToolsXML.SaveListToXMLSerializer(orderItems, "xmlOrderItem.xml");
     }
     /// <summary>
     /// Product list initialization

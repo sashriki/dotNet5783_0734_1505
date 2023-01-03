@@ -1,0 +1,24 @@
+﻿<Window x:Class="PL.CartWin.MainCartWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.CartWin"
+        mc:Ignorable="d"
+        Title="MainCartWin" Height="450" Width="600">
+    <Grid>
+        <ListView x:Name="OrderItemList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="14,57,14,77" SelectionChanged="OrderItemList_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Order Item Id  " DisplayMemberBinding="{Binding OrderItemId}" Width="auto"/>
+                    <GridViewColumn Header="Product Id  " DisplayMemberBinding="{Binding ProductId}" Width="auto"/>
+                    <GridViewColumn Header="Product Name  " DisplayMemberBinding="{Binding ProductName}" Width="auto"/>
+                    <GridViewColumn Header="Price Of Product  " DisplayMemberBinding="{Binding PriceOfProduct}" Width="auto"/>
+                    <GridViewColumn Header="Amount Of Product  " DisplayMemberBinding="{Binding AmountOfProduct}" Width="auto"/>
+                    <GridViewColumn Header="Final Price Of Product  " DisplayMemberBinding="{Binding FinalPriceOfProduct}" Width="auto"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</Window>

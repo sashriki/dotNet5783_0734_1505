@@ -5,20 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="516" Width="739">
     <Grid>
-        <Button x:Name="Product" Content="Product" Margin="330,89,330,291" RenderTransformOrigin="0.5,0.5" FontSize="24" FontFamily="Arial Rounded MT Bold" Click="Button_Click">
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0.694"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="2.388"/>
-                </TransformGroup>
-            </Button.RenderTransform>
+        <Image x:Name="image" Source="/1.jpg" Margin="0,0,0,0" OpacityMask="#E53E0707" Height="524" VerticalAlignment="Center"/>
+        <TextBox x:Name="title" TextWrapping="Wrap" Text="Welcome to Bella Bella!" Margin="140,140,140,292" TextChanged="TextBox_TextChanged" Background="{Binding ElementName=image, Mode=OneWay}" FontFamily="Arial Rounded MT Bold" FontSize="36" TextAlignment="Center" BorderBrush="{Binding Width, ElementName=title}"/>
+        <Button x:Name="close" Content="close" Margin="10,10,670,440" Click="Button_Click_2" FontFamily="Candara" FontSize="14" RenderTransformOrigin="0.244,1">
+            <Button.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Button.Background>
         </Button>
-        <Button Content="close" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="25" Width="30" Background="#FFDDDDDD" Click="Button_Click_1"/>
-
-
+        <Button x:Name="manager"  Content="manager" Margin="390,210,240,230" RenderTransformOrigin="0.339,0.565" FontFamily="Comic Sans MS" FontSize="20" Click="manager_Click">
+            <Button.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="client"  Content="client" Margin="240,210,390,230" FontFamily="Comic Sans MS" FontSize="20" Click="client_Click">
+            <Button.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>

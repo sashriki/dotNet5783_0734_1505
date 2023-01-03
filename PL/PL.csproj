@@ -14,7 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="1.jpg" />
     <None Remove="gym.jpg" />
+    <None Remove="manager\1.jpg" />
+    <None Remove="ProductWin\1479847010.png" />
+    <None Remove="ProductWin\7.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="1.jpg" />
     <Resource Include="gym.jpg" />
+    <Resource Include="manager\1.jpg" />
+    <Resource Include="ProductWin\1479847010.png" />
+    <Resource Include="ProductWin\7.png" />
   </ItemGroup>
 
   <ItemGroup>

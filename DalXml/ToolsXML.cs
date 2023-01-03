@@ -4,7 +4,7 @@ namespace Dal;
 public class ToolsXML
 {
 
-    public static string dir = @"xml\";
+    public static string dir = @"..\xml\";
     static ToolsXML()
     {
         if (!Directory.Exists(dir))
@@ -41,7 +41,7 @@ public class ToolsXML
                 FileStream file = new FileStream(dir + filePath, FileMode.Open);
                 list = (List<T>)x.Deserialize(file);
                 file.Close();
-                return list;
+                return list!;
             }
             else
                 return new List<T>();

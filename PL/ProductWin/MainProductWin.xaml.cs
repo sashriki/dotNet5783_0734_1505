@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using BO;
 using PL;
+using PL.CartWin;
+using PL.OrderWin;
 using PL.ProductWin;
+using static PL.EnumWin;
 
 namespace PLL.ProductWin
 {
@@ -15,20 +19,38 @@ namespace PLL.ProductWin
 
         BlApi.IBl? bl = BlApi.Factory.Get();
         private IEnumerable<BO.ProductForList> productsForList;
-        public MainProductWin()
+        ClientOrManager clientOrManager;
+        public MainProductWin(EnumWin.ClientOrManager x)
         {
             InitializeComponent();
+
             productsForList = bl.Product.getAllProducts()!;
-            ProductListview.ItemsSource = productsForList;
-            
-            selectedCategory.Items.Add("All");
-           
-            foreach (var item in Enum.GetValues(typeof(BO.Category)))
+                ProductListview.ItemsSource = productsForList;
+                selectedCategory.Items.Add("All");
+
+            foreach (var item in System.Enum.GetValues(typeof(BO.Category)))
             {
                 selectedCategory.Items.Add(item.ToString());
             }
             selectedCategory.SelectedIndex = 0;
+
+            clientOrManager = new ClientOrManager();
+
+            ProductListview.ItemsSource = productsForList;
+
+            if (x == ClientOrManager.manager)
+            {              
+                clientOrManager = ClientOrManager.manager;
+                cart.Visibility = Visibility.Hidden; 
+                orders.Visibility= Visibility.Hidden;
+            }
+            else
+            {
+                clientOrManager = ClientOrManager.client;
+                Add.Visibility = Visibility.Hidden;
+            }
         }
+
         /// <summary>
         /// A function to filter a list by category
         /// </summary>
@@ -94,6 +116,17 @@ namespace PLL.ProductWin
         {
             new MainWindow().Show();
             this.Close();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            new MainOrderWin(clientOrManager).Show();
+            this.Close();
+        }
+
+        private void cart_Click(object sender, RoutedEventArgs e)
+        {
+            new MainCartWin().Show();
         }
     }
 }

@@ -7,4 +7,18 @@
     <Price>45</Price>
     <Category>shoes</Category>
   </product>
+  <product>
+    <Id>345678</Id>
+    <Name>jkjjk</Name>
+    <Amount>45</Amount>
+    <Price>45</Price>
+    <Category>shoes</Category>
+  </product>
+  <product>
+    <Id>222222</Id>
+    <Name>fggg</Name>
+    <Amount>3</Amount>
+    <Price>44</Price>
+    <Category>home_workout</Category>
+  </product>
 </products>

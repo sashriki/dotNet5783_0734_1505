@@ -39,7 +39,7 @@ internal class dalOrder : IOrder
         //Finding the index of the requested object
         int x = OrderLst.FindIndex(x=> x.OrderId == objToDelete);
         //throw an exception to the close that the object does not exist
-        if (x != -1)
+        if (x == -1)
             throw new NotfoundException("Order");
         //Deleting the object
         OrderLst.RemoveAt(x);
@@ -58,7 +58,7 @@ internal class dalOrder : IOrder
         //Finding the index of the requested object
         int x = OrderLst.FindIndex(x => x.OrderId == objToUpdate.OrderId);
         //throw an exception to the close that the object does not exist
-        if (x != -1)
+        if (x == -1)
             throw new NotfoundException("Order");
         //Update the object
         OrderLst[x] = objToUpdate;
@@ -66,6 +66,7 @@ internal class dalOrder : IOrder
         ToolsXML.SaveListToXMLSerializer(OrderLst, path);
         return;
     }
+
     /// <summary>
     /// The method will return an order by ID
     /// </summary>
@@ -79,11 +80,12 @@ internal class dalOrder : IOrder
         //Finding the index of the requested object
         int x = OrderLst.FindIndex(x => x.OrderId == objToGet);
         //throw an exception to the close that the object does not exist
-        if (x != -1)
+        if (x == -1)
             throw new NotfoundException("Order");
         Order order = OrderLst[x];
         return order;
     }
+
     /// <summary>
     /// The method will return an order by condition
     /// </summary>
@@ -97,11 +99,12 @@ internal class dalOrder : IOrder
         //Finding the index of the requested object
         int x = OrderLst.FindIndex(x => condition(x) == true);
         //throw an exception to the close that the object does not exist
-        if (x != -1)
+        if (x == -1)
             throw new NotfoundException("Order");
         Order order = OrderLst[x];
         return order;
     }
+
     /// <summary>
     /// The method will return a collection of orders by condition
     /// </summary>

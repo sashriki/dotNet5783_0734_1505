@@ -3,6 +3,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 
+
 namespace PL.ProductWin
 {
     /// <summary>
@@ -14,17 +15,18 @@ namespace PL.ProductWin
         BlApi.IBl? bl = BlApi.Factory.Get();
 
         BO.Product product;
-        public enum state { Add, Update };
-        state State;
+      //  public enum state { Add, Update };
+        EnumWin.state State;
         int HowManyTimesWeCalledToTxt_TextChangedFunction = 0;
+
         /// <summary>
         /// Parameterless constructor for adding a product
         /// </summary>
         public AddOrUpdateWin()  
         {
             InitializeComponent();
-            Categories.ItemsSource = Enum.GetValues(typeof(BO.Category));
-            State = state.Add;
+            Categories.ItemsSource = System.Enum.GetValues(typeof(BO.Category));
+            State = EnumWin.state.Add;
         }
 
         /// <summary>
@@ -35,7 +37,7 @@ namespace PL.ProductWin
         {
             InitializeComponent();
             Categories.ItemsSource = Enum.GetValues(typeof(BO.Category));
-            State = state.Update;
+            State = EnumWin.state.Update;
             TxtID.Text = $"{selected_item.ProductId}";
             TxtName.Text = selected_item.ProductName;
             TxtPrice.Text = $"{selected_item.Price}";
@@ -59,7 +61,7 @@ namespace PL.ProductWin
             product.ProductCategory = (BO.Category)Categories.SelectedItem;
             try
             {
-                if (State == state.Update)
+                if (State == EnumWin.state.Update)
                     bl.Product.updateProduct(product);
                 else
                     bl.Product.addProduct(product);
@@ -67,7 +69,7 @@ namespace PL.ProductWin
             catch(Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-                new MainProductWin().Show();
+                //new MainProductWin().Show();
                 this.Close();
             }
             permissionScreen();
@@ -175,7 +177,7 @@ namespace PL.ProductWin
         {
             HowManyTimesWeCalledToTxt_TextChangedFunction++;
             if (TxtID.Text != "" && TxtInStock.Text != "" && TxtName.Text != "" && TxtPrice.Text != "" && Categories.SelectedItem!= null && 
-                ((State == state.Update && HowManyTimesWeCalledToTxt_TextChangedFunction>4)||(State == state.Add)))
+                ((State == EnumWin.state.Update && HowManyTimesWeCalledToTxt_TextChangedFunction>4)||(State == EnumWin.state.Add)))
                 AddOrUpdate.IsEnabled = true;
             else
                 AddOrUpdate.IsEnabled = false;
@@ -185,7 +187,7 @@ namespace PL.ProductWin
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            new MainProductWin().Show();
+            //new MainProductWin().Show();
             this.Close();
         }
     }

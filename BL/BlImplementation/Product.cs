@@ -41,7 +41,7 @@ internal class Product : BlApi.IProduct
     }
 
     public IEnumerable<BO.ProductForList> GetAllByCondition(Func<BO.ProductForList?, bool>? condition, IEnumerable<BO.ProductForList> productForLists)
-    => productForLists.Where(condition);
+        => productForLists.Where(condition);
 
     public BO.Product getByIdToMannage(int id)
     {

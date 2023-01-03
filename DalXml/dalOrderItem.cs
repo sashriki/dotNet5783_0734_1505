@@ -27,6 +27,7 @@ internal class dalOrderItem : IOrderItem
 
         return objToAdd.OrderId;
     }
+
     /// <summary>
     /// Deletion in an ordered item from the list
     /// </summary>
@@ -39,13 +40,14 @@ internal class dalOrderItem : IOrderItem
         //Finding the index of the requested object
         int x = OrderItemLst.FindIndex(x => x.OrderItemId == objToDelete);
         //throw an exception to the close that the object does not exist
-        if (x != -1)
+        if (x == -1)
             throw new NotfoundException("Order Item");
         //Deleting the object
         OrderItemLst.RemoveAt(x);
         //Saving the updated file
         ToolsXML.SaveListToXMLSerializer(OrderItemLst, path);
     }
+
     /// <summary>
     /// Update an item in the order
     /// </summary>
@@ -58,7 +60,7 @@ internal class dalOrderItem : IOrderItem
         //Finding the index of the requested object
         int x = OrderItemLst.FindIndex(x => x.OrderItemId == objToUpdate.OrderItemId);
         //throw an exception to the close that the object does not exist
-        if (x != -1)       
+        if (x == -1)       
             throw new NotfoundException("Order Item");
         //Update the object     
         OrderItemLst[x] = objToUpdate;
@@ -66,6 +68,7 @@ internal class dalOrderItem : IOrderItem
         ToolsXML.SaveListToXMLSerializer(OrderItemLst, path);
         return;
     }
+
     /// <summary>
     /// The method will return an item in the order by ID
     /// </summary>
@@ -79,11 +82,12 @@ internal class dalOrderItem : IOrderItem
         //Finding the index of the requested object
         int x = OrderItemLst.FindIndex(x => x.OrderItemId == objToGet);
         //throw an exception to the close that the object does not exist
-        if (x != -1)
+        if (x == -1)
             throw new NotfoundException("Order Item");
         OrderItem orderItem= OrderItemLst[x];
         return orderItem;
     }
+
     /// <summary>
     /// The method will return an item in the order according to a condition
     /// </summary>
@@ -97,12 +101,13 @@ internal class dalOrderItem : IOrderItem
         //Finding the index of the requested object
         int x = OrderItemLst.FindIndex(x => condition(x) == true);
         //throw an exception to the close that the object does not exist
-        if (x != -1)
+        if (x == -1)
             throw new NotfoundException("Order Item");
 
         OrderItem orderItem = OrderItemLst[x];
         return orderItem;
     }
+
     /// <summary>
     /// The method will return a collection of items ordered by condition
     /// </summary>
@@ -118,6 +123,7 @@ internal class dalOrderItem : IOrderItem
 
         return OrderList.Where(condition).OrderByDescending(                  p => p?.OrderItemId);
     }
+
     /// <summary>
     /// The method will return an item in the order by order ID and product ID
     /// </summary>
@@ -132,7 +138,7 @@ internal class dalOrderItem : IOrderItem
         //Finding the index of the requested object
         int x = OrderItemLst.FindIndex(x => x.OrderId == idOrder && x.ProductId == idProduct);
         //throw an exception to the close that the object does not exist
-        if (x != -1)
+        if (x == -1)
             throw new NotfoundException("Order Item");
 
         OrderItem orderItem = OrderItemLst[x];
