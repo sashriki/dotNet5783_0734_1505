@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="MainWinManager" Height="516" Width="739">
     <Grid>
-        <Image x:Name="image" Source="/1.jpg" Margin="0,0,0,0" OpacityMask="#CC3E0707" Height="524" VerticalAlignment="Center"/>
         <Button x:Name="close" Content="close" Margin="9,10,655,434" Click="Button_Click_2" FontFamily="Bahnschrift SemiLight" FontSize="14" RenderTransformOrigin="0.244,1">
             <Button.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
@@ -26,7 +25,7 @@
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </Button.BorderBrush>
             <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </Button.Background>
         </Button>
         <Button Content="Back" HorizontalAlignment="Left" Height="33" Margin="74,10,0,0" VerticalAlignment="Top" Width="60" FontFamily="Bahnschrift SemiLight" FontSize="14" Click="Button_Click">

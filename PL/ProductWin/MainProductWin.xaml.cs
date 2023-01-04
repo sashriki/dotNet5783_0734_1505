@@ -19,15 +19,16 @@ namespace PLL.ProductWin
 
         BlApi.IBl? bl = BlApi.Factory.Get();
         private IEnumerable<BO.ProductForList> productsForList;
+        private IEnumerable<BO.ProductItem> productsItems;
         ClientOrManager clientOrManager;
         public MainProductWin(EnumWin.ClientOrManager x)
         {
             InitializeComponent();
 
-            productsForList = bl.Product.getAllProducts()!;
-                ProductListview.ItemsSource = productsForList;
-                selectedCategory.Items.Add("All");
-
+            //productsForList = bl.Product.getAllProducts()!;
+            //    ProductListview.ItemsSource = productsForList;
+            //    selectedCategory.Items.Add("All");
+            selectedCategory.Items.Add("All");
             foreach (var item in System.Enum.GetValues(typeof(BO.Category)))
             {
                 selectedCategory.Items.Add(item.ToString());
@@ -36,18 +37,22 @@ namespace PLL.ProductWin
 
             clientOrManager = new ClientOrManager();
 
-            ProductListview.ItemsSource = productsForList;
+            //ProductListview.ItemsSource = productsForList;
 
             if (x == ClientOrManager.manager)
-            {              
+            {
                 clientOrManager = ClientOrManager.manager;
-                cart.Visibility = Visibility.Hidden; 
-                orders.Visibility= Visibility.Hidden;
+                cart.Visibility = Visibility.Hidden;
+                orders.Visibility = Visibility.Hidden;
+                productsForList = bl.Product.getAllProducts()!;
+                ProductListview.ItemsSource = productsForList;
             }
             else
             {
                 clientOrManager = ClientOrManager.client;
                 Add.Visibility = Visibility.Hidden;
+                productsItems = bl.Product.GetAllToCastumer();
+                ProductListview.ItemsSource = productsItems;
             }
         }
 
@@ -82,7 +87,10 @@ namespace PLL.ProductWin
         /// <param name="e"></param>
         private void ProductListview_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            new AddOrUpdateWin((BO.ProductForList)ProductListview.SelectedItem).Show();
+            if(clientOrManager== ClientOrManager.manager)
+                new AddOrUpdateWin((BO.ProductForList)ProductListview.SelectedItem).Show();
+            else
+                new OrderItemWin((BO.ProductItem)ProductListview.SelectedItem).Show();  
             this.Close();
         }
         /// <summary>

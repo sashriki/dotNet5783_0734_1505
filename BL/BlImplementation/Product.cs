@@ -1,4 +1,8 @@
-﻿using DO;
+﻿using BO;
+using DO;
+using Microsoft.VisualBasic;
+using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 
 internal class Product : BlApi.IProduct
 {
@@ -40,9 +44,34 @@ internal class Product : BlApi.IProduct
         return DO_product;
     }
 
+
     public IEnumerable<BO.ProductForList> GetAllByCondition(Func<BO.ProductForList?, bool>? condition, IEnumerable<BO.ProductForList> productForLists)
         => productForLists.Where(condition);
 
+    public IEnumerable<BO.ProductItem> GetAllToCastumer()
+    {
+        IEnumerable<DO.Product?> DO_products = dal?.Product.GetAll();
+        IEnumerable<BO.ProductItem> BO_productItem = from item in DO_products
+                                                      select DOProductToProductItem(item);
+        return BO_productItem;
+    }
+
+    public BO.ProductItem DOProductToProductItem(DO.Product? x)
+    {
+        BO.ProductItem productItem = new ProductItem();
+        productItem.ProductId = x?.ProductId ?? 0;
+        productItem.ProductName = x?.ProductName;
+        productItem.Price = x?.ProductPrice ?? 0;
+        productItem.Category = (BO.Category)x?.ProductCategory;
+        productItem.AmmountInCart = 0;
+        if(x?.AmountInStock>0)
+            productItem.InStock = true;
+        else
+            productItem.InStock = false;
+        return productItem;
+    }
+
+    public bool InStock_(DO.Product x) => x.AmountInStock>0;
     public BO.Product getByIdToMannage(int id)
     {
         DO.Product DO_product = new DO.Product();

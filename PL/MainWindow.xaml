@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="516" Width="739">
     <Grid>
-        <Image x:Name="image" Source="/1.jpg" Margin="0,0,0,0" OpacityMask="#E53E0707" Height="524" VerticalAlignment="Center"/>
         <TextBox x:Name="title" TextWrapping="Wrap" Text="Welcome to Bella Bella!" Margin="140,140,140,292" TextChanged="TextBox_TextChanged" Background="{Binding ElementName=image, Mode=OneWay}" FontFamily="Arial Rounded MT Bold" FontSize="36" TextAlignment="Center" BorderBrush="{Binding Width, ElementName=title}"/>
         <Button x:Name="close" Content="close" Margin="10,10,670,440" Click="Button_Click_2" FontFamily="Candara" FontSize="14" RenderTransformOrigin="0.244,1">
             <Button.Background>
