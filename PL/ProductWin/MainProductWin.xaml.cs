@@ -16,18 +16,16 @@ namespace PLL.ProductWin
     /// </summary>
     public partial class MainProductWin : Window
     {
-
         BlApi.IBl? bl = BlApi.Factory.Get();
         private IEnumerable<BO.ProductForList> productsForList;
         private IEnumerable<BO.ProductItem> productsItems;
         ClientOrManager clientOrManager;
+        static BO.Cart NewCart;
+
         public MainProductWin(EnumWin.ClientOrManager x)
         {
             InitializeComponent();
 
-            //productsForList = bl.Product.getAllProducts()!;
-            //    ProductListview.ItemsSource = productsForList;
-            //    selectedCategory.Items.Add("All");
             selectedCategory.Items.Add("All");
             foreach (var item in System.Enum.GetValues(typeof(BO.Category)))
             {
@@ -36,8 +34,6 @@ namespace PLL.ProductWin
             selectedCategory.SelectedIndex = 0;
 
             clientOrManager = new ClientOrManager();
-
-            //ProductListview.ItemsSource = productsForList;
 
             if (x == ClientOrManager.manager)
             {
@@ -49,9 +45,11 @@ namespace PLL.ProductWin
             }
             else
             {
+                NewCart = new BO.Cart();
+                NewCart.OrderItems = new List<OrderItem?>();
                 clientOrManager = ClientOrManager.client;
                 Add.Visibility = Visibility.Hidden;
-                productsItems = bl.Product.GetAllToCastumer();
+                productsItems = bl.Product.GetAllToCastumer(NewCart);
                 ProductListview.ItemsSource = productsItems;
             }
         }
@@ -90,7 +88,7 @@ namespace PLL.ProductWin
             if(clientOrManager== ClientOrManager.manager)
                 new AddOrUpdateWin((BO.ProductForList)ProductListview.SelectedItem).Show();
             else
-                new OrderItemWin((BO.ProductItem)ProductListview.SelectedItem).Show();  
+                new ProductItemWin((BO.ProductItem)ProductListview.SelectedItem,NewCart).Show();  
             this.Close();
         }
         /// <summary>

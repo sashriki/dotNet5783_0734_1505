@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.CartWin"
         mc:Ignorable="d"
-        Title="MainCartWin" Height="450" Width="600">
+        Title="MainCartWin" Height="450" Width="650">
     <Grid>
         <ListView x:Name="OrderItemList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="14,57,14,77" SelectionChanged="OrderItemList_SelectionChanged">
             <ListView.View>

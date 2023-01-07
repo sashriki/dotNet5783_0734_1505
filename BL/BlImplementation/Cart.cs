@@ -25,7 +25,7 @@ internal class Cart : BlApi.ICart
             throw new BO.BONotfoundException(ex);
         }
         //Creating a new order item object
-        BO.OrderItem ordItemBO = new BO.OrderItem();
+        BO.OrderItem ordItemBO;
         //Finding the item by ID from the list of items in the order
         BO.OrderItem? ord = newCart.OrderItems.FirstOrDefault(od => od.ProductId == IDproduct);
         newCart.OrderItems.ToList();
@@ -39,6 +39,7 @@ internal class Cart : BlApi.ICart
         }
         else //If the item does not exist in the list
         {
+            ordItemBO = new BO.OrderItem();
             //If there are enough items in stock
             if (productDO.AmountInStock < 1)
                 throw new ItemMissingException(productDO.ProductName);

@@ -1,0 +1,61 @@
+﻿<Window x:Class="PL.ProductWin.ProductItemWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.ProductWin"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="OrderItemWin" Height="450" Width="550">
+    
+    <Window.Resources>
+        <local:EmptyToVisable x:Key="EmptyToVisable"/>
+    </Window.Resources>
+    
+    <Grid>
+        <Label x:Name="productIdLabel" Content="Product Id:" HorizontalAlignment="Left" Height="40" Margin="60,25,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.015,0.299" FontFamily="Adobe Caslon Pro Bold" FontSize="14">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <Label x:Name="ProductNameLabel"  Content="Product Name:" HorizontalAlignment="Left" Height="40" Margin="60,75,0,0" VerticalAlignment="Top" Width="128" FontFamily="Adobe Caslon Pro Bold" FontSize="14">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <Label x:Name="PriceLabel" Content="Price:" HorizontalAlignment="Left" Height="40" Margin="60,125,0,0" VerticalAlignment="Top" Width="128" FontFamily="Adobe Caslon Pro Bold" FontSize="14">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <Label x:Name="CategoryLabel"  Content="Category:" HorizontalAlignment="Left" Height="40" Margin="60,175,0,0" VerticalAlignment="Top" Width="128" FontFamily="Adobe Caslon Pro Bold" FontSize="14">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <Label x:Name="InStockLabel"  Content="In Stock:" HorizontalAlignment="Left" Height="40" Margin="60,225,0,0" VerticalAlignment="Top" Width="128" FontFamily="Adobe Caslon Pro Bold" FontSize="14">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <Label x:Name="AmmountInCartLabel" Content="Ammount In Cart:" HorizontalAlignment="Left" Height="40" Margin="60,275,0,0" VerticalAlignment="Top" Width="128" FontFamily="Adobe Caslon Pro Bold" FontSize="14">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <TextBlock x:Name="productIdTextBlock" HorizontalAlignment="Left" Height="40" Margin="205,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="273" Foreground="{Binding Visibility, ElementName=textBlock}" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"
+                   Text="{Binding ProductItem.ProductId, Mode=TwoWay}"/>
+        <TextBlock x:Name="productNameTextBlock" HorizontalAlignment="Left" Height="40" Margin="205,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="273" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"
+                   Text="{Binding ProductItem.ProductName, Mode=TwoWay}"/>
+        <TextBlock x:Name="priceTextBlock" HorizontalAlignment="Left" Height="42" Margin="205,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="273" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"
+                   Text="{Binding ProductItem.Price, Mode=TwoWay}"/>
+        <TextBlock x:Name="CategoryTextBlock" HorizontalAlignment="Left" Height="40" Margin="205,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="273" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"
+                   Text="{Binding ProductItem.Category, Mode=TwoWay}"/>
+        <TextBlock x:Name="InStockTextBlock" HorizontalAlignment="Left" Height="40" Margin="205,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="273" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"
+                   Text="{Binding ProductItem.InStock, Mode=TwoWay}"/>
+        <TextBox x:Name="AmmountInCartTextBox" HorizontalAlignment="Left" Height="40" Margin="205,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="273"
+                  Text="{Binding ProductItem.AmmountInCart, Mode=TwoWay}" TextChanged="TextBox_TextChanged"/>
+        <Button x:Name="AddToCart" Content="Add To Cart" HorizontalAlignment="Center" Height="32" Margin="0,331,0,0" VerticalAlignment="Top" Width="282"
+                Visibility="{Binding ElementName=AmmountInCartTextBox, Path=Text, Converter={StaticResource EmptyToVisable}}" Click="AddToCart_Click"/>
+    </Grid>
+</Window>

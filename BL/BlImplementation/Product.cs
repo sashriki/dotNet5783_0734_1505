@@ -48,30 +48,23 @@ internal class Product : BlApi.IProduct
     public IEnumerable<BO.ProductForList> GetAllByCondition(Func<BO.ProductForList?, bool>? condition, IEnumerable<BO.ProductForList> productForLists)
         => productForLists.Where(condition);
 
-    public IEnumerable<BO.ProductItem> GetAllToCastumer()
+    public IEnumerable<BO.ProductItem> GetAllToCastumer(BO.Cart cart)
     {
         IEnumerable<DO.Product?> DO_products = dal?.Product.GetAll();
         IEnumerable<BO.ProductItem> BO_productItem = from item in DO_products
-                                                      select DOProductToProductItem(item);
+                                                     select new BO.ProductItem
+                                                     {
+                                                         ProductId = item?.ProductId ?? 0,
+                                                         ProductName = item?.ProductName,
+                                                         Price = item?.ProductPrice ?? 0,
+                                                         Category = (BO.Category)item?.ProductCategory,
+                                                         AmmountInCart = (from orderItem in cart.OrderItems
+                                                                          where orderItem.ProductId == item?.ProductId
+                                                                          select orderItem.AmountOfProduct).FirstOrDefault(0)
+                                                     };
         return BO_productItem;
     }
 
-    public BO.ProductItem DOProductToProductItem(DO.Product? x)
-    {
-        BO.ProductItem productItem = new ProductItem();
-        productItem.ProductId = x?.ProductId ?? 0;
-        productItem.ProductName = x?.ProductName;
-        productItem.Price = x?.ProductPrice ?? 0;
-        productItem.Category = (BO.Category)x?.ProductCategory;
-        productItem.AmmountInCart = 0;
-        if(x?.AmountInStock>0)
-            productItem.InStock = true;
-        else
-            productItem.InStock = false;
-        return productItem;
-    }
-
-    public bool InStock_(DO.Product x) => x.AmountInStock>0;
     public BO.Product getByIdToMannage(int id)
     {
         DO.Product DO_product = new DO.Product();
@@ -92,6 +85,7 @@ internal class Product : BlApi.IProduct
             throw new BO.InvalidInputBO("product ID");
         }
     }
+
     public BO.ProductItem getByIdToCostumer(int id, BO.Cart cart)
     {
         DO.Product DO_product = new DO.Product();
@@ -148,7 +142,7 @@ internal class Product : BlApi.IProduct
     }
     public void updateProduct(BO.Product BO_product)
     {
-        
+
         try
         {
             dal?.Product.GetByCondition(x => (x?.ProductName == BO_product?.ProductName) && (x?.ProductId != BO_product?.ProductId));
@@ -170,7 +164,7 @@ internal class Product : BlApi.IProduct
                             return;
                         }
         }
-       
+
         throw new BO.InvalidInputBO("details");
     }
     private BO.ProductForList Do_ProductToBo_ProductForList(DO.Product? product)

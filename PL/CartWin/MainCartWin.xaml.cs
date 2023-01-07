@@ -32,5 +32,10 @@ namespace PL.CartWin
         {
        
         }
+
+        public void AddOrderItemToCart(BO.ProductItem newProduct)
+        {
+
+        }
     }
 }
