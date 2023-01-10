@@ -38,6 +38,8 @@ namespace PL.CartWin
         }
     }
 
+
+
     //public class VisableMassCon: IValueConverter
     //{
     //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

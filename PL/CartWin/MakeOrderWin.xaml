@@ -10,7 +10,6 @@
 
     <Window.Resources>
         <local:VisibilityOrderConf x:Key="VisibilityOrderConf"/>
-        <local:VisableMassCon x:Key="VisableMassCon"/>
     </Window.Resources>
     
     <Grid>

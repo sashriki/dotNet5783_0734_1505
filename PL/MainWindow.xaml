@@ -8,20 +8,24 @@
         Title="MainWindow" Height="516" Width="739">
     <Grid>
         <TextBox x:Name="title" TextWrapping="Wrap" Text="Welcome to Bella Bella!" Margin="140,140,140,292" TextChanged="TextBox_TextChanged" Background="{Binding ElementName=image, Mode=OneWay}" FontFamily="Arial Rounded MT Bold" FontSize="36" TextAlignment="Center" BorderBrush="{Binding Width, ElementName=title}"/>
-        <Button x:Name="close" Content="close" Margin="10,10,670,440" Click="Button_Click_2" FontFamily="Candara" FontSize="14" RenderTransformOrigin="0.244,1">
+        <Button x:Name="close" Content="✖️" Margin="10,10,670,440" Click="Button_Click_2" FontFamily="Candara" FontSize="14" RenderTransformOrigin="0.244,1">
             <Button.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </Button.Background>
         </Button>
-        <Button x:Name="manager"  Content="manager" Margin="390,210,240,230" RenderTransformOrigin="0.339,0.565" FontFamily="Comic Sans MS" FontSize="20" Click="manager_Click">
+        <Button x:Name="manager"  Content="manager" Margin="461,208,169,232" RenderTransformOrigin="0.339,0.565" FontFamily="Comic Sans MS" FontSize="20" Click="manager_Click">
+            <Button.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Button.BorderBrush>
             <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </Button.Background>
         </Button>
-        <Button x:Name="client"  Content="client" Margin="240,210,390,230" FontFamily="Comic Sans MS" FontSize="20" Click="client_Click">
+        <Button x:Name="client"  Content="client" Margin="327,208,303,232" FontFamily="Comic Sans MS" FontSize="20" Click="client_Click" BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
             <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </Button.Background>
         </Button>
+        <Button Content="Traking" HorizontalAlignment="Left" Height="60" Margin="180,208,0,0" VerticalAlignment="Top" Width="117" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontSize="20" FontFamily="Comic Sans MS" Click="Button_Click" />
     </Grid>
 </Window>

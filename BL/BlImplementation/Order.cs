@@ -119,8 +119,8 @@ internal class Order : BlApi.IOrder
 
     public void UpdateToManager(BO.Order updateOrd ,int IdProduct,int Amount)
     {
-        if (updateOrd.ShipDate != DateTime.MinValue)
-            throw new InvalidAction("change order");
+        //if (updateOrd.ShipDate != DateTime.MinValue)
+        //    throw new InvalidAction("change order");
         BO.OrderItem? ordBO = updateOrd.OrderItems.
             Where(od => od?.ProductId == IdProduct).First();
         if(ordBO!=null)

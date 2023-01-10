@@ -27,8 +27,8 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="Back" HorizontalAlignment="Left" Height="32" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Center" Width="69" Click="Button_Click_1"/>
-            <Button Content="Close" HorizontalAlignment="Left" Height="32" Margin="94,0,0,0" VerticalAlignment="Center" Width="68" Click="Button_Click" Grid.Row="1"/>
+            <Button Content="⬅️" HorizontalAlignment="Left" Height="32" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Center" Width="41" Click="Button_Click_1" FontSize="20"/>
+            <Button Content="✖️" HorizontalAlignment="Left" Height="32" Margin="56,0,0,0" VerticalAlignment="Center" Width="42" Click="Button_Click" Grid.Row="1"/>
         </Grid>
 
     </Grid>

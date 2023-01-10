@@ -6,35 +6,68 @@
         xmlns:local="clr-namespace:PL.OrderWin"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="Update" Height="400" Width="600">
-    
-    <Grid>
-        <Label Content="Id:" HorizontalAlignment="Left" Height="31" Margin="138,84,0,0" VerticalAlignment="Top" Width="162" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16">
+        Title="Update" Height="400" Width="800">
+
+    <Grid DataContext="{Binding order}" Margin="-22,0,0,0">
+        <Label Content="Order Id:" HorizontalAlignment="Left" Height="32" Margin="431,87,0,0" VerticalAlignment="Top" Width="162" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16">
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}"/>
             </Label.Background>
         </Label>
-        <Label Content="Costumer Name:" HorizontalAlignment="Left" Height="31" Margin="138,133,0,0" VerticalAlignment="Top" Width="162" FontSize="16" FontFamily="Adobe Hebrew">
+        <Label Content="Order status:" HorizontalAlignment="Left" Height="31" Margin="431,159,0,0" VerticalAlignment="Top" Width="162" FontSize="16" FontFamily="Adobe Hebrew">
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}"/>
             </Label.Background>
         </Label>
-        <Label Content="Order status:" HorizontalAlignment="Left" Height="31" Margin="138,278,0,0" VerticalAlignment="Top" Width="162" FontSize="16" FontFamily="Adobe Hebrew">
+        <Label Content="Final price: " HorizontalAlignment="Left" Height="31" Margin="431,123,0,0" VerticalAlignment="Top" Width="162" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16"/>
+        <Label Content="order details:" HorizontalAlignment="Left" Height="31" Margin="431,51,0,0" VerticalAlignment="Top" Width="322" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Adobe Hebrew" FontSize="18"/>
+
+        <ComboBox x:Name="status"  HorizontalAlignment="Left" Height="31" Margin="598,159,0,0" VerticalAlignment="Top" Width="156" SelectionChanged="ComboBox_SelectionChanged"/>
+        <TextBox x:Name="orderId"  HorizontalAlignment="Left" Height="31" Margin="598,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156" Text="{Binding OrderId}"/>
+        <TextBox x:Name="finalPrice"  HorizontalAlignment="Left" Height="31" Margin="598,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156" TextChanged="TextBox_TextChanged" Text="{Binding FinalPrice}"/>
+        <Label Content="Costumer Name:" HorizontalAlignment="Left" Height="31" Margin="83,87,0,0" VerticalAlignment="Top" Width="162" FontSize="16" FontFamily="Adobe Hebrew">
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}"/>
             </Label.Background>
         </Label>
-        <Label Content="Amount of items:" HorizontalAlignment="Left" Height="31" Margin="138,229,0,0" VerticalAlignment="Top" Width="162" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" FontSize="16" FontFamily="Adobe Hebrew"/>
-        <Label Content="Final price: " HorizontalAlignment="Left" Height="31" Margin="139,180,0,0" VerticalAlignment="Top" Width="162" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16"/>
-
-
-        <Label Content="order details:" HorizontalAlignment="Center" Height="31" Margin="0,20,0,0" VerticalAlignment="Top" Width="322" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Adobe Hebrew" FontSize="18"/>
-        <ComboBox x:Name="status"  HorizontalAlignment="Left" Height="31" Margin="306,278,0,0" VerticalAlignment="Top" Width="156" SelectionChanged="ComboBox_SelectionChanged"/>
-        <TextBox HorizontalAlignment="Left" Height="31" Margin="306,84,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="155"
-               />
-        <TextBox HorizontalAlignment="Left" Height="31" Margin="306,133,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="155"/>
-        <TextBox HorizontalAlignment="Left" Height="31" Margin="306,180,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="156" TextChanged="TextBox_TextChanged"/>
-        <TextBox HorizontalAlignment="Left" Height="31" Margin="305,229,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="156" />
-
+        <Label Content="Customer adress:" HorizontalAlignment="Left" Height="31" Margin="83,123,0,0" VerticalAlignment="Top" Width="162" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16"/>
+        <Label Content="Customer email:" HorizontalAlignment="Left" Height="31" Margin="83,159,0,0" VerticalAlignment="Top" Width="162" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16"/>
+        <Label HorizontalAlignment="Left" Height="31" Margin="250,87,0,0" VerticalAlignment="Top" Width="143" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"               Content="{Binding CustomerName}" RenderTransformOrigin="0.509,0.862"/>
+        <Label HorizontalAlignment="Left" Height="31" Margin="250,123,0,0" VerticalAlignment="Top" Width="143" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"               Content="{Binding CustomerAdress}"/>
+        <Label HorizontalAlignment="Left" Height="31" Margin="250,159,0,0" VerticalAlignment="Top" Width="143" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"               Content="{Binding CustomerEmail}"/>
+        <Label Content="customer details:" HorizontalAlignment="Left" Height="31" Margin="83,51,0,0" VerticalAlignment="Top" Width="310" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Adobe Hebrew" FontSize="18"/>
+        <ListView x:Name="OrderItemList" HorizontalAlignment="Left" Height="110" Margin="66,220,0,0" VerticalAlignment="Top" Width="710" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="OrderItemList_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Order Item Id  " DisplayMemberBinding="{Binding OrderItemId}" Width="auto"/>
+                    <GridViewColumn Header="Product Id  " DisplayMemberBinding="{Binding ProductId}" Width="auto"/>
+                    <GridViewColumn Header="Product Name  " DisplayMemberBinding="{Binding ProductName}" Width="auto"/>
+                    <GridViewColumn Header="Price Of Product  " DisplayMemberBinding="{Binding PriceOfProduct}" Width="auto"/>
+                    <GridViewColumn Header="Amount Of Product  " DisplayMemberBinding="{Binding AmountOfProduct}" Width="auto"/>
+                    <GridViewColumn Header="Final Price Of Product  " DisplayMemberBinding="{Binding FinalPriceOfProduct}" Width="auto"/>
+                    <GridViewColumn Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="delete"  Content="❌" Tag="{Binding}" Click="Button_Click_1"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="add" Content="➕" Tag="{Binding}" Click="Button_Click_2"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="reduction" Content="➖" Tag="{Binding}" Click="Button_Click_3"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

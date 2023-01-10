@@ -50,8 +50,10 @@ namespace PLL.ProductWin
                 clientOrManager = ClientOrManager.client;
                 Add.Visibility = Visibility.Hidden;
                 productsItems = bl.Product.GetAllToCastumer(NewCart);
-                ProductListview.ItemsSource = productsItems;
+                ProductListview.ItemsSource = productsItems;    
+                orders.Visibility=Visibility.Hidden;
             }
+        
         }
 
         public MainProductWin(BO.Cart newCart)
@@ -64,6 +66,7 @@ namespace PLL.ProductWin
             Add.Visibility = Visibility.Hidden;
             productsItems = bl.Product.GetAllToCastumer(NewCart);
             ProductListview.ItemsSource = productsItems;
+            orders.Visibility = Visibility.Hidden;
         }
 
         /// <summary>

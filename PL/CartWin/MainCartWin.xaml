@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.CartWin"
         mc:Ignorable="d"
-        Title="MainCartWin" Height="450" Width="600">
+        Title="MainCartWin" Height="450" Width="720">
     <Grid>
         <ListView x:Name="OrderItemList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="14,98,14,98" SelectionChanged="OrderItemList_SelectionChanged">
             <ListView.View>
@@ -16,11 +16,32 @@
                     <GridViewColumn Header="Price Of Product  " DisplayMemberBinding="{Binding PriceOfProduct}" Width="auto"/>
                     <GridViewColumn Header="Amount Of Product  " DisplayMemberBinding="{Binding AmountOfProduct}" Width="auto"/>
                     <GridViewColumn Header="Final Price Of Product  " DisplayMemberBinding="{Binding FinalPriceOfProduct}" Width="auto"/>
+                    <GridViewColumn Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="delete"  Content="❌" Tag="{Binding}" Click="Button_Click_1"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="add" Content="➕" Tag="{Binding}" Click="Button_Click_2"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="reduction" Content="➖" Tag="{Binding}" Click="Button_Click_3"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label x:Name="EmptyCart"  Content="The shopping cart is empty!" HorizontalAlignment="Center" Height="46" Margin="0,207,0,0" VerticalAlignment="Top" Width="235" FontFamily="Adobe Fan Heiti Std B" FontSize="18" FontStyle="Italic"/>
+        <!--<Label x:Name="EmptyCart"  Content="The shopping cart is empty!" HorizontalAlignment="Left" Height="46" Margin="227,187,0,0" VerticalAlignment="Top" Width="236" FontFamily="Adobe Fan Heiti Std B" FontSize="18" FontStyle="Italic"/>-->
         <Button x:Name="MakeOrder"  Content="To make an order" HorizontalAlignment="Center" Height="32" Margin="0,372,0,0" VerticalAlignment="Top" Width="173" Click="MakeOrder_Click"/>
-        <Button Content="Back" HorizontalAlignment="Left" Height="24" Margin="14,10,0,0" VerticalAlignment="Top" Width="34" Click="Button_Click"/>
-   </Grid>
+        <Button Content="⬅️" HorizontalAlignment="Left" Height="24" Margin="14,10,0,0" VerticalAlignment="Top" Width="34" Click="Button_Click"/>
+    </Grid>
 </Window>

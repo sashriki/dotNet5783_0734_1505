@@ -24,22 +24,23 @@ namespace PL.OrderWin
         //BO.OrderForList orderForList;
         BlApi.IBl? bl = BlApi.Factory.Get();
 
-        public static readonly DependencyProperty OrderForListDep =
-            DependencyProperty.Register(nameof(OrderList), typeof(OrderForList), typeof(Update));
+        public static readonly DependencyProperty OrderDep =
+            DependencyProperty.Register(nameof(order), typeof(BO.Order),typeof(Update));
 
-        OrderForList OrderList
+        BO.Order order
         {
-            get => (OrderForList)GetValue(OrderForListDep);
-            set => SetValue(OrderForListDep, value);
+            get => (BO.Order)GetValue(OrderDep);
+            set => SetValue(OrderDep, value);
         }
 
-        public Update(BO.OrderForList ordForLst)
+        public Update(BO.Order ord)
         {
             InitializeComponent();
             //orderForList = ordForLst;
             status.ItemsSource = System.Enum.GetValues(typeof(BO.OrderStatus));
             status.SelectedIndex = 0;
-            OrderList = ordForLst;
+            order = ord;
+            OrderItemList.ItemsSource = order.OrderItems;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -48,6 +49,38 @@ namespace PL.OrderWin
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            BO.OrderItem tmp = new OrderItem();
+            tmp = (BO.OrderItem)((Button)sender).DataContext;
+            bl.Order.UpdateToManager(order, tmp.ProductId, 0);
+            OrderItemList.ItemsSource = null;
+            OrderItemList.ItemsSource = bl.Order.GetOrderByID(order.OrderId).OrderItems;
+        }
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            BO.OrderItem tmp = new OrderItem();
+            tmp = (BO.OrderItem)((Button)sender).DataContext;
+            bl.Order.UpdateToManager(order, tmp.ProductId, tmp.AmountOfProduct++);
+            OrderItemList.ItemsSource = null;
+            OrderItemList.ItemsSource = bl.Order.GetOrderByID(order.OrderId).OrderItems;
+
+        }
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            BO.OrderItem tmp = new OrderItem();
+            tmp = (BO.OrderItem)((Button)sender).DataContext;
+            bl.Order.UpdateToManager(order, tmp.ProductId, tmp.AmountOfProduct--);
+            OrderItemList.ItemsSource = null;
+            OrderItemList.ItemsSource = bl.Order.GetOrderByID(order.OrderId).OrderItems;
+
+        }
+
+        private void OrderItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using PLL.ProductWin;
 using PL.manager;
-
+using PL.OrderTraking;
 
 namespace PL
 {
@@ -34,5 +34,11 @@ namespace PL
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         { }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new TrakingWin().Show();
+            this.Close();
+        }
     }
 }

@@ -23,10 +23,7 @@
         <Label x:Name="Error_massagePrice1" Content="You can only enter digits from 0-9" Foreground="red"  HorizontalAlignment="Left" Margin="170,227,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
         <Label x:Name="Error_massagePrice2" Content="Invalid amount" Foreground="Red" HorizontalAlignment="Left" Margin="170,227,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
         <Label x:Name="Error_massageAmount" Content="You can only enter digits from 0-9" Foreground="Red" HorizontalAlignment="Left" Margin="170,280,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
-        <Button x:Name="CloseWindow" Content="close" HorizontalAlignment="Left" Margin="18,326,0,0" VerticalAlignment="Top" Background="#FFDDDDDD" FontSize="14" Width="64" Click="CloseWindow_Click"/>
-        <Button x:Name="Back" Content="Back" HorizontalAlignment="Left" Margin="100,326,0,0" VerticalAlignment="Top" Background="#FFDDDDDD" FontSize="14" Width="64" Click="Back_Click"/>
-        <TextBox HorizontalAlignment="Left" Margin="246,349,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-
-
+        <Button x:Name="CloseWindow" Content="✖️" HorizontalAlignment="Left" Margin="18,326,0,0" VerticalAlignment="Top" Background="#FFDDDDDD" FontSize="14" Width="41" Click="CloseWindow_Click" Height="35"/>
+        <Button x:Name="Back" Content="⬅️" HorizontalAlignment="Left" Margin="64,326,0,0" VerticalAlignment="Top" Background="#FFDDDDDD" FontSize="20" Width="43" Click="Back_Click" Height="35"/>
     </Grid>
 </Window>

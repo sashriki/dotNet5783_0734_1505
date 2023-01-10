@@ -15,7 +15,6 @@ namespace PL.ProductWin
         BlApi.IBl? bl = BlApi.Factory.Get();
 
         BO.Product product;
-      //  public enum state { Add, Update };
         EnumWin.state State;
         int HowManyTimesWeCalledToTxt_TextChangedFunction = 0;
 
@@ -182,12 +181,9 @@ namespace PL.ProductWin
             else
                 AddOrUpdate.IsEnabled = false;
         }
-
-
-
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            //new MainProductWin().Show();
+            new MainProductWin(EnumWin.ClientOrManager.manager).Show();
             this.Close();
         }
     }
