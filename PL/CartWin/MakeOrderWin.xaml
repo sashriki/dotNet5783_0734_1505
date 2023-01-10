@@ -1,0 +1,35 @@
+﻿<Window x:Class="PL.CartWin.MakeOrderWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.CartWin"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MakeOrderWin" Height="450" Width="470">
+
+    <Window.Resources>
+        <local:VisibilityOrderConf x:Key="VisibilityOrderConf"/>
+        <local:VisableMassCon x:Key="VisableMassCon"/>
+    </Window.Resources>
+    
+    <Grid>
+        <Label Content="Full name: " HorizontalAlignment="Left" Height="40" Margin="62,100,0,0" VerticalAlignment="Top" Width="128" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" FontFamily="Yu Gothic UI Semibold" FontSize="16"/>
+        <Label Content="Email address: " HorizontalAlignment="Left" Height="40" Margin="62,150,0,0" VerticalAlignment="Top" Width="128" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" FontFamily="Yu Gothic UI Semibold" FontSize="16"/>
+        <Label Content="Address: " HorizontalAlignment="Left" Height="40" Margin="62,200,0,0" VerticalAlignment="Top" Width="128" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" FontFamily="Yu Gothic UI Semibold" FontSize="16"/>
+        <TextBox x:Name="Txt_name" HorizontalAlignment="Left" Height="40" Margin="200,100,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="200" TextChanged="Txt_name_TextChanged"/>
+        <TextBox x:Name="Txt_email"  HorizontalAlignment="Left" Height="40" Margin="200,150,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="200" TextChanged="Txt_email_TextChanged"/>
+        <TextBox x:Name="Txt_address"  HorizontalAlignment="Left" Height="40" Margin="200,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="200" TextChanged="Txt_address_TextChanged"/>
+        <Button x:Name="OrderConf" Content="Order Confirmation" HorizontalAlignment="Left" Height="40" Margin="126,268,0,0" VerticalAlignment="Top" Width="201" Click="Button_Click">
+            <Button.IsEnabled>
+                <MultiBinding Converter="{StaticResource VisibilityOrderConf}">
+                    <Binding ElementName="Txt_name" Path="Text"/>
+                    <Binding ElementName="Txt_email" Path="Text"/>
+                    <Binding ElementName="Txt_address" Path="Text"/>
+                </MultiBinding>
+            </Button.IsEnabled>
+        </Button>
+        <!--<Label x:Name="successfully" Content="The order was successfully placed!" HorizontalAlignment="Center" Height="41" Margin="0,160,0,0" VerticalAlignment="Top" Width="298" FontFamily="Adobe Fan Heiti Std B" FontSize="18"
+               Visibility="{Binding ElementName=OrderConf, Path=IsEnabled, Converter={StaticResource VisableMassCon}}"/>-->
+    </Grid>
+</Window>

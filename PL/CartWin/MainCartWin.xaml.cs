@@ -1,6 +1,9 @@
-﻿using BO;
+﻿using BlApi;
+using BO;
+using PLL.ProductWin;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,22 +23,37 @@ namespace PL.CartWin
     /// </summary>
     public partial class MainCartWin : Window
     {
-        static Cart cart;
-        public MainCartWin()
+        static BO.Cart NewCart;
+        public MainCartWin(BO.Cart newCart)
         {
-            InitializeComponent(); 
-            cart=new Cart();
-            OrderItemList.ItemsSource = cart.OrderItems;
+            InitializeComponent();
+            NewCart = new Cart();
+            NewCart.OrderItems = new List<OrderItem?>();
+            NewCart=newCart;
+            if (NewCart.OrderItems.Count() == 0)
+            {
+                OrderItemList.Visibility = Visibility.Hidden;
+                MakeOrder.Visibility=Visibility.Hidden;
+            }
+            else
+                EmptyCart.Visibility = Visibility.Hidden;
+            OrderItemList.ItemsSource = NewCart.OrderItems;
         }
 
         private void OrderItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
        
         }
-
-        public void AddOrderItemToCart(BO.ProductItem newProduct)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
+            new MainProductWin(NewCart).Show();
+            this.Close();
+        }
 
+        private void MakeOrder_Click(object sender, RoutedEventArgs e)
+        {
+            new MakeOrderWin(NewCart).Show();
+            this.Close();
         }
     }
 }

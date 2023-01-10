@@ -49,6 +49,7 @@ internal class Cart : BlApi.ICart
             ordItemBO.PriceOfProduct = productDO.ProductPrice;
             ordItemBO.AmountOfProduct = 1;
             ordItemBO.FinalPriceOfProduct = productDO.ProductPrice;
+            ordItemBO.ProductName= productDO.ProductName;
             newCart.TotalPrice+= productDO.ProductPrice;
             newCart.OrderItems.Add(ordItemBO);
         }

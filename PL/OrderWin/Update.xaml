@@ -5,23 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.OrderWin"
         mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="Update" Height="400" Width="600">
+    
     <Grid>
-        <Label Content="Id:" HorizontalAlignment="Left" Height="44" Margin="138,84,0,0" VerticalAlignment="Top" Width="162" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" FontFamily="Adobe Hebrew" FontSize="20">
+        <Label Content="Id:" HorizontalAlignment="Left" Height="31" Margin="138,84,0,0" VerticalAlignment="Top" Width="162" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16">
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}"/>
             </Label.Background>
         </Label>
-        <Label Content="Costumer Name" HorizontalAlignment="Left" Height="42" Margin="138,133,0,0" VerticalAlignment="Top" Width="162" FontSize="20" FontFamily="Adobe Hebrew">
+        <Label Content="Costumer Name:" HorizontalAlignment="Left" Height="31" Margin="138,133,0,0" VerticalAlignment="Top" Width="162" FontSize="16" FontFamily="Adobe Hebrew">
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}"/>
             </Label.Background>
         </Label>
-        <Label Content="Label" HorizontalAlignment="Left" Height="44" Margin="138,180,0,0" VerticalAlignment="Top" Width="162" FontSize="20">
+        <Label Content="Order status:" HorizontalAlignment="Left" Height="31" Margin="138,278,0,0" VerticalAlignment="Top" Width="162" FontSize="16" FontFamily="Adobe Hebrew">
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}"/>
             </Label.Background>
         </Label>
+        <Label Content="Amount of items:" HorizontalAlignment="Left" Height="31" Margin="138,229,0,0" VerticalAlignment="Top" Width="162" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" FontSize="16" FontFamily="Adobe Hebrew"/>
+        <Label Content="Final price: " HorizontalAlignment="Left" Height="31" Margin="139,180,0,0" VerticalAlignment="Top" Width="162" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16"/>
+
+
+        <Label Content="order details:" HorizontalAlignment="Center" Height="31" Margin="0,20,0,0" VerticalAlignment="Top" Width="322" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Adobe Hebrew" FontSize="18"/>
+        <ComboBox x:Name="status"  HorizontalAlignment="Left" Height="31" Margin="306,278,0,0" VerticalAlignment="Top" Width="156" SelectionChanged="ComboBox_SelectionChanged"/>
+        <TextBox HorizontalAlignment="Left" Height="31" Margin="306,84,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="155"
+               />
+        <TextBox HorizontalAlignment="Left" Height="31" Margin="306,133,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="155"/>
+        <TextBox HorizontalAlignment="Left" Height="31" Margin="306,180,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="156" TextChanged="TextBox_TextChanged"/>
+        <TextBox HorizontalAlignment="Left" Height="31" Margin="305,229,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="156" />
 
     </Grid>
 </Window>

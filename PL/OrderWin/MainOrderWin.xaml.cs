@@ -38,7 +38,10 @@ namespace PL.OrderWin
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        { }
+        {
+            if(enumWin==EnumWin.ClientOrManager.manager)
+                new Update((BO.OrderForList)OrderForList.SelectedItem).Show();
+        }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {

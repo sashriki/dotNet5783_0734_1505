@@ -41,16 +41,17 @@ namespace PL.ProductWin
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //לשאול את דורון- האם שורות 49 50 צריכות להיות פה?
-            //if (AmmountInCartTextBox.Text != "")
-            //    ProductItem.AmmountInCart = int.Parse(AmmountInCartTextBox.Text);
-        }
+        { }
 
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
-            NewCart = bl.Cart.AddProductToCart(NewCart, ProductItem.ProductId);
-            new MainProductWin(EnumWin.ClientOrManager.client).Show();
+            if(!NewCart.OrderItems.Exists(x => x.ProductId == ProductItem.ProductId))
+                NewCart = bl.Cart.AddProductToCart(NewCart, ProductItem.ProductId);
+
+            if (int.Parse(AmmountInCartTextBox.Text)>1)
+                NewCart = bl.Cart.UpdateAmount(NewCart, ProductItem.ProductId, int.Parse(AmmountInCartTextBox.Text));
+
+            new MainProductWin(NewCart).Show();
             this.Close();
         }
     }

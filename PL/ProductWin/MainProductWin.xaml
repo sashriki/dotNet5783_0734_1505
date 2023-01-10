@@ -36,20 +36,21 @@
         <ListView x:Name="ProductListview" MouseDoubleClick="ProductListview_MouseDoubleClick" Margin="0,33,0,0" Grid.RowSpan="2">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/> <!--x:Name="listOfProducts"--> <!--Header="Id" DisplayMemberBinding="{Binding ProductId}"
+                    <GridViewColumn/>
+                    <!--x:Name="listOfProducts"-->
+                    <!--Header="Id" DisplayMemberBinding="{Binding ProductId}"
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName}" Width="80"/>
                     <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}"/>
                     <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}"/>-->
                 </GridView>
             </ListView.View>
         </ListView>
-        
+
         <Button Name="Add" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Left" Margin="677,5,0,5" Padding="5" Click="Add_Click" Width="104"/>
         <Button Content="Close" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Click="Button_Click" Width="48"/>
         <Button Content="Back" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="2" VerticalAlignment="Center"  Width="48" Click="Button_Click_1"/>
-
         <TextBox x:Name="Search" HorizontalAlignment="Left" Margin="125,0,0,0" TextWrapping="Wrap" Width="120" FontSize="14" TextChanged="Search_TextChanged"/>
-        <Button x:Name="cart"  Content="Cart" HorizontalAlignment="Left" Height="28" Margin="606,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="66" Click="cart_Click"/>
+        <Button x:Name="cart"  Content="Cart" HorizontalAlignment="Left" Height="28" Margin="606,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="66" Click="cart_Click"/>
         <Button x:Name="orders"  Content="Orders" HorizontalAlignment="Left" Height="28" Margin="554,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="47" Click="Button_Click_2"/>
 
     </Grid>

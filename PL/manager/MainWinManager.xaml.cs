@@ -25,6 +25,7 @@ namespace PL.manager
         {
             InitializeComponent();
         }
+
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -35,6 +36,7 @@ namespace PL.manager
             new MainOrderWin(EnumWin.ClientOrManager.manager).Show();
             this.Close();
         }
+
         private void products_Click(object sender, RoutedEventArgs e)
         {
             new MainProductWin(EnumWin.ClientOrManager.manager).Show();

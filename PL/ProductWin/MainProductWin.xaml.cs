@@ -54,6 +54,18 @@ namespace PLL.ProductWin
             }
         }
 
+        public MainProductWin(BO.Cart newCart)
+        {
+            InitializeComponent();
+            NewCart = new BO.Cart();
+            NewCart.OrderItems = new List<OrderItem?>(); 
+            NewCart=newCart;
+            clientOrManager = ClientOrManager.client;
+            Add.Visibility = Visibility.Hidden;
+            productsItems = bl.Product.GetAllToCastumer(NewCart);
+            ProductListview.ItemsSource = productsItems;
+        }
+
         /// <summary>
         /// A function to filter a list by category
         /// </summary>
@@ -132,7 +144,8 @@ namespace PLL.ProductWin
 
         private void cart_Click(object sender, RoutedEventArgs e)
         {
-            new MainCartWin().Show();
+            new MainCartWin(NewCart).Show();
+            this.Close();
         }
     }
 }

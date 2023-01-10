@@ -56,6 +56,6 @@
         <TextBox x:Name="AmmountInCartTextBox" HorizontalAlignment="Left" Height="40" Margin="205,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="273"
                   Text="{Binding ProductItem.AmmountInCart, Mode=TwoWay}" TextChanged="TextBox_TextChanged"/>
         <Button x:Name="AddToCart" Content="Add To Cart" HorizontalAlignment="Center" Height="32" Margin="0,331,0,0" VerticalAlignment="Top" Width="282"
-                Visibility="{Binding ElementName=AmmountInCartTextBox, Path=Text, Converter={StaticResource EmptyToVisable}}" Click="AddToCart_Click"/>
+                IsEnabled="{Binding ElementName=AmmountInCartTextBox, Path=Text, Converter={StaticResource EmptyToVisable}}" Click="AddToCart_Click"/>
     </Grid>
 </Window>

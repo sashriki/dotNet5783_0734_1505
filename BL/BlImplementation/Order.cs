@@ -1,4 +1,5 @@
 ﻿using BO;
+using DO;
 using System.Data;
 
 internal class Order : BlApi.IOrder
@@ -12,11 +13,24 @@ internal class Order : BlApi.IOrder
     public IEnumerable<BO.OrderForList?> GetAllToManager()
     {
         IEnumerable<DO.Order?> OrderList = dal?.Order.GetAll();
-        IEnumerable<BO.OrderForList?> OrdersList = from item in OrderList
-                                                   select DO_orderToBO_OrderForList(item);
+        IEnumerable<BO.OrderForList> OrdersList = from DO.Order item in OrderList
+                                                   select new BO.OrderForList
+                                                   {
+                                                       OrderId=item.OrderId,
+                                                       CostumerName= item.CustomerName,
+                                                       OrderStatus= getStatus(item),
+                                                       AmountOfItems = dal.OrderItem.GetAll(x=> x?.OrderId == item.OrderId).Sum(x=>x?.Amount) ?? 0,
+                                                       FinalPrice= dal.OrderItem.GetAll(x => x?.OrderId == item.OrderId).Sum(x => x?.Price) ?? 0                                                      
+                                                   };
         if (!OrdersList.Any())
             throw new BO.NoElementsException("orders");
         return OrdersList;
+    }
+
+    private BO.OrderStatus getStatus(DO.Order ordDO)
+    {
+        return ordDO.DeliveryDate != null ? BO.OrderStatus.Delivered :
+            ordDO.ShipDate != null ? BO.OrderStatus.Shipped : BO.OrderStatus.Confirmed;
     }
 
     public BO.Order GetOrderByID(int IdOrder)
@@ -101,11 +115,7 @@ internal class Order : BlApi.IOrder
             }
         };
     }
-    private BO.OrderStatus getStatus(DO.Order ordDO)
-    {
-        return ordDO.DeliveryDate != null ? BO.OrderStatus.Delivered :
-            ordDO.ShipDate != null ? BO.OrderStatus.Shipped : BO.OrderStatus.Confirmed;
-    }
+ 
 
     public void UpdateToManager(BO.Order updateOrd ,int IdProduct,int Amount)
     {
@@ -186,27 +196,27 @@ internal class Order : BlApi.IOrder
         ordBO.OrderItems = orderItems;
         return ordBO;
     }
-    public BO.OrderForList DO_orderToBO_OrderForList(DO.Order? ord)
-    {
-        BO.OrderForList orderForList = new BO.OrderForList();
-        orderForList.OrderId = ord?.OrderId ?? 0;  //id
-        orderForList.CostumerName = ord?.CustomerName;  //name
-        IEnumerable<DO.OrderItem?> OrderItemList = dal?.OrderItem.GetAll();
-        IEnumerable<double> count = from item in OrderItemList
-                                    where item?.OrderId == ord?.OrderId
-                                    select item?.Price ?? 0;
-        orderForList.AmountOfItems = count.Count();   //amount
-        IEnumerable<double> prices = count.ToList();
-        foreach (var item in prices)
-            orderForList.FinalPrice += item;  //Price
-        if (ord?.DeliveryDate != null)  //status
-            orderForList.OrderStatus = BO.OrderStatus.Delivered;
-        else if (ord?.ShipDate != null)
-            orderForList.OrderStatus = BO.OrderStatus.Shipped;
-        else
-            orderForList.OrderStatus = BO.OrderStatus.Confirmed;
-        return orderForList;
-    }
+    //public BO.OrderForList DO_orderToBO_OrderForList(DO.Order? ord)
+    //{
+    //    BO.OrderForList orderForList = new BO.OrderForList();
+    //    orderForList.OrderId = ord?.OrderId ?? 0;  //id
+    //    orderForList.CostumerName = ord?.CustomerName;  //name
+    //    IEnumerable<DO.OrderItem?> OrderItemList = dal?.OrderItem.GetAll();
+    //    IEnumerable<double> count = from item in OrderItemList
+    //                                where item?.OrderId == ord?.OrderId
+    //                                select item?.Price ?? 0;
+    //    orderForList.AmountOfItems = count.Count();   //amount
+    //    IEnumerable<double> prices = count.ToList();
+    //    foreach (var item in prices)
+    //        orderForList.FinalPrice += item;  //Price
+    //    if (ord?.DeliveryDate != null)  //status
+    //        orderForList.OrderStatus = BO.OrderStatus.Delivered;
+    //    else if (ord?.ShipDate != null)
+    //        orderForList.OrderStatus = BO.OrderStatus.Shipped;
+    //    else
+    //        orderForList.OrderStatus = BO.OrderStatus.Confirmed;
+    //    return orderForList;
+    //}
 
 }
 

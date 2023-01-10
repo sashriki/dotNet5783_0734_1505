@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.CartWin"
         mc:Ignorable="d"
-        Title="MainCartWin" Height="450" Width="650">
+        Title="MainCartWin" Height="450" Width="600">
     <Grid>
-        <ListView x:Name="OrderItemList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="14,57,14,77" SelectionChanged="OrderItemList_SelectionChanged">
+        <ListView x:Name="OrderItemList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="14,98,14,98" SelectionChanged="OrderItemList_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Order Item Id  " DisplayMemberBinding="{Binding OrderItemId}" Width="auto"/>
@@ -19,6 +19,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
-    </Grid>
+        <Label x:Name="EmptyCart"  Content="The shopping cart is empty!" HorizontalAlignment="Center" Height="46" Margin="0,207,0,0" VerticalAlignment="Top" Width="235" FontFamily="Adobe Fan Heiti Std B" FontSize="18" FontStyle="Italic"/>
+        <Button x:Name="MakeOrder"  Content="To make an order" HorizontalAlignment="Center" Height="32" Margin="0,372,0,0" VerticalAlignment="Top" Width="173" Click="MakeOrder_Click"/>
+        <Button Content="Back" HorizontalAlignment="Left" Height="24" Margin="14,10,0,0" VerticalAlignment="Top" Width="34" Click="Button_Click"/>
+   </Grid>
 </Window>
