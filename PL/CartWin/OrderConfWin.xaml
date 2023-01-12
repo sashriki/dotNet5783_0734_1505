@@ -1,0 +1,14 @@
+﻿<Window x:Class="PL.CartWin.OrderConfWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.CartWin"
+        mc:Ignorable="d"
+        Title="OrderConfWin" Height="300" Width="500">
+    <Grid>
+        <Label Content="The order was successfully placed!" HorizontalAlignment="Center" Height="57" Margin="0,61,0,0" VerticalAlignment="Top" Width="368" FontFamily="Comic Sans MS" FontSize="22"/>
+        <Label Content="Order ID:" HorizontalAlignment="Left" Height="35" Margin="168,118,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="-0.66,0.369" FontSize="18"/>
+        <Label x:Name="idOrder"  HorizontalAlignment="Left" Height="34" Margin="255,118,0,0" VerticalAlignment="Top" Width="97" FontSize="18"/>
+    </Grid>
+</Window>

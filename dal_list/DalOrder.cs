@@ -19,6 +19,7 @@ internal class DalOrder : IOrder
         orders.Add(NewOrder);
         return NewOrder.OrderId;
     }
+
     /// <summary>
     /// Returning an order from the order list
     /// </summary>

@@ -5,13 +5,15 @@
     public class BONotfoundException : Exception
     {
         string throwing;
-        public BONotfoundException(Exception? innerException, string? message = "") : base(message, innerException)
+        public BONotfoundException(Exception? innerException, string? message = "") :
+            base(message, innerException)
         {
-            string throwing = innerException.ToString() + message;
+            throwing = innerException.ToString() + message;
         }
         public BONotfoundException(string massage) :
-            base(massage)
-        { throwing = "BL error! the " + massage + " is not found."; }
+           base(massage)
+        { throwing = massage; }
+
         public override string ToString()
             => $@"{throwing}";
     }
@@ -22,7 +24,7 @@
         string throwing;
         public RepeatedUpdateBO(Exception? innerException, string? message = "") : base(message, innerException)
         {
-            string throwing = innerException.ToString() + message;
+            throwing = innerException.ToString() + message;
         }
         public override string ToString()
             => $@"{throwing}";

@@ -10,7 +10,7 @@ public class Order
     public DateTime? DeliveryDate { get; set; } //The date of receipt of the order
     public OrderStatus? OrderStatus { get; set; }
     public IEnumerable<OrderItem?> OrderItems { get; set; }
-    public double FinalPrice { get; set; }
+    public float FinalPrice { get; set; }
     public override string ToString()
     {
         string s = $@"

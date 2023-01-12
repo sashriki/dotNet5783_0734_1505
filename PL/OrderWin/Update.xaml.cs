@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.DirectoryServices;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,19 +35,53 @@ namespace PL.OrderWin
             set => SetValue(OrderDep, value);
         }
 
+        bool flag;
         public Update(BO.Order ord)
         {
+            order = ord;
             InitializeComponent();
             //orderForList = ordForLst;
-            status.ItemsSource = System.Enum.GetValues(typeof(BO.OrderStatus));
+            //status.ItemsSource = System.Enum.GetValues(typeof(BO.OrderStatus));
+            flag = false;
+
+            if (ord.OrderStatus == BO.OrderStatus.Confirmed)
+            {
+                status.Items.Add(BO.OrderStatus.Confirmed);
+                status.Items.Add(BO.OrderStatus.Shipped);
+                status.Items.Add(BO.OrderStatus.Delivered);
+            }
+            
+            else if (ord.OrderStatus == BO.OrderStatus.Shipped)
+            {
+                status.Items.Add(BO.OrderStatus.Shipped);
+                status.Items.Add(BO.OrderStatus.Delivered);
+            }
+            else if (ord.OrderStatus == BO.OrderStatus.Delivered)
+            {
+                status.Items.Add(BO.OrderStatus.Delivered);
+            }
+
             status.SelectedIndex = 0;
-            order = ord;
+            status.SelectedItem = ord.OrderStatus;
+
             OrderItemList.ItemsSource = order.OrderItems;
+
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if(!flag)
+            {
+                flag = true;
+                return;
+            }
+            if ((BO.OrderStatus)status.SelectedItem != (BO.OrderStatus)order.OrderStatus)
+            {
+                if ((BO.OrderStatus)status.SelectedItem == BO.OrderStatus.Shipped)
+                    order = bl.Order.ShippingUpdateToManager(order.OrderId);
+                if ((BO.OrderStatus)status.SelectedItem == BO.OrderStatus.Delivered)
+                    order = bl.Order.supplyUpdateToManager(order.OrderId);
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -54,9 +90,9 @@ namespace PL.OrderWin
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
+        {          
             BO.OrderItem tmp = new OrderItem();
-            tmp = (BO.OrderItem)((Button)sender).DataContext;
+            tmp = (BO.OrderItem)((Button)sender).DataContext;        
             bl.Order.UpdateToManager(order, tmp.ProductId, 0);
             OrderItemList.ItemsSource = null;
             OrderItemList.ItemsSource = bl.Order.GetOrderByID(order.OrderId).OrderItems;

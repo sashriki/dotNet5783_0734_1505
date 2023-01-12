@@ -113,7 +113,7 @@ internal class Cart : BlApi.ICart
     /// to make an order
     /// </summary>
     /// <param name="newCart"></param>
-    public void OrderConfirmation(BO.Cart newCart)
+    public int OrderConfirmation(BO.Cart newCart)
     {
         try
         {
@@ -129,6 +129,7 @@ internal class Cart : BlApi.ICart
             int IdOrder = dal.Order.Add(NewOrderDO);
             foreach (var item in newCart.OrderItems)
                 dal?.OrderItem.Add(ChangingFromBOToDO(item, IdOrder));
+            return IdOrder;
         }
         catch (BO.DataMissingException ex)
         {
@@ -178,7 +179,7 @@ internal class Cart : BlApi.ICart
         if (newCart.CustomerEmail == "")
             throw new DataMissingException("email");
         if (!newCart.CustomerEmail.EndsWith("@gmail.com"))
-            throw new InvalidOperationException("email");
+            throw new InvalidInputBO("email");
     }
     /// <summary>
     /// Test for converting from an Item object in the order of BO to DO

@@ -8,8 +8,12 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="Update" Height="400" Width="800">
 
+    <Window.Resources>
+        <local:UpdatePermission x:Key="updatePermission"/>
+    </Window.Resources>
+
     <Grid DataContext="{Binding order}" Margin="-22,0,0,0">
-        <Label Content="Order Id:" HorizontalAlignment="Left" Height="32" Margin="431,87,0,0" VerticalAlignment="Top" Width="162" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16">
+        <Label Content="Order ID:" HorizontalAlignment="Left" Height="32" Margin="431,87,0,0" VerticalAlignment="Top" Width="162" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16">
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}"/>
             </Label.Background>
@@ -32,23 +36,23 @@
         </Label>
         <Label Content="Customer adress:" HorizontalAlignment="Left" Height="31" Margin="83,123,0,0" VerticalAlignment="Top" Width="162" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16"/>
         <Label Content="Customer email:" HorizontalAlignment="Left" Height="31" Margin="83,159,0,0" VerticalAlignment="Top" Width="162" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" FontFamily="Adobe Hebrew" FontSize="16"/>
-        <Label HorizontalAlignment="Left" Height="31" Margin="250,87,0,0" VerticalAlignment="Top" Width="143" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"               Content="{Binding CustomerName}" RenderTransformOrigin="0.509,0.862"/>
-        <Label HorizontalAlignment="Left" Height="31" Margin="250,123,0,0" VerticalAlignment="Top" Width="143" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"               Content="{Binding CustomerAdress}"/>
-        <Label HorizontalAlignment="Left" Height="31" Margin="250,159,0,0" VerticalAlignment="Top" Width="143" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"               Content="{Binding CustomerEmail}"/>
+        <Label HorizontalAlignment="Left" Height="31" Margin="250,87,0,0" VerticalAlignment="Top" Width="143" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" Content="{Binding CustomerName}" RenderTransformOrigin="0.509,0.862"/>
+        <Label HorizontalAlignment="Left" Height="31" Margin="250,123,0,0" VerticalAlignment="Top" Width="143" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" Content="{Binding CustomerAdress}"/>
+        <Label HorizontalAlignment="Left" Height="31" Margin="250,159,0,0" VerticalAlignment="Top" Width="143" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" Content="{Binding CustomerEmail}"/>
         <Label Content="customer details:" HorizontalAlignment="Left" Height="31" Margin="83,51,0,0" VerticalAlignment="Top" Width="310" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Adobe Hebrew" FontSize="18"/>
-        <ListView x:Name="OrderItemList" HorizontalAlignment="Left" Height="110" Margin="66,220,0,0" VerticalAlignment="Top" Width="710" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="OrderItemList_SelectionChanged">
+        <ListView x:Name="OrderItemList" HorizontalAlignment="Left" Height="110" Margin="63,232,0,0" VerticalAlignment="Top" Width="710" SelectionChanged="OrderItemList_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Order Item Id  " DisplayMemberBinding="{Binding OrderItemId}" Width="auto"/>
-                    <GridViewColumn Header="Product Id  " DisplayMemberBinding="{Binding ProductId}" Width="auto"/>
-                    <GridViewColumn Header="Product Name  " DisplayMemberBinding="{Binding ProductName}" Width="auto"/>
-                    <GridViewColumn Header="Price Of Product  " DisplayMemberBinding="{Binding PriceOfProduct}" Width="auto"/>
-                    <GridViewColumn Header="Amount Of Product  " DisplayMemberBinding="{Binding AmountOfProduct}" Width="auto"/>
-                    <GridViewColumn Header="Final Price Of Product  " DisplayMemberBinding="{Binding FinalPriceOfProduct}" Width="auto"/>
+                    <GridViewColumn Header="Order item ID:  " DisplayMemberBinding="{Binding OrderItemId}" Width="auto"/>
+                    <GridViewColumn Header="Product ID: " DisplayMemberBinding="{Binding ProductId}" Width="auto"/>
+                    <GridViewColumn Header="Product name:  " DisplayMemberBinding="{Binding ProductName}" Width="auto"/>
+                    <GridViewColumn Header="Price of product:  " DisplayMemberBinding="{Binding PriceOfProduct}" Width="auto"/>
+                    <GridViewColumn Header="Amount of product:  " DisplayMemberBinding="{Binding AmountOfProduct}" Width="auto"/>
+                    <GridViewColumn Header="Final price of product:  " DisplayMemberBinding="{Binding FinalPriceOfProduct}" Width="auto"/>
                     <GridViewColumn Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="delete"  Content="❌" Tag="{Binding}" Click="Button_Click_1"/>
+                                <Button x:Name="delete"  Content="❌" Tag="{Binding}" Click="Button_Click_1" IsEnabled="{Binding OrderStatus , Converter={StaticResource updatePermission}}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

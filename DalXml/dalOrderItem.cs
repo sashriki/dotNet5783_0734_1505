@@ -3,10 +3,13 @@ namespace Dal;
 using DO;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 
 internal class dalOrderItem : IOrderItem
 {
     string path = "xmlOrderItem.xml";
+    string configPath = @"..\xml\config.xml";
+
     /// <summary>
     /// Adding an ordered item to the list
     /// </summary>
@@ -17,9 +20,14 @@ internal class dalOrderItem : IOrderItem
     {
         //Reading the data from the file into a list
         List<OrderItem> OrderItemLst = ToolsXML.LoadListFromXMLSerializer<OrderItem>(path);
-        //An exception in case the item in the order exists
-        if (OrderItemLst.Exists(x => x.OrderItemId == objToAdd.OrderItemId))
-            throw new DuplicationException("Order Item");
+
+        XElement configRoot = XElement.Load(configPath);
+        int nextSeqNum = Convert.ToInt32(configRoot.Element("orderItemSeq").Value);
+        nextSeqNum++;
+        objToAdd.OrderItemId = nextSeqNum;
+        configRoot.Element("orderItemSeq").SetValue(nextSeqNum);
+        configRoot.Save(configPath);
+
         //Adding an ordered item to the list
         OrderItemLst.Add(objToAdd);
         //Saving the updated file
@@ -121,7 +129,7 @@ internal class dalOrderItem : IOrderItem
         if (condition == null)
             return OrderList.AsEnumerable().OrderByDescending(p => p?.OrderItemId);
 
-        return OrderList.Where(condition).OrderByDescending(                  p => p?.OrderItemId);
+        return OrderList.Where(condition).OrderByDescending(p => p?.OrderItemId);
     }
 
     /// <summary>

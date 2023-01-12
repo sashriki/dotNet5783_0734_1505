@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,39 +29,32 @@ namespace PL.CartWin
             NewCart=new BO.Cart();
             NewCart.OrderItems=new List<BO.OrderItem?>();
             NewCart = newCart;
-            Txt_name.Text = "";
-            Txt_email.Text = "";
-            Txt_address.Text = "";
-            //successfully.Visibility = Visibility.Hidden;
         }
 
         private void Txt_name_TextChanged(object sender, TextChangedEventArgs e)
-        { 
-           
-        }
+        { }
         private void Txt_email_TextChanged(object sender, TextChangedEventArgs e)
-        {
-           
-        }
+        { }
         private void Txt_address_TextChanged(object sender, TextChangedEventArgs e)
-        {
-  
-        }
+        { }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             NewCart.CustomerName = Txt_name.Text;
             NewCart.CustomerEmail=Txt_email.Text;
             NewCart.CustomerAdress = Txt_address.Text;
             try
             {
-                bl.Cart.OrderConfirmation(NewCart);
-                //successfully.Visibility = Visibility.Visible;
+                int OrderId =bl.Cart.OrderConfirmation(NewCart);
+                new OrderConfWin(OrderId).Show();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-                this.Close();
+                Txt_name.Text = "";
+                Txt_email.Text = "";
+                Txt_address.Text = "";
             }
         }
     }

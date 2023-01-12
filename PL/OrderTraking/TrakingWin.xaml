@@ -5,8 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.OrderTraking"
         mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="TrakingWin" Height="450" Width="800">
+
+    <Window.Resources>
+        <local:InvalidInput x:Key="InvalidInput"/>
+        <local:InvalidInput_ToSearch x:Key="InvalidInput_ToSearch"/>
+    </Window.Resources>
+
     <Grid>
-        
+        <Label Content="Order ID:" HorizontalAlignment="Left" Height="47" Margin="45,71,0,0" VerticalAlignment="Top" Width="143" FontFamily="Adobe Hebrew" FontSize="20">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <TextBox x:Name="Txt_OrderId" HorizontalAlignment="Left" Height="47" Margin="193,71,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160" TextChanged="Txt_OrderId_TextChanged"/>
+        <Label Content="Order status:" HorizontalAlignment="Left" Height="33" Margin="45,170,0,0" VerticalAlignment="Top" Width="119" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" FontSize="18"/>
+        <Label Content="{Binding orderTracking.OrderStatus, Mode=TwoWay}" HorizontalAlignment="Left" Height="33" Margin="169,170,0,0" VerticalAlignment="Top" Width="150" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" FontSize="18"/>
+        <Label Content="Confirmed:" HorizontalAlignment="Left" Height="42" Margin="45,250,0,0" VerticalAlignment="Top" Width="119" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" FontSize="18"/>
+        <Label Content="{Binding orderTracking.PackageProgress[0].Item1}" HorizontalAlignment="Left" Height="41" Margin="45,297,0,0" VerticalAlignment="Top" Width="119" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
+        <Label Content="Shipped:" HorizontalAlignment="Left" Height="41" Margin="169,250,0,0" VerticalAlignment="Top" Width="119" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" FontSize="18"/>
+        <Label Content="{Binding orderTracking.PackageProgress[1].Item1}" HorizontalAlignment="Left" Height="41" Margin="169,297,0,0" VerticalAlignment="Top" Width="119" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
+        <Label Content="Delivered:" HorizontalAlignment="Left" Height="41" Margin="293,250,0,0" VerticalAlignment="Top" Width="120" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" FontSize="18"/>
+        <Label Content="{Binding orderTracking.PackageProgress[2].Item1}" HorizontalAlignment="Left" Height="41" Margin="293,297,0,0" VerticalAlignment="Top" Width="120" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
+        <Button Content="🔍" HorizontalAlignment="Left" Height="47" Margin="353,71,0,0" VerticalAlignment="Top" Width="48" FontSize="20" Click="Button_Click" IsEnabled="{Binding ElementName=Txt_OrderId, Path=Text,Converter={StaticResource InvalidInput_ToSearch}}">
+            <Button.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+            </Button.Background>
+        </Button>
+        <Button Content="⬅️" HorizontalAlignment="Left" Height="32" Margin="19,10,0,0" VerticalAlignment="Top" Width="35" FontSize="20" BorderBrush="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Click="Button_Click_1"/>
+
+        <Label Content="Customer name:" HorizontalAlignment="Left" Height="34" Margin="438,99,0,0" VerticalAlignment="Top" Width="145" FontSize="16">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <Label Content="{Binding order.CustomerName}" HorizontalAlignment="Left" Height="34" Margin="588,99,0,0" VerticalAlignment="Top" Width="177" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" FontSize="16"/>
+        <Label Content="Customer adress:" HorizontalAlignment="Left" Height="34" Margin="438,138,0,0" VerticalAlignment="Top" Width="145" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" FontSize="16"/>
+        <Label Content="{Binding order.CustomerAdress}" HorizontalAlignment="Left" Height="34" Margin="588,138,0,0" VerticalAlignment="Top" Width="177" FontSize="16">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <Label Content="Customer email:" HorizontalAlignment="Left" Height="34" Margin="438,177,0,0" VerticalAlignment="Top" Width="145" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" FontSize="16"/>
+        <Label Content="{Binding order.CustomerEmail}" HorizontalAlignment="Left" Height="34" Margin="588,177,0,0" VerticalAlignment="Top" Width="177" FontSize="16">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <ListBox HorizontalAlignment="Left" Height="149" Margin="438,258,0,0" VerticalAlignment="Top" Width="327" d:ItemsSource="{d:SampleData ItemCount=5}"
+                 ItemsSource="{Binding order.OrderItems}"/>
+        <Label Content="customer details:" HorizontalAlignment="Left" Height="36" Margin="438,58,0,0" VerticalAlignment="Top" Width="327" Background="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" FontSize="18"/>
+        <Label Content="order details:" HorizontalAlignment="Left" Height="36" Margin="438,217,0,0" VerticalAlignment="Top" Width="327" Background="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" FontSize="18"/>
+        <Label x:Name="Error_massageAmount" Content="You can only enter digits from 0-9" Foreground="Red" HorizontalAlignment="Left" Margin="193,116,0,0" VerticalAlignment="Top" FontSize="10"
+                Visibility="{Binding ElementName=Txt_OrderId, Path=Text,Converter={StaticResource InvalidInput}}"/>
     </Grid>
 </Window>

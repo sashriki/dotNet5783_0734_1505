@@ -7,6 +7,8 @@ using System.Xml.Linq;
 internal class dalOrder : IOrder
 {
     string path = "xmlOrder.xml";
+    string configPath = @"..\xml\config.xml";
+
     /// <summary>
     /// Add an order to the list
     /// </summary>
@@ -17,14 +19,18 @@ internal class dalOrder : IOrder
     {
         //Reading the data from the file into a list
         List<Order> OrderLst = ToolsXML.LoadListFromXMLSerializer<Order>(path);
-        //Exception if the order exists
-        if (OrderLst.Exists(x => x.OrderId == objToAdd.OrderId))
-            throw new DuplicationException("Order");
+
+        XElement configRoot = XElement.Load(configPath);
+        int nextSeqNum = Convert.ToInt32(configRoot.Element("orderSeq").Value);
+        nextSeqNum++;
+        objToAdd.OrderId = nextSeqNum;
+        configRoot.Element("orderSeq").SetValue(nextSeqNum);
+        configRoot.Save(configPath);
+
         //Add an order to the list
         OrderLst.Add(objToAdd);
         //Saving the updated file
         ToolsXML.SaveListToXMLSerializer(OrderLst, path);
-
         return objToAdd.OrderId;
     }
     /// <summary>

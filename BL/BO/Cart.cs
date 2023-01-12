@@ -6,7 +6,7 @@ public class Cart
     public string? CustomerAdress { get; set; } //Customer's residential address
     public string? CustomerEmail { get; set; } //Customer email address
     public List<BO.OrderItem?> OrderItems { get; set; } //something
-    public double TotalPrice { get; set; }
+    public float TotalPrice { get; set; }
 
     public override string ToString()
     {

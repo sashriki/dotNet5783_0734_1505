@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +29,8 @@ namespace PL.ProductWin
     {
         static BO.Cart NewCart;
         BlApi.IBl? bl = BlApi.Factory.Get();
-        public static readonly DependencyProperty ProductItemDep = DependencyProperty.Register(nameof(ProductItem), typeof(BO.ProductItem), typeof(ProductItemWin));
+        public static readonly DependencyProperty ProductItemDep =
+            DependencyProperty.Register(nameof(ProductItem), typeof(BO.ProductItem), typeof(ProductItemWin));
         BO.ProductItem? ProductItem { get => (BO.ProductItem?)GetValue(ProductItemDep); set => SetValue(ProductItemDep, value); }
         public ProductItemWin(BO.ProductItem productItem, BO.Cart cart)
         {
@@ -43,6 +45,23 @@ namespace PL.ProductWin
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         { }
 
+        private void DifitsOnlyAmount(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new("[^0-9]+");
+            if (regex.IsMatch(e.Text))
+            {
+                Error_massageAmount.Visibility = Visibility.Visible;
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = regex.IsMatch(e.Text);
+                Error_massageAmount.Visibility = Visibility.Hidden;
+            }
+        }
+        //        <Label x:Name="Error_massageAmount" Content="You can only enter digits from 0-9" Foreground="Red" HorizontalAlignment="Left" Margin="170,280,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
+
+
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
             if(!NewCart.OrderItems.Exists(x => x.ProductId == ProductItem.ProductId))
@@ -51,6 +70,12 @@ namespace PL.ProductWin
             if (int.Parse(AmmountInCartTextBox.Text)>1)
                 NewCart = bl.Cart.UpdateAmount(NewCart, ProductItem.ProductId, int.Parse(AmmountInCartTextBox.Text));
 
+            new MainProductWin(NewCart).Show();
+            this.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
             new MainProductWin(NewCart).Show();
             this.Close();
         }

@@ -63,7 +63,7 @@ internal class DalProduct : IProduct
         int x = products.FindIndex(x => x?.ProductId == UpdatedProduct.ProductId);
         if (x == -1)
             throw new NotfoundException("Product");
-        UpdatedProduct.ProductPrice = Math.Round(UpdatedProduct.ProductPrice,1);
+        UpdatedProduct.ProductPrice = (float)Math.Round(UpdatedProduct.ProductPrice,1);
         products[x] = UpdatedProduct;
         
     }

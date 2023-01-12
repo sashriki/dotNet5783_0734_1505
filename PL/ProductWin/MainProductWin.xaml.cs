@@ -103,7 +103,7 @@ namespace PLL.ProductWin
             if(clientOrManager== ClientOrManager.manager)
                 new AddOrUpdateWin((BO.ProductForList)ProductListview.SelectedItem).Show();
             else
-                new ProductItemWin((BO.ProductItem)ProductListview.SelectedItem,NewCart).Show();  
+                new ProductItemWin((BO.ProductItem)ProductListview.SelectedItem,NewCart).Show();
             this.Close();
         }
         /// <summary>

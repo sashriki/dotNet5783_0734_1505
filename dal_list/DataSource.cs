@@ -35,10 +35,6 @@ internal static class DataSource
         InitProduct();
         InitOrder();
         InitOrderItem();
-
-        //ToolsXML.SaveListToXMLSerializer(products, "xmlProduct.xml");
-        //ToolsXML.SaveListToXMLSerializer(orders, "xmlOrder.xml");
-        //ToolsXML.SaveListToXMLSerializer(orderItems, "xmlOrderItem.xml");
     }
     /// <summary>
     /// Product list initialization
@@ -50,8 +46,8 @@ internal static class DataSource
             Product newProduct = new Product(); //Creating an object
             newProduct.ProductId = Config.productIndex++; //ID number by running number
             newProduct.ProductName = "product" + i;
-            newProduct.ProductCategory = (Category)(random.Next(0, 5)); ;
-            newProduct.ProductPrice = Math.Round(random.Next(500) + random.NextDouble(),1);
+            newProduct.ProductCategory = (Category)(random.Next(0, 5));
+            newProduct.ProductPrice = (float)Math.Round(random.Next(500) + (float)random.NextDouble(),1);
             if (random.Next(0, 100) > 5)
             {
                 newProduct.AmountInStock = random.Next(20, 100);

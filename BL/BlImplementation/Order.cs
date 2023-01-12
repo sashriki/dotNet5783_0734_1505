@@ -83,7 +83,7 @@ internal class Order : BlApi.IOrder
         {
             throw new BO.BONotfoundException(ex);
         }
-        if (ordDO.DeliveryDate != null)
+        if (ordDO.DeliveryDate == null)
         {
             ordDO.DeliveryDate = DateTime.Now;
             dal?.Order.Update(ordDO);
@@ -107,22 +107,21 @@ internal class Order : BlApi.IOrder
         {
             OrderId = ordDO.OrderId,
             OrderStatus = getStatus(ordDO),
-            PackageProgress = new List<(DateTime?, BO.OrderStatus?)>
-            {
-                 (ordDO.OrderDate, BO.OrderStatus.Confirmed),
-                 (ordDO.ShipDate, BO.OrderStatus.Shipped),
-                 (ordDO.DeliveryDate, BO.OrderStatus.Delivered)
+            PackageProgress = new List<Tuple<DateTime?, BO.OrderStatus?>>
+            { 
+            new Tuple<DateTime?, OrderStatus?>(ordDO.OrderDate, BO.OrderStatus.Confirmed),
+            new Tuple<DateTime?, OrderStatus?>(ordDO.ShipDate, BO.OrderStatus.Shipped),
+            new Tuple<DateTime?, OrderStatus?>(ordDO.DeliveryDate, BO.OrderStatus.Delivered)
             }
         };
     }
- 
-
     public void UpdateToManager(BO.Order updateOrd ,int IdProduct,int Amount)
     {
-        //if (updateOrd.ShipDate != DateTime.MinValue)
-        //    throw new InvalidAction("change order");
+        if (updateOrd.ShipDate != null)
+            throw new InvalidAction("change order");
         BO.OrderItem? ordBO = updateOrd.OrderItems.
-            Where(od => od?.ProductId == IdProduct).First();
+            Where(od => od?.ProductId == IdProduct).FirstOrDefault();
+        
         if(ordBO!=null)
         {            
             if (Amount != 0)

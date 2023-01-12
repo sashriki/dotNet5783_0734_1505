@@ -1,5 +1,6 @@
 ﻿using PLL.ProductWin;
 using System;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -14,9 +15,14 @@ namespace PL.ProductWin
 
         BlApi.IBl? bl = BlApi.Factory.Get();
 
-        BO.Product product;
+        //BO.Product product;
         EnumWin.state State;
         int HowManyTimesWeCalledToTxt_TextChangedFunction = 0;
+
+        public static readonly DependencyProperty ProductDep =
+         DependencyProperty.Register(nameof(product), typeof(BO.Product), typeof(AddOrUpdateWin));
+        BO.Product? product { get => (BO.Product?)GetValue(ProductDep); set => SetValue(ProductDep, value); }
+
 
         /// <summary>
         /// Parameterless constructor for adding a product
@@ -26,6 +32,7 @@ namespace PL.ProductWin
             InitializeComponent();
             Categories.ItemsSource = System.Enum.GetValues(typeof(BO.Category));
             State = EnumWin.state.Add;
+
         }
 
         /// <summary>
@@ -37,13 +44,8 @@ namespace PL.ProductWin
             InitializeComponent();
             Categories.ItemsSource = Enum.GetValues(typeof(BO.Category));
             State = EnumWin.state.Update;
-            TxtID.Text = $"{selected_item.ProductId}";
-            TxtName.Text = selected_item.ProductName;
-            TxtPrice.Text = $"{selected_item.Price}";
-            Categories.SelectedItem = selected_item.Category;
-            BO.Product prod = bl.Product.getByIdToMannage(selected_item.ProductId);
-            TxtInStock.Text = $"{prod.AmmountInStock}";
-            TxtID.IsReadOnly = true;
+            product = bl.Product.getByIdToMannage(selected_item.ProductId);
+            Categories.SelectedItem = product.ProductCategory;
         }
         /// <summary>
         /// 
@@ -52,12 +54,12 @@ namespace PL.ProductWin
         /// <param name="e"></param>
         private void AddOrUpdate_Click(object sender, RoutedEventArgs e)
         {
-            product = new BO.Product();
-            product.ProductId = int.Parse(TxtID.Text);
-            product.ProductName = TxtName.Text;
-            product.ProductPrice = float.Parse(TxtPrice.Text);
-            product.AmmountInStock = int.Parse(TxtInStock.Text);
-            product.ProductCategory = (BO.Category)Categories.SelectedItem;
+            //product = new BO.Product();
+            //product.ProductId = int.Parse(TxtID.Text);
+            //product.ProductName = TxtName.Text;
+            //product.ProductPrice = float.Parse(TxtPrice.Text);
+            //product.AmmountInStock = int.Parse(TxtInStock.Text);
+            //product.ProductCategory = (BO.Category)Categories.SelectedItem;
             try
             {
                 if (State == EnumWin.state.Update)
