@@ -16,19 +16,22 @@
                 <RowDefinition Height="370*"/>
                 <RowDefinition Height="41*"/>
             </Grid.RowDefinitions>
-            <ListView x:Name="OrderForList" SelectionChanged="ListView_SelectionChanged" Margin="0,30,-11,10">
+            <ListView x:Name="OrderForList" SelectionChanged="ListView_SelectionChanged" Margin="0,30,-11,10" FontSize="18" BorderBrush="#FF175CD8">
+                <ListView.Background>
+                    <ImageBrush/>
+                </ListView.Background>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn x:Name="listOfOrders" Header="Id" DisplayMemberBinding="{Binding OrderId}" Width="auto"/>
-                        <GridViewColumn Header="Costumer Name" DisplayMemberBinding="{Binding CostumerName}" Width="auto"/>
-                        <GridViewColumn Header="Amount of items" DisplayMemberBinding="{Binding AmountOfItems}" Width="auto"/>
-                        <GridViewColumn Header="Final price" DisplayMemberBinding="{Binding FinalPrice}" Width="auto"/>
-                        <GridViewColumn Header="Order status" DisplayMemberBinding="{Binding OrderStatus}" Width="auto"/>
+                        <GridViewColumn x:Name="listOfOrders" Header="Id   " DisplayMemberBinding="{Binding OrderId}" Width="auto"/>
+                        <GridViewColumn Header="Costumer Name   " DisplayMemberBinding="{Binding CostumerName}" Width="auto"/>
+                        <GridViewColumn Header="Amount of items   " DisplayMemberBinding="{Binding AmountOfItems}" Width="auto"/>
+                        <GridViewColumn Header="Final price   " DisplayMemberBinding="{Binding FinalPrice}" Width="auto"/>
+                        <GridViewColumn Header="Order status   " DisplayMemberBinding="{Binding OrderStatus}" Width="auto"/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="⬅️" HorizontalAlignment="Left" Height="32" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Center" Width="41" Click="Button_Click_1" FontSize="20"/>
-            <Button Content="✖️" HorizontalAlignment="Left" Height="32" Margin="56,0,0,0" VerticalAlignment="Center" Width="42" Click="Button_Click" Grid.Row="1"/>
+            <Button Content="⬅️" HorizontalAlignment="Left" Height="32" Margin="57,0,0,0" Grid.Row="1" VerticalAlignment="Center" Width="41" Click="Button_Click_1" FontSize="20" RenderTransformOrigin="3.152,0.762"/>
+            <Button Content="✖️" HorizontalAlignment="Left" Height="32" Margin="10,0,0,0" VerticalAlignment="Center" Width="42" Click="Button_Click" Grid.Row="1"/>
         </Grid>
 
     </Grid>

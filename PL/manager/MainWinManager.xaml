@@ -5,33 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.manager"
         mc:Ignorable="d"
-        Title="MainWinManager" Height="516" Width="739">
+        Title="MainWinManager" Height="516" Width="590">
     <Grid>
-        <Button x:Name="close" Content="❌" Margin="9,10,655,434" Click="Button_Click_2" FontFamily="Bahnschrift SemiLight" FontSize="14" RenderTransformOrigin="0.244,1">
-            <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </Button.Background>
-        </Button>
-        <Button x:Name="Products"  Content="Products" Margin="390,210,240,230" RenderTransformOrigin="0.339,0.565" FontFamily="Comic Sans MS" FontSize="20" Click="products_Click">
+        <Image Source="/manager/איך-לעצב-חדר-כושר (1).jpg"/>
+        <Button x:Name="orders"  Content="Orders" HorizontalAlignment="Left" Height="89" Margin="147,196,0,0" VerticalAlignment="Top" Width="148" FontFamily="Comic Sans MS" FontSize="24" Click="orders_Click" >
             <Button.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
             </Button.BorderBrush>
             <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
             </Button.Background>
         </Button>
-        <Button x:Name="Orders"  Content="Orders" Margin="240,210,390,230" FontFamily="Comic Sans MS" FontSize="20" Click="orders_Click">
+        <Button x:Name="products" Content="Products" HorizontalAlignment="Left" Height="89" Margin="312,196,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.339,0.565" FontFamily="Comic Sans MS" FontSize="24" Click="products_Click">
             <Button.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveCaptionColorKey}}"/>
             </Button.BorderBrush>
             <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
             </Button.Background>
         </Button>
-        <Button Content="⬅️" HorizontalAlignment="Left" Height="33" Margin="74,10,0,0" VerticalAlignment="Top" Width="60" FontFamily="Bahnschrift SemiLight" FontSize="14" Click="Button_Click">
+        <Button Content="⬅️" HorizontalAlignment="Left" Height="45" Margin="10,10,0,0" VerticalAlignment="Top" Width="46" FontFamily="Bahnschrift SemiLight" FontSize="20" Click="Button_Click">
+            <Button.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
+            </Button.BorderBrush>
             <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
             </Button.Background>
         </Button>
     </Grid>
 </Window>
+
+
+<!--<Button x:Name="Products"  Content="Products" Margin="390,210,240,230" RenderTransformOrigin="0.339,0.565" FontFamily="Comic Sans MS" FontSize="20" Click="products_Click">
+            <Button.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Button.Background>
+        </Button>-->
+<!--<Button x:Name="Orders"  Content="Orders" Margin="240,210,390,230" FontFamily="Comic Sans MS" FontSize="20" Click="orders_Click">
+            <Button.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Button.Background>
+        </Button>-->

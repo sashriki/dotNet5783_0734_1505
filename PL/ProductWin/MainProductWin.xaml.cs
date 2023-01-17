@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using BO;
 using PL;
 using PL.CartWin;
+using PL.manager;
 using PL.OrderWin;
 using PL.ProductWin;
 using static PL.EnumWin;
@@ -21,7 +24,9 @@ namespace PLL.ProductWin
         private IEnumerable<BO.ProductItem> productsItems;
         ClientOrManager clientOrManager;
         static BO.Cart NewCart;
-
+        private string groupName = "Category";
+        PropertyGroupDescription propertyGroupDescription;
+        public ICollectionView CollectionViewProductItemList { set; get; }
         public MainProductWin(EnumWin.ClientOrManager x)
         {
             InitializeComponent();
@@ -42,6 +47,7 @@ namespace PLL.ProductWin
                 orders.Visibility = Visibility.Hidden;
                 productsForList = bl.Product.getAllProducts()!;
                 ProductListview.ItemsSource = productsForList;
+                CollectionViewProductItemList = CollectionViewSource.GetDefaultView(productsForList);
             }
             else
             {
@@ -52,8 +58,11 @@ namespace PLL.ProductWin
                 productsItems = bl.Product.GetAllToCastumer(NewCart);
                 ProductListview.ItemsSource = productsItems;    
                 orders.Visibility=Visibility.Hidden;
+                CollectionViewProductItemList = CollectionViewSource.GetDefaultView(productsItems);
             }
-        
+
+            propertyGroupDescription = new PropertyGroupDescription(groupName);
+            CollectionViewProductItemList.GroupDescriptions.Add(propertyGroupDescription);
         }
 
         public MainProductWin(BO.Cart newCart)
@@ -135,7 +144,10 @@ namespace PLL.ProductWin
         /// <param name="e"></param>
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
+            if (clientOrManager == ClientOrManager.client)
+                new MainWindow().Show();
+            else
+                new MainWinManager().Show();
             this.Close();
         }
 

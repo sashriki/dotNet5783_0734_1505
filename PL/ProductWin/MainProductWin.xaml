@@ -7,6 +7,28 @@
         mc:Ignorable="d"
         Title="MainProductWin" Height="450" Width="800">
 
+    <Window.Resources>
+        <DataTemplate x:Key="oneProduct">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="0.5*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Height="150"  Width="125" BorderBrush="Black">
+                    <Border.Background>
+                        <ImageBrush ImageSource="{Binding Path=Image}" Stretch="UniformToFill"/>
+                    </Border.Background>
+                </Border>
+                <Label Grid.Row="1" Width="150" Content="{Binding Path=Name}" 
+                       HorizontalContentAlignment="Center"/>
+                <Label Grid.Row="2" Content="{Binding Path=Price}" HorizontalContentAlignment="Left" ContentStringFormat=" {0}₪"/>
+                <!--<Button x:Name="btnDelete" Content="Delete" Grid.Row="3" VerticalAlignment="Bottom" Click="Delete_Product_Button_Click"/>-->
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="17*"/>
@@ -19,10 +41,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="Category" Content="Category:" HorizontalAlignment="Left" Margin="318,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="79"/>
-            <Label x:Name="earch" Content="Search by name:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="120"/>
+            <Label x:Name="Category" Content="Category:" HorizontalAlignment="Left" Margin="304,0,0,0" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="93"/>
+            <Label x:Name="earch" Content="Search by name:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" FontFamily="Candara" Width="155"/>
 
-            <ComboBox x:Name="selectedCategory" Grid.Column="1" SelectionChanged="selectedCategory_SelectionChanged" >
+            <ComboBox x:Name="selectedCategory" Grid.Column="1" SelectionChanged="selectedCategory_SelectionChanged" FontSize="16" >
                 <!--<ComboBoxItem Content="All"/>
                 <ComboBoxItem Content="Clothing" />
                 <ComboBoxItem Content="Shoes" />
@@ -33,7 +55,9 @@
 
         </Grid>
 
-        <ListView x:Name="ProductListview" MouseDoubleClick="ProductListview_MouseDoubleClick" Margin="0,33,0,0" Grid.RowSpan="2">
+        <ListView x:Name="ProductListview" MouseDoubleClick="ProductListview_MouseDoubleClick" Margin="0,33,0,0" Grid.RowSpan="2"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                ScrollViewer.CanContentScroll="True" ItemTemplate="{StaticResource oneProduct}" FontSize="16" FontFamily="Source Sans Pro">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
@@ -44,14 +68,43 @@
                     <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}"/>-->
                 </GridView>
             </ListView.View>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander IsExpanded="True">
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="18" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding ItemCount}" FontSize="16" Foreground="{DynamicResource PrimaryHueLightBrush}" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text=" item(s)" FontSize="12" Foreground="{DynamicResource PrimaryHueLightBrush}" FontStyle="Italic" VerticalAlignment="Bottom"  />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
 
-        <Button Name="Add" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Left" Margin="677,5,0,5" Padding="5" Click="Add_Click" Width="104"/>
+        <Button Name="Add" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Left" Margin="634,5,0,5" Padding="5" Click="Add_Click" Width="156" FontSize="16"/>
         <Button Content="✖️" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Click="Button_Click" Width="31" Height="28"/>
         <Button Content="⬅️" HorizontalAlignment="Left" Margin="46,0,0,0" Grid.Row="2" VerticalAlignment="Center"  Width="34" Click="Button_Click_1" FontSize="18" Height="28"/>
-        <TextBox x:Name="Search" HorizontalAlignment="Left" Margin="125,0,0,0" TextWrapping="Wrap" Width="120" FontSize="14" TextChanged="Search_TextChanged"/>
-        <Button x:Name="cart"  Content="🛒" HorizontalAlignment="Left" Height="28" Margin="636,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="36" Click="cart_Click" FontSize="20"/>
-        <Button x:Name="orders"  Content="Orders" HorizontalAlignment="Left" Height="28" Margin="584,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="47" Click="Button_Click_2" RenderTransformOrigin="1.535,0.446"/>
+        <TextBox x:Name="Search" HorizontalAlignment="Left" Margin="125,0,0,357" TextWrapping="Wrap" Width="148" FontSize="14" TextChanged="Search_TextChanged" Grid.RowSpan="2"/>
+        <Button x:Name="cart"  Content="🛒" HorizontalAlignment="Left" Height="33" Margin="593,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="36" Click="cart_Click" FontSize="20"/>
+        <Button x:Name="orders"  Content="Orders" HorizontalAlignment="Left" Margin="513,5,0,5" Grid.Row="2" Width="75" Click="Button_Click_2" RenderTransformOrigin="1.535,0.446" FontSize="16"/>
 
     </Grid>
 

@@ -23,9 +23,7 @@ namespace PL.OrderWin
     /// </summary>
     public partial class Update : Window
     {
-        //BO.OrderForList orderForList;
         BlApi.IBl? bl = BlApi.Factory.Get();
-
         public static readonly DependencyProperty OrderDep =
             DependencyProperty.Register(nameof(order), typeof(BO.Order),typeof(Update));
 
@@ -35,20 +33,16 @@ namespace PL.OrderWin
             set => SetValue(OrderDep, value);
         }
 
-        bool flag;
         public Update(BO.Order ord)
         {
-            order = ord;
             InitializeComponent();
-            //orderForList = ordForLst;
-            //status.ItemsSource = System.Enum.GetValues(typeof(BO.OrderStatus));
-            flag = false;
-
+            order = ord;
             if (ord.OrderStatus == BO.OrderStatus.Confirmed)
             {
                 status.Items.Add(BO.OrderStatus.Confirmed);
                 status.Items.Add(BO.OrderStatus.Shipped);
                 status.Items.Add(BO.OrderStatus.Delivered);
+                
             }
             
             else if (ord.OrderStatus == BO.OrderStatus.Shipped)
@@ -70,11 +64,6 @@ namespace PL.OrderWin
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(!flag)
-            {
-                flag = true;
-                return;
-            }
             if ((BO.OrderStatus)status.SelectedItem != (BO.OrderStatus)order.OrderStatus)
             {
                 if ((BO.OrderStatus)status.SelectedItem == BO.OrderStatus.Shipped)
@@ -113,7 +102,6 @@ namespace PL.OrderWin
             bl.Order.UpdateToManager(order, tmp.ProductId, tmp.AmountOfProduct--);
             OrderItemList.ItemsSource = null;
             OrderItemList.ItemsSource = bl.Order.GetOrderByID(order.OrderId).OrderItems;
-
         }
 
         private void OrderItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)

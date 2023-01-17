@@ -7,25 +7,49 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="516" Width="739">
     <Grid>
-        <TextBox x:Name="title" TextWrapping="Wrap" Text="Welcome to Bella Bella!" Margin="140,140,140,292" TextChanged="TextBox_TextChanged" Background="{Binding ElementName=image, Mode=OneWay}" FontFamily="Arial Rounded MT Bold" FontSize="36" TextAlignment="Center" BorderBrush="{Binding Width, ElementName=title}"/>
-        <Button x:Name="close" Content="✖️" Margin="10,10,670,440" Click="Button_Click_2" FontFamily="Candara" FontSize="14" RenderTransformOrigin="0.244,1">
-            <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </Button.Background>
-        </Button>
-        <Button x:Name="manager"  Content="manager" Margin="461,208,169,232" RenderTransformOrigin="0.339,0.565" FontFamily="Comic Sans MS" FontSize="20" Click="manager_Click">
+        <Image Margin="0,0,0,0" Source="/ססס.jpeg"/>
+        <Button x:Name="close" Content="✖️" Margin="10,10,670,440" Click="Button_Click_2" FontFamily="Candara" FontSize="14" RenderTransformOrigin="0.5,1" Background="#FFF0F0F0"/>
+        <!--<Button x:Name="manager"  Content="manager" Margin="315,264,315,176" RenderTransformOrigin="3.768,1.218" FontFamily="Comic Sans MS" FontSize="20" Click="manager_Click" Background="{Binding ElementName=button, Mode=OneWay}">
             <Button.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFBF0F0F" Offset="1"/>
+                </LinearGradientBrush>
             </Button.BorderBrush>
-            <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </Button.Background>
+        </Button>-->
+        <!--<Button x:Name="client"  Content="client" Margin="260,175,369,265" FontFamily="Comic Sans MS" FontSize="20" Click="client_Click" Background="{Binding ElementName=button, Mode=OneWay}">
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFC11010" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
+        </Button>-->
+        <Button x:Name="button" Content="Tracking" HorizontalAlignment="Left" Height="60" Margin="10,377,0,0" VerticalAlignment="Top" Width="109" Background="{Binding AreAnyTouchesDirectlyOver, ElementName=button, Mode=OneWay}" FontSize="20" FontFamily="Comic Sans MS" Click="Button_Click" RenderTransformOrigin="1.096,2.795" >
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFA21717" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
         </Button>
-        <Button x:Name="client"  Content="client" Margin="327,208,303,232" FontFamily="Comic Sans MS" FontSize="20" Click="client_Click" BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-            <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </Button.Background>
+        <Image Source="/טטט.jpeg" Margin="422,24,-42,98"/>
+        <Button x:Name="Manager"  Content="Manager" RenderTransformOrigin="3.768,1.218" HorizontalAlignment="Left" Height="59" Margin="10,313,0,0" VerticalAlignment="Top" FontFamily="Comic Sans MS" FontSize="20" Click="manager_Click" Background="{Binding ElementName=button, Mode=OneWay}" Width="109">
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFA21717" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
         </Button>
-        <Button Content="Traking" HorizontalAlignment="Left" Height="60" Margin="180,208,0,0" VerticalAlignment="Top" Width="117" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontSize="20" FontFamily="Comic Sans MS" Click="Button_Click" />
+
+        <Button x:Name="Client"  Content="Client" FontFamily="Comic Sans MS" FontSize="20" Click="client_Click" HorizontalAlignment="Left" Height="58" Margin="10,250,0,0" VerticalAlignment="Top" Width="109" Background="{Binding ElementName=button, Mode=OneWay}">
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFC11010" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
+        </Button>
     </Grid>
 </Window>

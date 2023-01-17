@@ -52,21 +52,22 @@
                     <GridViewColumn Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="delete"  Content="❌" Tag="{Binding}" Click="Button_Click_1" IsEnabled="{Binding OrderStatus , Converter={StaticResource updatePermission}}"/>
+                                <Button x:Name="deleteButton" Content="❌" Tag="{Binding}" Click="Button_Click_1" 
+                                        IsEnabled="{Binding ElementName=status, Converter={StaticResource updatePermission}}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="add" Content="➕" Tag="{Binding}" Click="Button_Click_2"/>
+                                <Button x:Name="addButton" Content="➕" Tag="{Binding}" Click="Button_Click_2"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="reduction" Content="➖" Tag="{Binding}" Click="Button_Click_3"/>
+                                <Button x:Name="reductionButton" Content="➖" Tag="{Binding}" Click="Button_Click_3"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

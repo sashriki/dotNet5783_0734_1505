@@ -69,5 +69,6 @@
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
             </Button.Background>
         </Button>
+        <Image HorizontalAlignment="Left" Height="100" Margin="28,175,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>

@@ -45,23 +45,6 @@ namespace PL.ProductWin
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         { }
 
-        private void DifitsOnlyAmount(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            if (regex.IsMatch(e.Text))
-            {
-                Error_massageAmount.Visibility = Visibility.Visible;
-                e.Handled = true;
-            }
-            else
-            {
-                e.Handled = regex.IsMatch(e.Text);
-                Error_massageAmount.Visibility = Visibility.Hidden;
-            }
-        }
-        //        <Label x:Name="Error_massageAmount" Content="You can only enter digits from 0-9" Foreground="Red" HorizontalAlignment="Left" Margin="170,280,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
-
-
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
             if(!NewCart.OrderItems.Exists(x => x.ProductId == ProductItem.ProductId))

@@ -14,9 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="1.jpg" />
-    <None Remove="gym.jpg" />
-    <None Remove="manager\1.jpg" />
+    <None Remove="manager\איך-לעצב-חדר-כושר %281%29.jpg" />
+    <None Remove="טטט.jpeg" />
+    <None Remove="ססס.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,9 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="1.jpg" />
-    <Resource Include="gym.jpg" />
-    <Resource Include="manager\1.jpg" />
+    <Resource Include="manager\איך-לעצב-חדר-כושר (1).jpg" />
+    <Resource Include="טטט.jpeg" />
+    <Resource Include="ססס.jpeg" />
   </ItemGroup>
 
   <ItemGroup>

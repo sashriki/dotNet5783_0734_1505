@@ -10,6 +10,8 @@
     
     <Window.Resources>
         <local:VisibilityAddOrApdate x:Key="VisibilityAddOrApdate"/>
+        <local:InvalidInput x:Key="InvalidInput"/>
+        <local:InvalidInputPrice x:Key="InvalidInputPrice"/>
     </Window.Resources>
         
     <Grid>
@@ -18,12 +20,12 @@
         <Label x:Name="NameText" Content="Name:" HorizontalAlignment="Left" Margin="60,150,0,0" VerticalAlignment="Top" Background="#FFCCF4EA" FontSize="18" FontFamily="Segoe UI Semibold" Width="94"/>
         <Label x:Name="PriceText" Content="Price:" HorizontalAlignment="Left" Margin="60,200,0,0" VerticalAlignment="Top" Background="#FFCCF4EA" FontSize="18" FontFamily="Segoe UI Semibold" Width="94"/>
         <Label x:Name="InStockText" Content="In Stock:" HorizontalAlignment="Left" Margin="60,250,0,0" VerticalAlignment="Top" Background="#FFCCF4EA" FontSize="18" FontFamily="Segoe UI Semibold" Width="94"/>
-        <TextBox x:Name="TxtID" IsReadOnly="true" Text="{Binding product.ProductId}" HorizontalAlignment="Left" Margin="170,50,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="250" Height="33" MaxLength="9" PreviewTextInput="DifitsOnlyID" TextChanged="Txt_TextChanged"/>
+        <TextBox x:Name="TxtID" Text="{Binding product.ProductId}" HorizontalAlignment="Left" Margin="170,50,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="250" Height="33" MaxLength="9" TextChanged="Txt_TextChanged"/>
         <TextBox x:Name="TxtName" Text="{Binding product.ProductName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,150,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="250" Height="33" MaxLength="20" TextChanged="Txt_TextChanged" />
-        <TextBox x:Name="TxtPrice" Text="{Binding product.ProductPrice, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,200,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="250" Height="33" MaxLength="6" PreviewTextInput="DifitsOnlyPrice" TextChanged="Txt_TextChanged" />
-        <TextBox x:Name="TxtInStock" Text="{Binding product.AmmountInStock, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,250,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="250" Height="33" PreviewTextInput="DifitsOnlyAmount" TextChanged="Txt_TextChanged" />
+        <TextBox x:Name="TxtPrice" Text="{Binding product.ProductPrice, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,200,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="250" Height="33" MaxLength="6" TextChanged="Txt_TextChanged" />
+        <TextBox x:Name="TxtInStock" Text="{Binding product.AmmountInStock, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,250,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="250" Height="33" TextChanged="Txt_TextChanged" />
         <ComboBox x:Name="Categories" HorizontalAlignment="Left" Margin="170,100,0,0" VerticalAlignment="Top" Width="250" Height="33" SelectionChanged="Categories_SelectionChanged"/>
-        
+
         <Button x:Name="AddOrUpdate" Content="Apply changes" HorizontalAlignment="Left" Margin="440,310,0,0" VerticalAlignment="Top" Background="#FFCFCACA" Height="33" Width="119" FontSize="16" FontFamily="Bahnschrift" Click="AddOrUpdate_Click" Visibility="Visible" >
             <Button.IsEnabled>
                 <MultiBinding Converter="{StaticResource VisibilityAddOrApdate}">
@@ -35,12 +37,14 @@
                 </MultiBinding>
             </Button.IsEnabled>
         </Button>
-    
+
         <Label x:Name="Termination" Content="The details have been successfully updated!" HorizontalAlignment="Center" Margin="0,158,0,0" VerticalAlignment="Top" Visibility="Hidden" FontWeight="Bold" FontSize="20"/>
-        <Label x:Name="Error_massageID" Content="You can only enter digits from 0-9" Foreground="red"  HorizontalAlignment="Left" Margin="170,78,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
-        <Label x:Name="Error_massagePrice1" Content="You can only enter digits from 0-9" Foreground="red"  HorizontalAlignment="Left" Margin="170,227,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
-        <Label x:Name="Error_massagePrice2" Content="Invalid amount" Foreground="Red" HorizontalAlignment="Left" Margin="170,227,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
-        <Label x:Name="Error_massageAmount" Content="You can only enter digits from 0-9" Foreground="Red" HorizontalAlignment="Left" Margin="170,280,0,0" VerticalAlignment="Top" FontSize="10" Visibility="Hidden"/>
+        <Label x:Name="Error_massageID" Content="You can only enter digits from 0-9" Foreground="red"  HorizontalAlignment="Left" Margin="170,78,0,0" VerticalAlignment="Top" FontSize="10" 
+               Visibility="{Binding ElementName=TxtID, Path=Text, Converter={StaticResource InvalidInput}}"/>
+        <Label x:Name="Error_massagePrice1" Content="You can only enter digits from 0-9" Foreground="red"  HorizontalAlignment="Left" Margin="170,227,0,0" VerticalAlignment="Top" FontSize="10" 
+               Visibility="{Binding ElementName=TxtPrice, Path=Text , Converter={StaticResource InvalidInputPrice}}"/>
+        <Label x:Name="Error_massageAmount" Content="You can only enter digits from 0-9" Foreground="Red" HorizontalAlignment="Left" Margin="170,280,0,0" VerticalAlignment="Top" FontSize="10" 
+               Visibility="{Binding ElementName=TxtInStock,Path=Text, Converter={StaticResource InvalidInput}}"/>
         <Button x:Name="CloseWindow" Content="✖️" HorizontalAlignment="Left" Margin="18,326,0,0" VerticalAlignment="Top" Background="#FFDDDDDD" FontSize="14" Width="41" Click="CloseWindow_Click" Height="35"/>
         <Button x:Name="Back" Content="⬅️" HorizontalAlignment="Left" Margin="64,326,0,0" VerticalAlignment="Top" Background="#FFDDDDDD" FontSize="20" Width="43" Click="Back_Click" Height="35"/>
     </Grid>

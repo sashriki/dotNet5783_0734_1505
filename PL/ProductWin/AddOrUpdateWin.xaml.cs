@@ -32,7 +32,7 @@ namespace PL.ProductWin
             InitializeComponent();
             Categories.ItemsSource = System.Enum.GetValues(typeof(BO.Category));
             State = EnumWin.state.Add;
-
+            TxtID.IsReadOnly = false;
         }
 
         /// <summary>
@@ -46,7 +46,9 @@ namespace PL.ProductWin
             State = EnumWin.state.Update;
             product = bl.Product.getByIdToMannage(selected_item.ProductId);
             Categories.SelectedItem = product.ProductCategory;
+            TxtID.IsReadOnly = true;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -54,12 +56,6 @@ namespace PL.ProductWin
         /// <param name="e"></param>
         private void AddOrUpdate_Click(object sender, RoutedEventArgs e)
         {
-            //product = new BO.Product();
-            //product.ProductId = int.Parse(TxtID.Text);
-            //product.ProductName = TxtName.Text;
-            //product.ProductPrice = float.Parse(TxtPrice.Text);
-            //product.AmmountInStock = int.Parse(TxtInStock.Text);
-            //product.ProductCategory = (BO.Category)Categories.SelectedItem;
             try
             {
                 if (State == EnumWin.state.Update)
@@ -70,7 +66,6 @@ namespace PL.ProductWin
             catch(Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-                //new MainProductWin().Show();
                 this.Close();
             }
             permissionScreen();
@@ -95,76 +90,7 @@ namespace PL.ProductWin
         }
         private void Categories_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         { }
-        /// <summary>
-        /// Function to check input integrity for ID
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DifitsOnlyID(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            if (regex.IsMatch(e.Text))
-            {
-                Error_massageID.Visibility = Visibility.Visible;
-                e.Handled = true;
-            }
-            else
-            {
-                e.Handled = regex.IsMatch(e.Text);
-                Error_massageID.Visibility = Visibility.Hidden;
-            }
-        }
-        /// <summary>
-        /// A function to check input integrity for a amount
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DifitsOnlyAmount(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            if (regex.IsMatch(e.Text))
-            {
-                Error_massageAmount.Visibility = Visibility.Visible;
-                e.Handled = true;
-            }
-            else
-            {
-                e.Handled = regex.IsMatch(e.Text);
-                Error_massageAmount.Visibility = Visibility.Hidden;
-            }
-        }
-        /// <summary>
-        /// A function to check the validity of an input for a price
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DifitsOnlyPrice(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9.]+");
-            if (regex.IsMatch(e.Text))
-            {
-                Error_massagePrice1.Visibility = Visibility.Visible;
-                e.Handled = true;
-            }
-            else
-            {
-                Error_massagePrice1.Visibility = Visibility.Hidden;
-                e.Handled = regex.IsMatch(e.Text);
-            }
-
-            int index = TxtPrice.Text.IndexOf(".");
-            if (index != -1 && e.Text == ".")
-            {
-                Error_massagePrice2.Visibility = Visibility.Visible;
-                e.Handled = true;
-            }
-            else
-            {
-               Error_massagePrice2.Visibility = Visibility.Hidden; 
-               e.Handled = regex.IsMatch(e.Text);
-            }
-        }
-        
+  
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -185,8 +111,10 @@ namespace PL.ProductWin
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            InvalidInput.numOfConvert = 0;
             new MainProductWin(EnumWin.ClientOrManager.manager).Show();
             this.Close();
         }
     }
 }
+
