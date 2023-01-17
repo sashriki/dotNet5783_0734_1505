@@ -121,8 +121,8 @@ internal class Cart : BlApi.ICart
             //Creating an order and initializing the fields:
             DO.Order NewOrderDO = new DO.Order();
             NewOrderDO.OrderDate = DateTime.Now;
-            NewOrderDO.ShipDate = DateTime.MinValue;
-            NewOrderDO.DeliveryDate = DateTime.MinValue;
+            NewOrderDO.ShipDate = null;
+            NewOrderDO.DeliveryDate = null;
             NewOrderDO.CustomerAdress = newCart.CustomerAdress;
             NewOrderDO.CustomerName = newCart.CustomerName;
             NewOrderDO.CustomerEmail = newCart.CustomerEmail;
