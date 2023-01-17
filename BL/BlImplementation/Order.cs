@@ -20,7 +20,7 @@ internal class Order : BlApi.IOrder
                                                        CostumerName= item.CustomerName,
                                                        OrderStatus= getStatus(item),
                                                        AmountOfItems = dal.OrderItem.GetAll(x=> x?.OrderId == item.OrderId).Sum(x=>x?.Amount) ?? 0,
-                                                       FinalPrice= dal.OrderItem.GetAll(x => x?.OrderId == item.OrderId).Sum(x => x?.Price) ?? 0                                                      
+                                                       FinalPrice= dal.OrderItem.GetAll(x => x?.OrderId == item.OrderId).Sum(x => x?.Price* x?.Amount) ?? 0                                                      
                                                    };
         if (!OrdersList.Any())
             throw new BO.NoElementsException("orders");
@@ -123,16 +123,37 @@ internal class Order : BlApi.IOrder
             Where(od => od?.ProductId == IdProduct).FirstOrDefault();
         
         if(ordBO!=null)
-        {            
+        {
             if (Amount != 0)
             {
                 int dif = ordBO.AmountOfProduct - Amount;
                 ordBO.FinalPriceOfProduct += dif * ordBO.PriceOfProduct;
                 ordBO.AmountOfProduct = Amount;
                 updateOrd.FinalPrice += dif * ordBO.PriceOfProduct;
+                dal.OrderItem.Update(new DO.OrderItem
+                {
+                    OrderItemId= ordBO.OrderItemId,
+                    OrderId= updateOrd.OrderId,
+                    ProductId= ordBO.ProductId,
+                    Price= ordBO.PriceOfProduct,
+                    Amount= ordBO.AmountOfProduct
+                });
+                dal.Order.Update(new DO.Order
+                {
+                    OrderId= updateOrd.OrderId,
+                    CustomerAdress= updateOrd.CustomerAdress,
+                    CustomerEmail= updateOrd.CustomerEmail,
+                    CustomerName= updateOrd.CustomerName,
+                    DeliveryDate= updateOrd.DeliveryDate,
+                    OrderDate= updateOrd.OrderDate, 
+                    ShipDate= updateOrd.ShipDate
+                });
             }
-            else 
+            else
+            {
                 updateOrd.OrderItems.ToList().Remove(ordBO);
+                dal.OrderItem.Delete(ordBO.OrderItemId);
+            }
         }
         else
         {

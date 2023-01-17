@@ -48,20 +48,24 @@ internal class Product : BlApi.IProduct
     public IEnumerable<BO.ProductForList> GetAllByCondition(Func<BO.ProductForList?, bool>? condition, IEnumerable<BO.ProductForList> productForLists)
         => productForLists.Where(condition);
 
+    public IEnumerable<BO.ProductItem> GetAllByConditionToCastumer(Func<BO.ProductItem?, bool>? condition, IEnumerable<BO.ProductItem> ProductItems)
+        => ProductItems.Where(condition);
+
     public IEnumerable<BO.ProductItem> GetAllToCastumer(BO.Cart cart)
     {
         IEnumerable<DO.Product?> DO_products = dal?.Product.GetAll();
-        IEnumerable<BO.ProductItem> BO_productItem = from item in DO_products
-                                                     select new BO.ProductItem
-                                                     {
-                                                         ProductId = item?.ProductId ?? 0,
-                                                         ProductName = item?.ProductName,
-                                                         Price = item?.ProductPrice ?? 0,
-                                                         Category = (BO.Category)item?.ProductCategory,
-                                                         AmmountInCart = (from orderItem in cart.OrderItems
-                                                                          where orderItem.ProductId == item?.ProductId
-                                                                          select orderItem.AmountOfProduct).FirstOrDefault(0)
-                                                     };
+        IEnumerable<BO.ProductItem> BO_productItem= from item in DO_products
+                                                    select new BO.ProductItem
+                                                    {
+                                                        ProductId = item?.ProductId ?? 0,
+                                                        ProductName = item?.ProductName,
+                                                        Price = item?.ProductPrice ?? 0,
+                                                        Category = (BO.Category)item?.ProductCategory,
+                                                        AmmountInCart = (from orderItem in cart.OrderItems
+                                                                        where orderItem.ProductId == item?.ProductId
+                                                                        select orderItem.AmountOfProduct).FirstOrDefault(0)
+                                                    };
+
         return BO_productItem;
     }
 

@@ -90,7 +90,7 @@ namespace PL.OrderWin
         {
             BO.OrderItem tmp = new OrderItem();
             tmp = (BO.OrderItem)((Button)sender).DataContext;
-            bl.Order.UpdateToManager(order, tmp.ProductId, tmp.AmountOfProduct++);
+            bl.Order.UpdateToManager(order, tmp.ProductId, tmp.AmountOfProduct+1);
             OrderItemList.ItemsSource = null;
             OrderItemList.ItemsSource = bl.Order.GetOrderByID(order.OrderId).OrderItems;
 
@@ -99,7 +99,7 @@ namespace PL.OrderWin
         {
             BO.OrderItem tmp = new OrderItem();
             tmp = (BO.OrderItem)((Button)sender).DataContext;
-            bl.Order.UpdateToManager(order, tmp.ProductId, tmp.AmountOfProduct--);
+            bl.Order.UpdateToManager(order, tmp.ProductId, tmp.AmountOfProduct-1);
             OrderItemList.ItemsSource = null;
             OrderItemList.ItemsSource = bl.Order.GetOrderByID(order.OrderId).OrderItems;
         }

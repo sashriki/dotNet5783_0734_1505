@@ -53,21 +53,23 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button x:Name="deleteButton" Content="❌" Tag="{Binding}" Click="Button_Click_1" 
-                                        IsEnabled="{Binding ElementName=status, Converter={StaticResource updatePermission}}"/>
+                                       IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=3,AncestorType={x:Type Grid}}, Path=DataContext , Converter={StaticResource updatePermission}}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="addButton" Content="➕" Tag="{Binding}" Click="Button_Click_2"/>
+                                <Button x:Name="addButton" Content="➕" Tag="{Binding}" Click="Button_Click_2"
+                                        IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=3,AncestorType={x:Type Grid}}, Path=DataContext , Converter={StaticResource updatePermission}}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="reductionButton" Content="➖" Tag="{Binding}" Click="Button_Click_3"/>
+                                <Button x:Name="reductionButton" Content="➖" Tag="{Binding}" Click="Button_Click_3"
+                                        IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=3,AncestorType={x:Type Grid}}, Path=DataContext , Converter={StaticResource updatePermission}}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

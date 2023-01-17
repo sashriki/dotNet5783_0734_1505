@@ -27,7 +27,7 @@ namespace PLL.ProductWin
         private string groupName = "Category";
         PropertyGroupDescription propertyGroupDescription;
         public ICollectionView CollectionViewProductItemList { set; get; }
-        public MainProductWin(EnumWin.ClientOrManager x)
+        public MainProductWin(ClientOrManager x)
         {
             InitializeComponent();
 
@@ -44,7 +44,6 @@ namespace PLL.ProductWin
             {
                 clientOrManager = ClientOrManager.manager;
                 cart.Visibility = Visibility.Hidden;
-                orders.Visibility = Visibility.Hidden;
                 productsForList = bl.Product.getAllProducts()!;
                 ProductListview.ItemsSource = productsForList;
                 CollectionViewProductItemList = CollectionViewSource.GetDefaultView(productsForList);
@@ -57,7 +56,6 @@ namespace PLL.ProductWin
                 Add.Visibility = Visibility.Hidden;
                 productsItems = bl.Product.GetAllToCastumer(NewCart);
                 ProductListview.ItemsSource = productsItems;    
-                orders.Visibility=Visibility.Hidden;
                 CollectionViewProductItemList = CollectionViewSource.GetDefaultView(productsItems);
             }
 
@@ -75,7 +73,6 @@ namespace PLL.ProductWin
             Add.Visibility = Visibility.Hidden;
             productsItems = bl.Product.GetAllToCastumer(NewCart);
             ProductListview.ItemsSource = productsItems;
-            orders.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -131,10 +128,21 @@ namespace PLL.ProductWin
         /// <param name="e"></param>
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (Search.Text != "")
+            if (clientOrManager==EnumWin.ClientOrManager.manager)
             {
-                string x = Search.Text;
-                ProductListview.ItemsSource = bl.Product.GetAllByCondition(p => p.ProductName.StartsWith(x), productsForList);
+                if (Search.Text != "")
+                {
+                    string x = Search.Text;
+                    ProductListview.ItemsSource = bl.Product.GetAllByCondition(p => p.ProductName.StartsWith(x), productsForList);
+                }
+            }
+            else
+            {
+                if (Search.Text != "")
+                {
+                    string x = Search.Text;
+                    ProductListview.ItemsSource = bl.Product.GetAllByConditionToCastumer(p => p.ProductName.StartsWith(x), productsItems);
+                }
             }
         }
         /// <summary>
