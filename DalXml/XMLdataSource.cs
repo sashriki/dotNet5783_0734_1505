@@ -22,7 +22,7 @@ internal static class DataSource
 
     //consts
     const int InitialNumOfOrders = 100;
-    const int InitialNumOfOrderItems = 20;
+    const int InitialNumOfOrderItems = 150;
     const int InitialNumOfproducts = 200;
 
     //initialize
@@ -30,16 +30,19 @@ internal static class DataSource
     {
         Init();
     }
-    private static void Init()
+    internal static void Init()
     {
         InitProduct();
         InitOrder();
         InitOrderItem();
+        ToolsXML.SaveListToXMLSerializer(orders, "xmlOrder.xml");
+        ToolsXML.SaveListToXMLSerializer(products, "xmlProduct.xml");
+        ToolsXML.SaveListToXMLSerializer(orderItems, "xmlOrderItem.xml");
     }
     /// <summary>
     /// Product list initialization
     /// </summary>
-    private static void InitProduct()
+    internal static void InitProduct()
     {
         for (int i = 0; i < InitialNumOfproducts/*200*/; i++)
         {//The loop will create new products and add to the list
@@ -59,7 +62,7 @@ internal static class DataSource
             products.Add(newProduct);
         }
     }
-    private static void InitOrder()
+    internal static void InitOrder()
     {//Initialization for orders
         for (int i = 0; i < InitialNumOfOrders; i++)
         {
@@ -77,7 +80,6 @@ internal static class DataSource
                 else
                     newOrder.DeliveryDate = null;
             }
-
             else
             {
                 newOrder.ShipDate = null;
@@ -86,17 +88,17 @@ internal static class DataSource
             orders.Add(newOrder);
         }
     }
-    private static void InitOrderItem()
+    internal static void InitOrderItem()
     {
-        for (int i = 0; i < 0.2 * InitialNumOfOrders; i++)
+        for (int i = 0; i < InitialNumOfOrderItems; i++)
         {
             OrderItem newOrderItem = new OrderItem();
             newOrderItem.OrderItemId = Config.orderItemIndex++;
-            newOrderItem.OrderId = orders[random.Next(0, InitialNumOfOrders)].Value.OrderId;
+            newOrderItem.OrderId = orders[i % InitialNumOfOrders]?.OrderId ?? throw new Exception("the order number unfound\n");
             int index = random.Next(0, InitialNumOfproducts);
-            newOrderItem.ProductId = products[index].Value.ProductId;
+            newOrderItem.ProductId = products[index]?.ProductId ?? throw new Exception("the product number unfound\n");
             newOrderItem.Amount = random.Next(0, 5);
-            newOrderItem.Price = products[index].Value.ProductPrice;
+            newOrderItem.Price = products[index]?.ProductPrice ?? 0;
             orderItems.Add(newOrderItem);
         }
     }

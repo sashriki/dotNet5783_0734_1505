@@ -5,9 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.CartWin"
         mc:Ignorable="d"
-        Title="MainCartWin" Height="450" Width="720">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainCartWin" Height="450" Width="720" WindowStartupLocation="CenterScreen">
+    
+    <Window.Resources>
+        <local:EmptyCart x:Key="EmptyCart"/>
+        <local:FullCart x:Key="FullCart"/>
+    </Window.Resources>
+
     <Grid>
-        <ListView x:Name="OrderItemList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="14,98,14,98" SelectionChanged="OrderItemList_SelectionChanged">
+        <ListView x:Name="OrderItemList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="14,98,14,98" SelectionChanged="OrderItemList_SelectionChanged"
+                   Visibility="{Binding ElementName=OrderItemList, Path=ItemsSource, Converter={StaticResource FullCart}}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Order Item Id  " DisplayMemberBinding="{Binding OrderItemId}" Width="auto"/>
@@ -40,8 +48,9 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <!--<Label x:Name="EmptyCart"  Content="The shopping cart is empty!" HorizontalAlignment="Left" Height="46" Margin="227,187,0,0" VerticalAlignment="Top" Width="236" FontFamily="Adobe Fan Heiti Std B" FontSize="18" FontStyle="Italic"/>-->
-        <Button x:Name="MakeOrder"  Content="To make an order" HorizontalAlignment="Center" Height="32" Margin="0,372,0,0" VerticalAlignment="Top" Width="173" Click="MakeOrder_Click"/>
+        <Label x:Name="EmptyCartM"  Content="The shopping cart is empty!" HorizontalAlignment="Left" Height="46" Margin="227,187,0,0" VerticalAlignment="Top" Width="236" FontFamily="Adobe Fan Heiti Std B" FontSize="18" FontStyle="Italic"
+               Visibility="{Binding ElementName=OrderItemList, Path=ItemsSource, Converter={StaticResource EmptyCart}}"/>
+        <Button Visibility="{Binding ElementName=OrderItemList, Path=ItemsSource, Converter={StaticResource FullCart}}" x:Name="MakeOrder"  Content="To make an order" HorizontalAlignment="Center" Height="32" Margin="0,372,0,0" VerticalAlignment="Top" Width="173" Click="MakeOrder_Click"/>
         <Button Content="⬅️" HorizontalAlignment="Left" Height="24" Margin="14,10,0,0" VerticalAlignment="Top" Width="34" Click="Button_Click"/>
     </Grid>
 </Window>

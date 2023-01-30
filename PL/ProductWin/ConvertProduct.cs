@@ -26,13 +26,13 @@ namespace PL.ProductWin
     public class InvalidInput : IValueConverter
     {
         Regex regex = new("[^0-9]+");
-        public static int numOfConvert = 0; //איך לעזעאל לבדוק שזה לא הפעם הראשונה שהוא נכנס לפה??????
+        public static int numOfConvert = 0;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             numOfConvert++;
             if (numOfConvert > 3)
-                return !regex.IsMatch((string)value) ?  Visibility.Hidden : Visibility.Visible;
-            return Visibility.Hidden;                
+                return !regex.IsMatch((string)value) ? Visibility.Hidden : Visibility.Visible;
+            return Visibility.Hidden;
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -43,7 +43,7 @@ namespace PL.ProductWin
     public class InvalidInputPrice : IValueConverter
     {
         Regex regex = new("[^0-9.]+");
-        public static int numOfConvert = 0; //איך לעזעאל לבדוק שזה לא הפעם הראשונה שהוא נכנס לפה??????
+        public static int numOfConvert = 0;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             numOfConvert++;
@@ -61,8 +61,8 @@ namespace PL.ProductWin
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            for (int i = 0; i < values.Length-1; i++)
-              if (values[i] as string == "")
+            for (int i = 0; i < values.Length - 1; i++)
+                if (values[i] as string == "")
                     return false;
             if ((Category)values[values.Length - 1] == null)
                 return false;

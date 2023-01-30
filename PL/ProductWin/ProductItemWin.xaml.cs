@@ -47,14 +47,21 @@ namespace PL.ProductWin
 
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
-            if(!NewCart.OrderItems.Exists(x => x.ProductId == ProductItem.ProductId))
-                NewCart = bl.Cart.AddProductToCart(NewCart, ProductItem.ProductId);
+            try
+            {
+                if (!NewCart.OrderItems.Exists(x => x.ProductId == ProductItem.ProductId))
+                    NewCart = bl.Cart.AddProductToCart(NewCart, ProductItem.ProductId);
 
-            if (int.Parse(AmmountInCartTextBox.Text)>1)
-                NewCart = bl.Cart.UpdateAmount(NewCart, ProductItem.ProductId, int.Parse(AmmountInCartTextBox.Text));
+                if (int.Parse(AmmountInCartTextBox.Text) > 1)
+                    NewCart = bl.Cart.UpdateAmount(NewCart, ProductItem.ProductId, int.Parse(AmmountInCartTextBox.Text));
 
-            new MainProductWin(NewCart).Show();
-            this.Close();
+                new MainProductWin(NewCart).Show();
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

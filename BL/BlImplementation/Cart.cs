@@ -1,4 +1,5 @@
-﻿using BO;
+﻿using BlApi;
+using BO;
 using DO;
 using System.Data;
 internal class Cart : BlApi.ICart

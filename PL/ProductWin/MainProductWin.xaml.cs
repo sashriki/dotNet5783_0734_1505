@@ -30,7 +30,6 @@ namespace PLL.ProductWin
         public MainProductWin(ClientOrManager x)
         {
             InitializeComponent();
-
             selectedCategory.Items.Add("All");
             foreach (var item in System.Enum.GetValues(typeof(BO.Category)))
             {
@@ -49,7 +48,7 @@ namespace PLL.ProductWin
                 CollectionViewProductItemList = CollectionViewSource.GetDefaultView(productsForList);
             }
             else
-            {
+            { 
                 NewCart = new BO.Cart();
                 NewCart.OrderItems = new List<OrderItem?>();
                 clientOrManager = ClientOrManager.client;
@@ -58,7 +57,6 @@ namespace PLL.ProductWin
                 ProductListview.ItemsSource = productsItems;    
                 CollectionViewProductItemList = CollectionViewSource.GetDefaultView(productsItems);
             }
-
             propertyGroupDescription = new PropertyGroupDescription(groupName);
             CollectionViewProductItemList.GroupDescriptions.Add(propertyGroupDescription);
         }
@@ -73,6 +71,17 @@ namespace PLL.ProductWin
             Add.Visibility = Visibility.Hidden;
             productsItems = bl.Product.GetAllToCastumer(NewCart);
             ProductListview.ItemsSource = productsItems;
+
+            selectedCategory.Items.Add("All");
+            foreach (var item in System.Enum.GetValues(typeof(BO.Category)))
+            {
+                selectedCategory.Items.Add(item.ToString());
+            }
+            selectedCategory.SelectedIndex = 0;
+
+            CollectionViewProductItemList = CollectionViewSource.GetDefaultView(productsItems);
+            propertyGroupDescription = new PropertyGroupDescription(groupName);
+            CollectionViewProductItemList.GroupDescriptions.Add(propertyGroupDescription);
         }
 
         /// <summary>
@@ -85,10 +94,15 @@ namespace PLL.ProductWin
             if (selectedCategory.SelectedItem is not null)
             {
                 string _selectedCategory = (string)selectedCategory.SelectedItem;
-                ProductListview.ItemsSource = _selectedCategory == "All" ? productsForList :
-                 bl.Product.GetAllByCondition(p => p.Category.ToString() == _selectedCategory, productsForList);
+                if (clientOrManager == ClientOrManager.manager)
+                    ProductListview.ItemsSource = _selectedCategory == "All" ? productsForList :
+                        bl.Product.GetAllByCondition(p => p.Category.ToString() == _selectedCategory, productsForList);
+                else
+                    ProductListview.ItemsSource = _selectedCategory == "All" ? productsItems :
+                        bl.Product.GetAllByConditionToCastumer(p => p.Category.ToString() == _selectedCategory, productsItems);
             }
         }
+
         /// <summary>
         /// A function that opens a window to add a product to the list
         /// </summary>
@@ -99,6 +113,7 @@ namespace PLL.ProductWin
             new AddOrUpdateWin().Show();
             this.Close();
         }
+
         /// <summary>
         /// A function that opens a window to update a product in the list
         /// </summary>
@@ -112,6 +127,7 @@ namespace PLL.ProductWin
                 new ProductItemWin((BO.ProductItem)ProductListview.SelectedItem,NewCart).Show();
             this.Close();
         }
+
         /// <summary>
         /// Function to close a window
         /// </summary>
@@ -128,23 +144,16 @@ namespace PLL.ProductWin
         /// <param name="e"></param>
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (clientOrManager==EnumWin.ClientOrManager.manager)
+            string x = Search.Text;
+            if (x != "")
             {
-                if (Search.Text != "")
-                {
-                    string x = Search.Text;
+                if (clientOrManager == ClientOrManager.manager)
                     ProductListview.ItemsSource = bl.Product.GetAllByCondition(p => p.ProductName.StartsWith(x), productsForList);
-                }
-            }
-            else
-            {
-                if (Search.Text != "")
-                {
-                    string x = Search.Text;
+                else
                     ProductListview.ItemsSource = bl.Product.GetAllByConditionToCastumer(p => p.ProductName.StartsWith(x), productsItems);
-                }
             }
         }
+
         /// <summary>
         /// Function to return to the main menu
         /// </summary>

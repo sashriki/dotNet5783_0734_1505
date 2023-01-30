@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:PL.ProductWin"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="AddOrUpdateWin" Height="400" Width="600">
+        Title="AddOrUpdateWin" Height="400" Width="600" WindowStartupLocation="CenterScreen">
     
     <Window.Resources>
         <local:VisibilityAddOrApdate x:Key="VisibilityAddOrApdate"/>
         <local:InvalidInput x:Key="InvalidInput"/>
         <local:InvalidInputPrice x:Key="InvalidInputPrice"/>
     </Window.Resources>
-        
+       
     <Grid>
         <Label x:Name="IdText" Content="ID:" HorizontalAlignment="Left" Margin="60,50,0,0" VerticalAlignment="Top" Background="#FFCCF4EA" FontSize="18" FontFamily="Segoe UI Semibold" Width="94"/>
         <Label x:Name="CategoryText" Content="Category:" HorizontalAlignment="Left" Margin="60,100,0,0" VerticalAlignment="Top" Background="#FFCCF4EA" FontSize="18" FontFamily="Segoe UI Semibold" Width="94"/>

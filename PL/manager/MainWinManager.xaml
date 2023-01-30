@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.manager"
         mc:Ignorable="d"
-        Title="MainWinManager" Height="516" Width="590">
+        Title="MainWinManager" Height="516" Width="590" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image Source="/manager/איך-לעצב-חדר-כושר (1).jpg"/>
         <Button x:Name="orders"  Content="Orders" HorizontalAlignment="Left" Height="89" Margin="147,196,0,0" VerticalAlignment="Top" Width="148" FontFamily="Comic Sans MS" FontSize="24" Click="orders_Click" >

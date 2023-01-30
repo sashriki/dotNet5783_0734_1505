@@ -22,7 +22,7 @@ internal static class DataSource
 
     //consts
     const int InitialNumOfOrders = 100;
-    const int InitialNumOfOrderItems = 20;
+    const int InitialNumOfOrderItems = 150;
     const int InitialNumOfproducts = 200;
 
     //initialize
@@ -86,17 +86,17 @@ internal static class DataSource
             orders.Add(newOrder);
         }
     }
-    private static void InitOrderItem()
+    internal static void InitOrderItem()
     {
-        for (int i = 0; i < 0.2 * InitialNumOfOrders; i++)
+        for (int i = 0; i < InitialNumOfOrderItems; i++)
         {
             OrderItem newOrderItem = new OrderItem();
             newOrderItem.OrderItemId = Config.orderItemIndex++;
-            newOrderItem.OrderId = orders[random.Next(0, InitialNumOfOrders)].Value.OrderId;
+            newOrderItem.OrderId = orders[i % InitialNumOfOrders]?.OrderId ?? throw new Exception("the order number unfound\n");
             int index = random.Next(0, InitialNumOfproducts);
-            newOrderItem.ProductId = products[index].Value.ProductId;
+            newOrderItem.ProductId = products[index]?.ProductId ?? throw new Exception("the product number unfound\n");
             newOrderItem.Amount = random.Next(0, 5);
-            newOrderItem.Price = products[index].Value.ProductPrice;
+            newOrderItem.Price = products[index]?.ProductPrice ?? 0;
             orderItems.Add(newOrderItem);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using PLL.ProductWin;
 using System;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -16,22 +17,35 @@ namespace PL.ProductWin
         BlApi.IBl? bl = BlApi.Factory.Get();
 
         //BO.Product product;
-        EnumWin.state State;
+
+        public EnumWin.state State
+        {
+            get { return (EnumWin.state)GetValue(StateDep); }
+            set { SetValue(StateDep, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StateDep =
+            DependencyProperty.Register(nameof(State), typeof(EnumWin.state), typeof(AddOrUpdateWin));
+
+
+
         int HowManyTimesWeCalledToTxt_TextChangedFunction = 0;
 
         public static readonly DependencyProperty ProductDep =
-         DependencyProperty.Register(nameof(product), typeof(BO.Product), typeof(AddOrUpdateWin));
+            DependencyProperty.Register(nameof(product), typeof(BO.Product), typeof(AddOrUpdateWin));
         BO.Product? product { get => (BO.Product?)GetValue(ProductDep); set => SetValue(ProductDep, value); }
 
 
         /// <summary>
         /// Parameterless constructor for adding a product
         /// </summary>
-        public AddOrUpdateWin()  
+        public AddOrUpdateWin()
         {
-            InitializeComponent();
-            Categories.ItemsSource = System.Enum.GetValues(typeof(BO.Category));
             State = EnumWin.state.Add;
+            InitializeComponent();
+            product = new BO.Product();
+            Categories.ItemsSource = System.Enum.GetValues(typeof(BO.Category));
             TxtID.IsReadOnly = false;
         }
 
@@ -41,7 +55,8 @@ namespace PL.ProductWin
         /// <param name="selected_item"></param>
         public AddOrUpdateWin(BO.ProductForList selected_item) 
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            product = new BO.Product();
             Categories.ItemsSource = Enum.GetValues(typeof(BO.Category));
             State = EnumWin.state.Update;
             product = bl.Product.getByIdToMannage(selected_item.ProductId);
@@ -49,6 +64,7 @@ namespace PL.ProductWin
             TxtID.IsReadOnly = true;
         }
 
+        //טוב סבבה אז תחזיא את זה לקודמו?  טעוזבוב, זה לא חשוב, עדיף סימולטור, לא אכפת לי שיראו אפסים
         /// <summary>
         /// 
         /// </summary>
@@ -62,34 +78,18 @@ namespace PL.ProductWin
                     bl.Product.updateProduct(product);
                 else
                     bl.Product.addProduct(product);
+                new MainProductWin(EnumWin.ClientOrManager.manager).Show();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-                this.Close();
-            }
-            permissionScreen();
-        }
-        /// <summary>
-        /// A function responsible for hiding/revealing controls
-        /// </summary>
-        private void permissionScreen()
-        {
-            TxtID.Visibility = Visibility.Hidden;
-            TxtName.Visibility = Visibility.Hidden;
-            TxtPrice.Visibility = Visibility.Hidden;
-            TxtInStock.Visibility = Visibility.Hidden;
-            Categories.Visibility = Visibility.Hidden;
-            IdText.Visibility = Visibility.Hidden;
-            InStockText.Visibility = Visibility.Hidden;
-            CategoryText.Visibility = Visibility.Hidden;
-            NameText.Visibility = Visibility.Hidden;
-            PriceText.Visibility = Visibility.Hidden;
-            AddOrUpdate.Visibility = Visibility.Hidden;
-            Termination.Visibility = Visibility.Visible;
+            }  
+            this.Close();
         }
         private void Categories_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        { }
+        {
+            product.ProductCategory = (BO.Category)Categories.SelectedItem;
+        }
   
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {

@@ -28,17 +28,24 @@ internal class DalOrderItem : IOrderItem
     /// <returns></returns>
     public IEnumerable<OrderItem?> GetAll(Func<OrderItem?, bool>? condition = null)
     {
-        IEnumerable<OrderItem?> orderItemReturn;
+        //IEnumerable<OrderItem?> orderItemReturn;
+        //if (condition == null)
+        //{
+        //    orderItemReturn = new List<OrderItem?>();
+        //    for (int i = 0; i < orderItems.Count(); i++)   //warning??
+        //        orderItemReturn.Append(orderItems[i]);
+        //    return orderItemReturn;
+        //}
+        //return orderItemReturn =from item in orderItems
+        //                        where condition(item) == true
+        //                        select item;
+        IEnumerable<OrderItem?> OrderItemReturn;
         if (condition == null)
-        {
-            orderItemReturn = new List<OrderItem?>();
-            for (int i = 0; i < orderItems.Count(); i++)   //warning??
-                orderItemReturn.Append(orderItems[i]);
-            return orderItemReturn;
-        }
-        return orderItemReturn =from item in orderItems
-                                where condition(item) == true
-                                select item;
+            return OrderItemReturn = from item in orderItems
+                                   select item;
+        return OrderItemReturn = from item in orderItems
+                                 where condition(item) == true
+                               select item;
     }
     /// <summary>
     /// Returning an item in an order by product ID number and order ID number

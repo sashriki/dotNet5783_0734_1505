@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL.OrderWin"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="Update" Height="400" Width="800">
+        Title="Update" Height="450" Width="800" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <local:UpdatePermission x:Key="updatePermission"/>

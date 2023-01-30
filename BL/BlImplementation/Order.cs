@@ -12,7 +12,7 @@ internal class Order : BlApi.IOrder
     /// <exception cref="BO.NoElementsException"></exception>
     public IEnumerable<BO.OrderForList?> GetAllToManager()
     {
-        IEnumerable<DO.Order?> OrderList = dal?.Order.GetAll();
+        IEnumerable<DO.Order?> OrderList = dal?.Order.GetAll()!;
         IEnumerable<BO.OrderForList> OrdersList = from DO.Order item in OrderList
                                                    select new BO.OrderForList
                                                    {
@@ -49,6 +49,24 @@ internal class Order : BlApi.IOrder
         return DO_orderToBO_order(orderToGet);
     }
 
+    public int getTheOldOne()
+    {
+        DO.Order order = new DO.Order();
+        IEnumerable<DO.Order?> shippedOrOrdered = dal?.Order.GetAll(x => x?.DeliveryDate == null)!;
+        IEnumerable<DO.Order?> orderedOrders = from item in shippedOrOrdered
+                                               where item?.ShipDate == null
+                                               select item;
+        IEnumerable<DO.Order?> shippedOrders = from item in shippedOrOrdered
+                                               where item?.ShipDate != null
+                                               select item;
+        DO.Order? x = orderedOrders.MinBy(x => x?.OrderDate);
+        DO.Order? y = shippedOrders.MinBy(x => x?.ShipDate);
+        if (x?.OrderDate < y?.ShipDate)
+            return (int)(x?.OrderId)!;
+        else
+            return (int)(y?.OrderId)!;
+
+    }
 
     public BO.Order ShippingUpdateToManager(int IdOrder)
     {
@@ -63,7 +81,7 @@ internal class Order : BlApi.IOrder
         {
             throw new BO.BONotfoundException(ex);
         }
-        if (ordDO.ShipDate != null)
+        if (ordDO.ShipDate == null)
         {
             ordDO.ShipDate = DateTime.Now;
             dal?.Order.Update(ordDO);
@@ -82,6 +100,10 @@ internal class Order : BlApi.IOrder
         catch (Exception ex)
         {
             throw new BO.BONotfoundException(ex);
+        }
+        if(ordDO.ShipDate == null)
+        {
+            throw new IncorrectSupplyUpdate();
         }
         if (ordDO.DeliveryDate == null)
         {
@@ -210,10 +232,13 @@ internal class Order : BlApi.IOrder
         else
             ordBO.OrderStatus = BO.OrderStatus.Confirmed;
         IEnumerable<DO.OrderItem?> itemsInOrder = dal?.OrderItem.GetAll();
+        int totalPrice = 0;
         IEnumerable<BO.OrderItem?> orderItems = from item in itemsInOrder
-                                               where item?.OrderId == ordDO.OrderId
-                                               select DO_orderItemToBO_OrderItem(item);
+                                                where item?.OrderId == ordDO.OrderId
+                                                select DO_orderItemToBO_OrderItem(item);
         ordBO.OrderItems = orderItems;
+        foreach (var item in orderItems)
+            ordBO.FinalPrice += item.FinalPriceOfProduct;
         return ordBO;
     }
     //public BO.OrderForList DO_orderToBO_OrderForList(DO.Order? ord)

@@ -112,7 +112,7 @@ namespace BlTest
         {
             public static void getAllProducts()
             {
-                IEnumerable<BO.ProductForList> productForLists = Obj.Product.getAllProducts();
+                IEnumerable<BO.ProductForList> productForLists = bl.Product.getAllProducts();
                 foreach (var item in productForLists)
                     Console.WriteLine(item);
                 return;
@@ -185,7 +185,7 @@ namespace BlTest
                 Console.WriteLine("Enter the amount of products in stock");
                 NewProduct.AmmountInStock = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter a product Price");
-                NewProduct.ProductPrice = double.Parse(Console.ReadLine());
+                NewProduct.ProductPrice = float.Parse(Console.ReadLine());
                 //Console.WriteLine("Enter a product category");
                 Console.WriteLine("choose a product category:\n" +
                     "0: Clothing\r\n" +
@@ -266,7 +266,7 @@ namespace BlTest
         {
             public static void GetAllToManager()
             {
-                IEnumerable<BO.OrderForList> Orders = Obj.Order.GetAllToManager();
+                IEnumerable<BO.OrderForList> Orders = bl.Order.GetAllToManager()!;
                 foreach (var item in Orders)
                     Console.WriteLine(item);
                 return;

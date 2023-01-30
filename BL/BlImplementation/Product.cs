@@ -63,7 +63,8 @@ internal class Product : BlApi.IProduct
                                                         Category = (BO.Category)item?.ProductCategory,
                                                         AmmountInCart = (from orderItem in cart.OrderItems
                                                                         where orderItem.ProductId == item?.ProductId
-                                                                        select orderItem.AmountOfProduct).FirstOrDefault(0)
+                                                                        select orderItem.AmountOfProduct).FirstOrDefault(0),
+                                                        InStock = item?.AmountInStock > 0 ? true: false
                                                     };
 
         return BO_productItem;
@@ -146,11 +147,9 @@ internal class Product : BlApi.IProduct
     }
     public void updateProduct(BO.Product BO_product)
     {
-
         try
         {
             dal?.Product.GetByCondition(x => (x?.ProductName == BO_product?.ProductName) && (x?.ProductId != BO_product?.ProductId));
-
         }
         catch
         {
@@ -168,7 +167,6 @@ internal class Product : BlApi.IProduct
                             return;
                         }
         }
-
         throw new BO.InvalidInputBO("details");
     }
     private BO.ProductForList Do_ProductToBo_ProductForList(DO.Product? product)

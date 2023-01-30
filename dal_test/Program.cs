@@ -92,7 +92,7 @@ namespace Dal
                 Console.WriteLine("enter an ammount number");
                 newOrderItem.Amount = int.Parse(Console.ReadLine());
                 newOrderItem.Price = dal.Product.GetById(newOrderItem.ProductId).ProductPrice * newOrderItem.Amount;
-                dal.IOrderItem.Add(newOrderItem);
+                dal.OrderItem.Add(newOrderItem);
             }
             public static void DisplayById()
             {//To print an item in an order according to an ID card
@@ -100,12 +100,12 @@ namespace Dal
                 int IdOrder = int.Parse(Console.ReadLine());
                 Console.WriteLine("enter a procuct number\n");
                 int IdProduct = int.Parse(Console.ReadLine());
-                Console.WriteLine(dal.IOrderItem.GetbyIdOfProductAndOrder(IdOrder, IdProduct)); //print only the ID
+                Console.WriteLine(dal.OrderItem.GetbyIdOfProductAndOrder(IdOrder, IdProduct)); //print only the ID
             }
             public static void DisplayAll()
             {//To print all items in orders 
                 //List<OrderItem> ordItm = Object.IOrderItem.GetAll();
-                IEnumerable<OrderItem?> ordItm = dal.IOrderItem.GetAll();
+                IEnumerable<OrderItem?> ordItm = dal.OrderItem.GetAll();
                 foreach (var obj in ordItm)
                     Console.WriteLine(obj);
             }
@@ -113,7 +113,7 @@ namespace Dal
             {//To update an item in the order
                 Console.WriteLine("enter a order item number");
                 int IdOrderItem = int.Parse(Console.ReadLine());
-                OrderItem ItemToUpdate = dal.IOrderItem.GetById(IdOrderItem);
+                OrderItem ItemToUpdate = dal.OrderItem.GetById(IdOrderItem);
                 Console.WriteLine("Enter a product number you want to update\n");
                 ItemToUpdate.ProductId = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter an order number you want to update\n");
@@ -121,13 +121,13 @@ namespace Dal
                 Console.WriteLine("enter the ammount of  the product you want to update\n");
                 ItemToUpdate.Amount = int.Parse(Console.ReadLine());
                 ItemToUpdate.Price = dal.Product.GetById(ItemToUpdate.ProductId).ProductPrice * ItemToUpdate.Amount;
-                dal.IOrderItem.Update(ItemToUpdate);
+                dal.OrderItem.Update(ItemToUpdate);
             }
             public static void Delete()
             {//To delete an item in the order
                 Console.WriteLine("enter a order item number");
                 int IdOrderItem = int.Parse(Console.ReadLine());
-                dal.IOrderItem.Delete(IdOrderItem);
+                dal.OrderItem.Delete(IdOrderItem);
             }
         }
 

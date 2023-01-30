@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="516" Width="739">
+        Title="MainWindow" Height="516" Width="739" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image Margin="0,0,0,0" Source="/ססס.jpeg"/>
-        <Button x:Name="close" Content="✖️" Margin="10,10,670,440" Click="Button_Click_2" FontFamily="Candara" FontSize="14" RenderTransformOrigin="0.5,1" Background="#FFF0F0F0"/>
+        <Button x:Name="close" Content="✖️" Margin="10,10,670,440" Click="SimulatorOn" FontFamily="Candara" FontSize="14" RenderTransformOrigin="0.5,1" Background="#FFF0F0F0"/>
         <!--<Button x:Name="manager"  Content="manager" Margin="315,264,315,176" RenderTransformOrigin="3.768,1.218" FontFamily="Comic Sans MS" FontSize="20" Click="manager_Click" Background="{Binding ElementName=button, Mode=OneWay}">
             <Button.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -48,6 +48,14 @@
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
                     <GradientStop Color="#FFC11010" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
+        </Button>
+        <Button Content="Simulator" HorizontalAlignment="Left" Height="60" Margin="10,183,0,0" VerticalAlignment="Top" Width="109" Background="{Binding AreAnyTouchesDirectlyOver, ElementName=button, Mode=OneWay}" FontSize="20" FontFamily="Comic Sans MS" Click="Simulator" RenderTransformOrigin="1.096,2.795" >
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFA21717" Offset="1"/>
                 </LinearGradientBrush>
             </Button.BorderBrush>
         </Button>

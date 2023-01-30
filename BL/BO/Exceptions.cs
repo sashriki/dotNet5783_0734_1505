@@ -1,4 +1,7 @@
-﻿namespace BO
+﻿using System.Numerics;
+using System.Reflection;
+
+namespace BO
 {
     //exceptions that were thrown fron the DO
     [Serializable]
@@ -10,9 +13,9 @@
         {
             throwing = innerException.ToString() + message;
         }
-        public BONotfoundException(string massage) :
-           base(massage)
-        { throwing = massage; }
+        //public BONotfoundException(string massage) :
+        //   base(massage)
+        //{ throwing = massage; }
 
         public override string ToString()
             => $@"{throwing}";
@@ -36,9 +39,9 @@
         string throwing;
         public DataMissingException(string massage) :
             base(massage)
-        { throwing = massage; }
+        { throwing = "Error! " + massage + " is missing to complete the operation"; }
         public override string ToString()
-             => $@"BL: Error! {throwing} is missing to complete the operation";
+             => $@"{throwing}";
     }
     [Serializable]
     public class ItemMissingException : Exception
@@ -84,6 +87,14 @@
         { throwing = massage; }
         public override string ToString()
              => $@"BL Error! Action {throwing} is invalid";
+    }
+
+    public class IncorrectSupplyUpdate : Exception
+    {
+        public IncorrectSupplyUpdate(string? massage= null) :
+            base(massage) { }
+        public override string ToString()
+             => $@"Error! The shipping date is not updated";
     }
 }
 

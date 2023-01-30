@@ -40,9 +40,7 @@ namespace PL.OrderWin
             if (ord.OrderStatus == BO.OrderStatus.Confirmed)
             {
                 status.Items.Add(BO.OrderStatus.Confirmed);
-                status.Items.Add(BO.OrderStatus.Shipped);
-                status.Items.Add(BO.OrderStatus.Delivered);
-                
+                status.Items.Add(BO.OrderStatus.Shipped);               
             }
             
             else if (ord.OrderStatus == BO.OrderStatus.Shipped)

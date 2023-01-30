@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.CartWin"
         mc:Ignorable="d"
-        Title="OrderConfWin" Height="300" Width="500">
+        Title="OrderConfWin" Height="300" Width="500" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="The order was successfully placed!" HorizontalAlignment="Center" Height="57" Margin="0,61,0,0" VerticalAlignment="Top" Width="368" FontFamily="Comic Sans MS" FontSize="22"/>
         <Label Content="Order ID:" HorizontalAlignment="Left" Height="35" Margin="168,118,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="-0.66,0.369" FontSize="18"/>

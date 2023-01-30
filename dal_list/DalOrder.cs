@@ -88,15 +88,23 @@ internal class DalOrder : IOrder
     /// <returns></returns>
     public IEnumerable<Order?> GetAll(Func<Order?, bool>? condition = null)
     {
-        IEnumerable<Order?> orderReturn;
+        //    IEnumerable<Order?> orderReturn;
+        //    if (condition == null)
+        //    {
+        //        orderReturn = new List<Order?>();
+        //        for (int i = 0; i < orders.Count(); i++)
+        //            orderReturn.Append(orders[i]);
+        //        return orderReturn;
+        //    }
+        //    return orderReturn = from item in orders
+        //                         where condition(item) == true
+        //                         select item;
+        //}
+        IEnumerable<Order?> OrderReturn;
         if (condition == null)
-        {
-            orderReturn = new List<Order?>();
-            for (int i = 0; i < orders.Count(); i++)
-                orderReturn.Append(orders[i]);
-            return orderReturn;
-        }
-        return orderReturn = from item in orders
+            return OrderReturn = from item in orders
+                                 select item;
+        return OrderReturn = from item in orders
                              where condition(item) == true
                              select item;
     }

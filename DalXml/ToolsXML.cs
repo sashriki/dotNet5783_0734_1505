@@ -9,6 +9,12 @@ public class ToolsXML
     {
         if (!Directory.Exists(dir))
             Directory.CreateDirectory(dir);
+
+        if (!File.Exists(dir + "xmlOrder.xml") || !File.Exists(dir + "xmlOrderItem.xml") || !File.Exists(dir + "xmlProduct.xml"))
+        {
+            DataSource.InitOrder();
+            DataSource.Init();    
+        }
     }
 
 

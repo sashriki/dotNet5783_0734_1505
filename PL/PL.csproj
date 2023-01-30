@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
+    <ProjectReference Include="..\Simulator\Simulator.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,10 +30,9 @@
     <Resource Include="ססס.jpeg" />
   </ItemGroup>
 
-  <ItemGroup>
+ <ItemGroup>
     <Page Update="ProductWin\MainProductWin.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>
-
 </Project>

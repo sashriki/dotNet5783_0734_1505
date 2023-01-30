@@ -1,5 +1,6 @@
 ﻿using BlApi;
 using BO;
+using PL.ProductWin;
 using PLL.ProductWin;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,11 @@ namespace PL.CartWin
     {
         static BO.Cart NewCart;
         BlApi.IBl? bl = BlApi.Factory.Get();
+        int sumOfItems;
+
+        //public static readonly DependencyProperty NewCartDep =
+        //    DependencyProperty.Register(nameof(NewCart), typeof(BO.Cart), typeof(MainCartWin));
+        //static BO.Cart NewCart { get => (BO.Cart?)GetValue(NewCartDep); set => SetValue(NewCartDep, value); }
 
         public MainCartWin(BO.Cart newCart)
         {
@@ -33,13 +39,12 @@ namespace PL.CartWin
             NewCart = new Cart();
             NewCart.OrderItems = new List<OrderItem?>();
             NewCart=newCart;
+            sumOfItems = newCart.OrderItems.Count();
             if (NewCart.OrderItems.Count() == 0)
             {
                 OrderItemList.Visibility = Visibility.Hidden;
                 MakeOrder.Visibility=Visibility.Hidden;
             }
-            //else
-                //EmptyCart.Visibility = Visibility.Hidden;
             OrderItemList.ItemsSource = NewCart.OrderItems;
         }
 
@@ -69,11 +74,18 @@ namespace PL.CartWin
         }
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            BO.OrderItem tmp = new OrderItem();
-            tmp = (BO.OrderItem)((Button)sender).DataContext;
-            NewCart = bl.Cart.UpdateAmount(NewCart, tmp.ProductId, tmp.AmountOfProduct + 1);
-            OrderItemList.ItemsSource = null;
-            OrderItemList.ItemsSource = NewCart.OrderItems;
+            try
+            {
+                BO.OrderItem tmp = new OrderItem();
+                tmp = (BO.OrderItem)((Button)sender).DataContext;
+                NewCart = bl.Cart.UpdateAmount(NewCart, tmp.ProductId, tmp.AmountOfProduct + 1);
+                OrderItemList.ItemsSource = null;
+                OrderItemList.ItemsSource = NewCart.OrderItems;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {

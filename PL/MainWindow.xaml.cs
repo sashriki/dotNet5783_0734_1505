@@ -2,6 +2,7 @@
 using PLL.ProductWin;
 using PL.manager;
 using PL.OrderTraking;
+using PL.Simulator;
 
 namespace PL
 {
@@ -9,7 +10,18 @@ namespace PL
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    { 
+    {
+        public bool _simulatorClick
+        {
+            get { return (bool)GetValue(_simulatorClickProperty); }
+            set { SetValue(_simulatorClickProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for _simulatorClick.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty _simulatorClickProperty =
+            DependencyProperty.Register("_simulatorClick", typeof(bool), typeof(MainWindow));
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,7 +39,7 @@ namespace PL
             this.Close();
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void SimulatorOn(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -39,6 +51,12 @@ namespace PL
         {
             new TrakingWin().Show();
             this.Close();
+        }
+
+        private void Simulator(object sender, RoutedEventArgs e)
+        {
+            _simulatorClick = false;
+            new SimulatorWin(()=> _simulatorClick= !_simulatorClick).Show();
         }
     }
 }

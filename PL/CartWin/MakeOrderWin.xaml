@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL.CartWin"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="MakeOrderWin" Height="450" Width="470">
+        Title="MakeOrderWin" Height="450" Width="470" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <local:VisibilityOrderConf x:Key="VisibilityOrderConf"/>

@@ -1,0 +1,45 @@
+﻿<Window x:Class="PL.Simulator.SimulatorWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Simulator"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource self}}"
+        Title="Window1" Height="516" Width="739" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Content="Order number in processing:" HorizontalAlignment="Left" Margin="86,78,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" FontFamily="Adobe Gurmukhi"  Width="323" Height="42">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <TextBlock Text="{Binding Data.CurrentOrderInLine.OrderId}"  TextAlignment="Left" FontSize="22" FontFamily="Comic Sans MS" FontWeight="Bold"  Margin="415,78,180,342" />
+
+        <Label Content="Current status:"  Margin="86,137,329,0" VerticalAlignment="Top"  FontSize="22" FontFamily="Adobe Gurmukhi" FontWeight="Bold" Height="42">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <TextBlock Text="{Binding Data.CurrentOrderInLine.OrderStatus}" TextAlignment="Right" FontSize="22" FontFamily="Comic Sans MS" FontWeight="Bold" Margin="422,137,180,286" />
+
+        <Label Content="Future status:" HorizontalAlignment="Left"  Margin="86,193,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Adobe Gurmukhi" FontWeight="Bold" Width="323" Height="42">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <TextBlock Grid.Column="0" Text="{Binding Data.NextStatus}" TextAlignment="Right"  Margin="422,194,180,235" FontSize="22" FontFamily="Comic Sans MS" FontWeight="Bold" />
+
+        <Label Content="Process execution time:" HorizontalAlignment="Left" Margin="86,247,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Adobe Gurmukhi" FontWeight="Bold" Width="323">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}"/>
+            </Label.Background>
+        </Label>
+        <TextBlock Text="{Binding Data.HandleTime}" TextAlignment="Right"  Margin="420,247,58,186" FontSize="22" FontFamily="Comic Sans MS" FontWeight="Bold" RenderTransformOrigin="0.662,1.89"/>
+
+        <Button x:Name="button" Content="Stop simulation" Click="StopSimulation"  HorizontalAlignment="Center" Margin="0,384,0,0" VerticalAlignment="Top" FontFamily="Adobe Hebrew" Height="42" Width="150" FontSize="16" BorderBrush="{Binding Width, ElementName=button}" />
+        <ProgressBar HorizontalAlignment="Center" Value="{Binding TimeProgress}" Height="24" Margin="0,336,0,0" VerticalAlignment="Top" Width="482"/>
+        <TextBlock Grid.Row="0" Text="{Binding Timer, Mode=OneWay}" Margin="580,41,34,401" FontSize="22" FontFamily="Comic Sans MS" FontWeight="Bold"/>
+        <TextBlock  Width="150" Text="{Binding Data.StartTime}"  TextAlignment="Right" Margin="20,9,569,427"  FontSize="22" FontFamily="Comic Sans MS" FontWeight="Bold"/>
+    </Grid>
+</Window>
+
