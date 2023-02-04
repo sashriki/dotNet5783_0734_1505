@@ -9,7 +9,31 @@ internal class dalOrderItem : IOrderItem
 {
     string path = "xmlOrderItem.xml";
     string configPath = @"..\xml\config.xml";
+    string dir = @"..\xml\";
+    XElement? ordersItemsRoot;
 
+    public dalOrderItem()
+    {
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        try
+        {
+            if (File.Exists(dir + path))
+                ordersItemsRoot = XElement.Load(dir + path);
+            else
+            {
+                ordersItemsRoot = new XElement("ordersItems");
+                ordersItemsRoot.Save(dir + path);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("product File upload problem" + ex.Message);
+        }
+    }
     /// <summary>
     /// Adding an ordered item to the list
     /// </summary>
@@ -18,20 +42,18 @@ internal class dalOrderItem : IOrderItem
     /// <exception cref="DuplicationException"></exception>
     public int Add(OrderItem objToAdd)
     {
-        //Reading the data from the file into a list
-        List<OrderItem> OrderItemLst = ToolsXML.LoadListFromXMLSerializer<OrderItem>(path);
-
         XElement configRoot = XElement.Load(configPath);
-        int nextSeqNum = Convert.ToInt32(configRoot.Element("orderItemSeq").Value);
+        int nextSeqNum = Convert.ToInt32(configRoot.Element("orderItemSeq")!.Value);
         nextSeqNum++;
         objToAdd.OrderItemId = nextSeqNum;
-        configRoot.Element("orderItemSeq").SetValue(nextSeqNum);
+        configRoot.Element("orderItemSeq")!.SetValue(nextSeqNum);
         configRoot.Save(configPath);
 
         //Adding an ordered item to the list
-        OrderItemLst.Add(objToAdd);
-        //Saving the updated file
-        ToolsXML.SaveListToXMLSerializer(OrderItemLst, path);
+        XElement newOrderItem = ToolsXML.itemToXelement(objToAdd, "OrderItem");
+
+        ordersItemsRoot!.Add(newOrderItem);
+        ordersItemsRoot.Save(dir + path);
 
         return objToAdd.OrderId;
     }

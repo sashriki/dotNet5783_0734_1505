@@ -1,4 +1,7 @@
-﻿using System.Xml.Serialization;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Dal;
 public class ToolsXML
@@ -58,5 +61,26 @@ public class ToolsXML
         }
     }
     #endregion
+
+    #region xmlConvertor
+    /// <summary>
+    /// Converts an object of any type to an XElement with a specified name
+    /// </summary>
+    /// <typeparam name="Item">The type of the object to convert</typeparam>
+    /// <param name="item">The object to convert</param>
+    /// <param name="name">The name of the resulting XElement</param>
+    /// <returns>An XElement representation of the input object</returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    internal static XElement itemToXelement<Item>(Item item, string name)
+    {
+        IEnumerable<PropertyInfo> items = item!.GetType().GetProperties();
+
+        IEnumerable<XElement> xElements = from propInfo in items
+                                          select new XElement(propInfo.Name, propInfo.GetValue(item)!.ToString());
+
+        return new XElement(name, xElements);
+    }
+    #endregion
+
 }
 
