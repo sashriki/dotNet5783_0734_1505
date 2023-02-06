@@ -38,3 +38,5 @@ public static class Factory
             ?? throw new DalConfigException($"Class {className} is not singleton or Instance property not found");
     }
 }
+
+
