@@ -19,7 +19,7 @@ internal class Cart : BlApi.ICart
         DO.Product productDO = new DO.Product();
         try
         {
-            productDO = dal.Product.GetById(IDproduct);
+            productDO = dal!.Product.GetById(IDproduct);
         }
         catch (Exception ex)
         {   //If no product is found with the received ID
@@ -28,13 +28,13 @@ internal class Cart : BlApi.ICart
         //Creating a new order item object
         BO.OrderItem ordItemBO;
         //Finding the item by ID from the list of items in the order
-        BO.OrderItem? ord = newCart.OrderItems.FirstOrDefault(od => od.ProductId == IDproduct);
+        BO.OrderItem? ord = newCart.OrderItems.FirstOrDefault(od => od!.ProductId == IDproduct);
         newCart.OrderItems.ToList();
         if (ord != null) //If the item is found   
         {
             //If there are enough items in stock
             if (productDO.AmountInStock >= ord.AmountOfProduct + 1)
-                newCart.OrderItems.Where(od => od.ProductName == productDO.ProductName).First().AmountOfProduct++;
+                newCart.OrderItems.Where(od => od!.ProductName == productDO.ProductName).First()!.AmountOfProduct++;
             else
                 throw new ItemMissingException(productDO.ProductName);
         }
@@ -82,9 +82,9 @@ internal class Cart : BlApi.ICart
             int dif = amount - ordBO.AmountOfProduct;
             if (productDO.AmountInStock >= amount)//If there is enough in stock
             {
-                newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
+                newCart.OrderItems.Where(od => od.ProductId == IDproduct).First()!.
                     FinalPriceOfProduct += dif * ordBO.PriceOfProduct;
-                newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
+                newCart.OrderItems.Where(od => od.ProductId == IDproduct).First()!.
                     AmountOfProduct = amount;
                 newCart.TotalPrice += dif * ordBO.PriceOfProduct;
             }
@@ -95,9 +95,9 @@ internal class Cart : BlApi.ICart
         if (ordBO.AmountOfProduct > amount)//to reduce quantity
         {
             int dif = ordBO.AmountOfProduct - amount;
-            newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
+            newCart.OrderItems.Where(od => od.ProductId == IDproduct).First()!.
                 FinalPriceOfProduct -= dif * ordBO.PriceOfProduct;
-            newCart.OrderItems.Where(od => od.ProductId == IDproduct).First().
+            newCart.OrderItems.Where(od => od.ProductId == IDproduct).First()!.
                 AmountOfProduct = amount;
             newCart.TotalPrice -= dif * ordBO.PriceOfProduct;
         }

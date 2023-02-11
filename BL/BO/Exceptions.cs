@@ -27,7 +27,7 @@ namespace BO
         string throwing;
         public RepeatedUpdateBO(Exception? innerException, string? message = "") : base(message, innerException)
         {
-            throwing = innerException.ToString() + message;
+            throwing = innerException!.ToString() + message;
         }
         public override string ToString()
             => $@"{throwing}";

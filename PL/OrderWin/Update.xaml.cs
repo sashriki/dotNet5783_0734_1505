@@ -1,20 +1,7 @@
 ﻿using BO;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.DirectoryServices;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PL.OrderWin
 {
@@ -86,11 +73,18 @@ namespace PL.OrderWin
         }
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            BO.OrderItem tmp = new OrderItem();
-            tmp = (BO.OrderItem)((Button)sender).DataContext;
-            bl.Order.UpdateToManager(order, tmp.ProductId, tmp.AmountOfProduct+1);
-            OrderItemList.ItemsSource = null;
-            OrderItemList.ItemsSource = bl.Order.GetOrderByID(order.OrderId).OrderItems;
+            try
+            {
+                BO.OrderItem tmp = new OrderItem();
+                tmp = (BO.OrderItem)((Button)sender).DataContext;
+                bl!.Order.UpdateToManager(order, tmp.ProductId, tmp.AmountOfProduct + 1);
+                OrderItemList.ItemsSource = null;
+                OrderItemList.ItemsSource = bl.Order.GetOrderByID(order.OrderId).OrderItems;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
 
         }
         private void Button_Click_3(object sender, RoutedEventArgs e)

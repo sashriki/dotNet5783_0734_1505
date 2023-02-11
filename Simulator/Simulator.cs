@@ -73,7 +73,7 @@ public static class Simulator
         s_flagStopSimulation = false;
         while (!s_flagStopSimulation)
         {
-            order = _bl.Order.GetOrderByID(_bl!.Order.getTheOldOne()!);
+            order = _bl!.Order.GetOrderByID(_bl!.Order.getTheOldOne()!);
 
             if (order is null)
                 Thread.Sleep(c_sleepTime);
@@ -84,7 +84,7 @@ public static class Simulator
                 int nextStatus = ((int)order.OrderStatus! + 1);
                 BO.OrderStatus? Orderstatus = (OrderStatus)nextStatus;
 
-
+                //the time of the treatment
                 Tuple<Order, BO.OrderStatus?, string, string> items =
                     Tuple.Create(order, Orderstatus, DateTime.Now.ToString(), DateTime.Now.AddSeconds(timeOfTreatment).ToString());
 

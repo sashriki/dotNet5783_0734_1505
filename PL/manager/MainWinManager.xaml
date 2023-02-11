@@ -35,20 +35,3 @@
     </Grid>
 </Window>
 
-
-<!--<Button x:Name="Products"  Content="Products" Margin="390,210,240,230" RenderTransformOrigin="0.339,0.565" FontFamily="Comic Sans MS" FontSize="20" Click="products_Click">
-            <Button.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </Button.BorderBrush>
-            <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </Button.Background>
-        </Button>-->
-<!--<Button x:Name="Orders"  Content="Orders" Margin="240,210,390,230" FontFamily="Comic Sans MS" FontSize="20" Click="orders_Click">
-            <Button.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </Button.BorderBrush>
-            <Button.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </Button.Background>
-        </Button>-->

@@ -11,7 +11,7 @@
     <Window.Resources>
         <local:VisibilityOrderConf x:Key="VisibilityOrderConf"/>
     </Window.Resources>
-    
+
     <Grid>
         <Label Content="Full name: " HorizontalAlignment="Left" Height="40" Margin="62,100,0,0" VerticalAlignment="Top" Width="128" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" FontFamily="Yu Gothic UI Semibold" FontSize="16"/>
         <Label Content="Email address: " HorizontalAlignment="Left" Height="40" Margin="62,150,0,0" VerticalAlignment="Top" Width="128" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" FontFamily="Yu Gothic UI Semibold" FontSize="16"/>
@@ -28,7 +28,5 @@
                 </MultiBinding>
             </Button.IsEnabled>
         </Button>
-        <!--<Label x:Name="successfully" Content="The order was successfully placed!" HorizontalAlignment="Center" Height="41" Margin="0,160,0,0" VerticalAlignment="Top" Width="298" FontFamily="Adobe Fan Heiti Std B" FontSize="18"
-               Visibility="{Binding ElementName=OrderConf, Path=IsEnabled, Converter={StaticResource VisableMassCon}}"/>-->
     </Grid>
 </Window>

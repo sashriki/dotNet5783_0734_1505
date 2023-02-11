@@ -143,8 +143,10 @@ internal class Order : BlApi.IOrder
             throw new InvalidAction("change order");
         BO.OrderItem? ordBO = updateOrd.OrderItems.
             Where(od => od?.ProductId == IdProduct).FirstOrDefault();
-        
-        if(ordBO!=null)
+        DO.Product product=dal!.Product.GetById(IdProduct);
+        if (product.AmountInStock < Amount)
+            throw new ItemMissingException(IdProduct.ToString(), product.AmountInStock);
+        if (ordBO!=null)
         {
             if (Amount != 0)
             {
@@ -152,7 +154,7 @@ internal class Order : BlApi.IOrder
                 ordBO.FinalPriceOfProduct += dif * ordBO.PriceOfProduct;
                 ordBO.AmountOfProduct = Amount;
                 updateOrd.FinalPrice += dif * ordBO.PriceOfProduct;
-                dal.OrderItem.Update(new DO.OrderItem
+                dal!.OrderItem.Update(new DO.OrderItem  
                 {
                     OrderItemId= ordBO.OrderItemId,
                     OrderId= updateOrd.OrderId,
@@ -174,7 +176,7 @@ internal class Order : BlApi.IOrder
             else
             {
                 updateOrd.OrderItems.ToList().Remove(ordBO);
-                dal.OrderItem.Delete(ordBO.OrderItemId);
+                dal!.OrderItem.Delete(ordBO.OrderItemId);
             }
         }
         else
@@ -208,7 +210,7 @@ internal class Order : BlApi.IOrder
         orderItem.PriceOfProduct = ord?.Price ?? 0;
         orderItem.AmountOfProduct = ord?.Amount ?? 0;
         orderItem.FinalPriceOfProduct = (ord?.Price * ord?.Amount) ?? 0;
-        IEnumerable<DO.Product?> products = dal?.Product.GetAll();
+        IEnumerable<DO.Product?> products = dal!.Product.GetAll();
         IEnumerable<string> productName = from item in products
                                           where item?.ProductId == ord?.ProductId
                                           select item?.ProductName;
@@ -231,14 +233,14 @@ internal class Order : BlApi.IOrder
             ordBO.OrderStatus = BO.OrderStatus.Shipped;
         else
             ordBO.OrderStatus = BO.OrderStatus.Confirmed;
-        IEnumerable<DO.OrderItem?> itemsInOrder = dal?.OrderItem.GetAll();
+        IEnumerable<DO.OrderItem?> itemsInOrder = dal.OrderItem.GetAll();
         int totalPrice = 0;
         IEnumerable<BO.OrderItem?> orderItems = from item in itemsInOrder
                                                 where item?.OrderId == ordDO.OrderId
                                                 select DO_orderItemToBO_OrderItem(item);
         ordBO.OrderItems = orderItems;
         foreach (var item in orderItems)
-            ordBO.FinalPrice += item.FinalPriceOfProduct;
+            ordBO.FinalPrice += item!.FinalPriceOfProduct;
         return ordBO;
     }
     //public BO.OrderForList DO_orderToBO_OrderForList(DO.Order? ord)
