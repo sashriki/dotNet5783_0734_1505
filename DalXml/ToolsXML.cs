@@ -16,7 +16,7 @@ public class ToolsXML
         if (!File.Exists(dir + "xmlOrder.xml") || !File.Exists(dir + "xmlOrderItem.xml") || !File.Exists(dir + "xmlProduct.xml"))
         {
             DataSource.InitOrder();
-            DataSource.Init();    
+            DataSource.Init();
         }
     }
 

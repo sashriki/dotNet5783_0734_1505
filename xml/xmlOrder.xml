@@ -34,7 +34,7 @@
 		<CustomerEmail>customer3@gmail.com</CustomerEmail>
 		<OrderDate>2023-01-26T07:42:55.6279796+02:00</OrderDate>
 		<ShipDate>2023-01-26T19:19:33.6279796+02:00</ShipDate>
-		<DeliveryDate xsi:nil="true" />
+		<DeliveryDate>2023-02-07T11:54:28.0921574+02:00</DeliveryDate>
 	</Order>
 	<Order>
 		<OrderId>5</OrderId>
@@ -420,7 +420,7 @@
 		<CustomerAdress>Adress 46</CustomerAdress>
 		<CustomerEmail>customer46@gmail.com</CustomerEmail>
 		<OrderDate>2023-01-26T14:39:22.604006+02:00</OrderDate>
-		<ShipDate xsi:nil="true" />
+		<ShipDate>2023-02-07T11:54:23.0457627+02:00</ShipDate>
 		<DeliveryDate xsi:nil="true" />
 	</Order>
 	<Order>
@@ -519,7 +519,7 @@
 		<CustomerAdress>Adress 57</CustomerAdress>
 		<CustomerEmail>customer57@gmail.com</CustomerEmail>
 		<OrderDate>2023-01-26T19:37:10.6070123+02:00</OrderDate>
-		<ShipDate xsi:nil="true" />
+		<ShipDate>2023-02-07T11:55:54.1491596+02:00</ShipDate>
 		<DeliveryDate xsi:nil="true" />
 	</Order>
 	<Order>
