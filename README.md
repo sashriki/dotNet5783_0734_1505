@@ -1,13 +1,12 @@
 # dotNet5783_0734_1505
-שימוש ב-TryParse בתוכניות בדיקה BlTest/DalTest (רכזים - 1 נק')
-הוספת אפשרות של עדכון הזמנה ע"י מנהל החנות (כמובן בכפוף לתפקוד תקין ותנאים מתאימים) (רכזים - עד 3 נק')
-שכלול DalConfig/DalFactory (רכזים עד 2 נק')
-בנייה ושימוש במתודות הרחבה גנריות עם reflection (רכזים - עד 2 נק')
-תצוגה גרפית (שינוי צבעים וכדומה) במקרה של פורמט קלט לא תקין (סטודנטים) אושר - 1 נק'
-ולידציה (בדיקת תקינות בסיסית) משולבת בתוך קישור לנתונים [binding] (סטודנטים) אושר - 1 נק'
-גרפיקה (shape) (רכזים - 1 נק')
-שימוש ב-IMultiValueConverter (סטודנטים) אושר - 1 נק'
-עדכון כל שניה על התקדמות מעבר ההזמנה ממצב למצב בעזרת progress bar (שכלל אינטראקציה עם סימולטור) (עד 3 נק')
-//כמעט
-שימוש מלא ב-binding (רכזים - עד 5 נק') 
 
+1. Using TryParse for conversions in BlTest/DalTest (up to 1 point)
+2. Adding the option of updating an order by the store manager (of course, subject to proper functioning and appropriate conditions)(up to 3 point)
+3. Refining DalConfig/DalFactory (up to 2 points)
+4. Construction and use of generic extension methods with reflection (up to 2 points)
+5. Graphic display (color change, etc.) in case of incorrect input format (students) approved - 1 point
+6. Validation (basic integrity check) is integrated into a data link [binding] (students) Confirmed - 1 point
+7. Graphics (shape) (centers - 1 point)
+8. Use of IMultiValueConverter (students) approved - 1 point
+9. Update every second on the progress of the order transition from state to state with the help of a progress bar (which included interaction with a simulator) (up to 3 points)
+10. Full use of binding (coordinators - up to 5 points)
