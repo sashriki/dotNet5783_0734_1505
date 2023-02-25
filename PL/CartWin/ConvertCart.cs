@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows;
 using BO;
+using System.Text.RegularExpressions;
 
 namespace PL.CartWin
 {
-    public class VisibilityOrderConf : IMultiValueConverter
+    public class VisibilityOrderConf : IMultiValueConverter  //multy binding
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             // values.All(v=> v as string  "")
-            foreach (var item in values)
+            foreach (var item in values)   //if all is full the button will be visble
                 if (item as string == "")
                     return false;
             return true;
@@ -60,13 +61,6 @@ namespace PL.CartWin
             throw new NotImplementedException();
         }
     }
-    //public class BLObjToTextBox : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //        => value is string ? Visibility.Visible : Visibility.Hidden;
-    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
+
+
 }

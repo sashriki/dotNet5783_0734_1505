@@ -75,9 +75,9 @@ namespace PL.ProductWin
             try
             {
                 if (State == EnumWin.state.Update)
-                    bl.Product.updateProduct(product);
+                    bl!.Product.updateProduct(product);
                 else
-                    bl.Product.addProduct(product);
+                    bl!.Product.addProduct(product);
                 new MainProductWin(EnumWin.ClientOrManager.manager).Show();
             }
             catch (Exception ex)
@@ -88,7 +88,7 @@ namespace PL.ProductWin
         }
         private void Categories_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            product.ProductCategory = (BO.Category)Categories.SelectedItem;
+            product!.ProductCategory = (BO.Category)Categories.SelectedItem;
         }
   
         private void CloseWindow_Click(object sender, RoutedEventArgs e)

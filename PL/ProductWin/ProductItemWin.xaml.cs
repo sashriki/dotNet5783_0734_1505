@@ -27,7 +27,7 @@ namespace PL.ProductWin
 
     public partial class ProductItemWin : Window
     {
-        static BO.Cart NewCart;
+        static BO.Cart? NewCart;
         BlApi.IBl? bl = BlApi.Factory.Get();
         public static readonly DependencyProperty ProductItemDep =
             DependencyProperty.Register(nameof(ProductItem), typeof(BO.ProductItem), typeof(ProductItemWin));
@@ -49,11 +49,11 @@ namespace PL.ProductWin
         {
             try
             {
-                if (!NewCart.OrderItems.Exists(x => x.ProductId == ProductItem.ProductId))
-                    NewCart = bl.Cart.AddProductToCart(NewCart, ProductItem.ProductId);
+                if (!NewCart!.OrderItems.Exists(x => x!.ProductId == ProductItem!.ProductId))
+                    NewCart = bl!.Cart.AddProductToCart(NewCart, ProductItem!.ProductId);
 
-                if (int.Parse(AmmountInCartTextBox.Text) > 1)
-                    NewCart = bl.Cart.UpdateAmount(NewCart, ProductItem.ProductId, int.Parse(AmmountInCartTextBox.Text));
+                else /*(int.Parse(AmmountInCartTextBox.Text) > 1)*/
+                    NewCart = bl!.Cart.UpdateAmount(NewCart, ProductItem!.ProductId, int.Parse(AmmountInCartTextBox.Text));
 
                 new MainProductWin(NewCart).Show();
                 this.Close();
